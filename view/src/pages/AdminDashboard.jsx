@@ -9,7 +9,7 @@ import {
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { user, token } = useContext(AppContext);
+  const { user, token, API_URL } = useContext(AppContext);
 
   // Tabs: analytics, products, orders, coupons, categories
   const [activeTab, setActiveTab] = useState('analytics');
@@ -55,23 +55,23 @@ export const AdminDashboard = () => {
       setLoading(true);
       
       // Fetch Stats
-      const statsRes = await axios.get('http://localhost:5000/api/analytics');
+      const statsRes = await axios.get(`${API_URL}/analytics`);
       if (statsRes.data.success) setStats(statsRes.data.stats);
 
       // Fetch Products
-      const prodRes = await axios.get('http://localhost:5000/api/products');
+      const prodRes = await axios.get(`${API_URL}/products`);
       if (prodRes.data.success) setProductsList(prodRes.data.products);
 
       // Fetch Orders
-      const orderRes = await axios.get('http://localhost:5000/api/orders');
+      const orderRes = await axios.get(`${API_URL}/orders`);
       if (orderRes.data.success) setOrdersList(orderRes.data.orders);
 
       // Fetch Coupons
-      const couponRes = await axios.get('http://localhost:5000/api/coupons');
+      const couponRes = await axios.get(`${API_URL}/coupons`);
       if (couponRes.data.success) setCouponsList(couponRes.data.coupons);
 
       // Fetch Categories
-      const catRes = await axios.get('http://localhost:5000/api/products/categories/all');
+      const catRes = await axios.get(`${API_URL}/products/categories/all`);
       if (catRes.data.success) setCategoriesList(catRes.data.categories);
 
       setLoading(false);
@@ -105,9 +105,9 @@ export const AdminDashboard = () => {
 
     try {
       if (editingProduct) {
-        await axios.put(`http://localhost:5000/api/products/${editingProduct._id}`, payload);
+        await axios.put(`${API_URL}/products/${editingProduct._id}`, payload);
       } else {
-        await axios.post('http://localhost:5000/api/products', payload);
+        await axios.post(`${API_URL}/products`, payload);
       }
       setShowProductModal(false);
       setEditingProduct(null);
@@ -141,7 +141,7 @@ export const AdminDashboard = () => {
   const handleDeleteProduct = async (pid) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/${pid}`);
+        await axios.delete(`${API_URL}/products/${pid}`);
         fetchAdminData();
       } catch (err) {
         console.error(err);
@@ -152,7 +152,7 @@ export const AdminDashboard = () => {
   // --- Orders Management ---
   const handleOrderStatusUpdate = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/orders/${orderId}/status`, {
+      await axios.put(`${API_URL}/orders/${orderId}/status`, {
         status: newStatus,
         description: `Order has been marked as ${newStatus} by admin.`
       });
@@ -166,7 +166,7 @@ export const AdminDashboard = () => {
   const handleCouponSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/coupons', couponForm);
+      await axios.post(`${API_URL}/coupons`, couponForm);
       setShowCouponModal(false);
       setCouponForm({ code: '', discountType: 'percentage', value: '', minOrderValue: '', expiryDate: '' });
       fetchAdminData();
@@ -178,7 +178,7 @@ export const AdminDashboard = () => {
   const handleDeleteCoupon = async (cid) => {
     if (window.confirm('Delete coupon?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/coupons/${cid}`);
+        await axios.delete(`${API_URL}/coupons/${cid}`);
         fetchAdminData();
       } catch (err) {
         console.error(err);
@@ -190,7 +190,7 @@ export const AdminDashboard = () => {
   const handleCategorySubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/products/categories', categoryForm);
+      await axios.post(`${API_URL}/products/categories`, categoryForm);
       setShowCategoryModal(false);
       setCategoryForm({ name: '', description: '', image: '' });
       fetchAdminData();
@@ -202,7 +202,7 @@ export const AdminDashboard = () => {
   const handleDeleteCategory = async (catId) => {
     if (window.confirm('Delete category?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/categories/${catId}`);
+        await axios.delete(`${API_URL}/products/categories/${catId}`);
         fetchAdminData();
       } catch (err) {
         console.error(err);

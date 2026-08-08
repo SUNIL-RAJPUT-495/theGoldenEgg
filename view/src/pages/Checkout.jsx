@@ -6,7 +6,7 @@ import { MapPin, Phone, CreditCard, ShoppingBag, ArrowLeft, Check, AlertCircle }
 
 export const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, getCartTotals, placeOrder, user, token } = useContext(AppContext);
+  const { cart, getCartTotals, placeOrder, user, token, API_URL } = useContext(AppContext);
 
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState('');
@@ -48,7 +48,7 @@ export const Checkout = () => {
 
   const fetchAddresses = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/auth/addresses');
+      const { data } = await axios.get(`${API_URL}/auth/addresses`);
       if (data.success) {
         setAddresses(data.addresses);
         const defaultAddr = data.addresses.find(a => a.isDefault);
@@ -67,7 +67,7 @@ export const Checkout = () => {
     e.preventDefault();
     setAddressError('');
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/addresses', {
+      const { data } = await axios.post(`${API_URL}/auth/addresses`, {
         name: newName,
         phone: newPhone,
         address: newAddress,

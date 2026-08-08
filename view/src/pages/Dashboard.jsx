@@ -5,7 +5,7 @@ import { AppContext } from '../context/AppContext';
 import { User, ShoppingBag, MapPin, Heart, Key, Phone, CheckCircle, Package, Truck, Smile, Eye } from 'lucide-react';
 
 export const Dashboard = () => {
-  const { user, token, logout, wishlist, toggleWishlist, addToCart } = useContext(AppContext);
+  const { user, token, logout, wishlist, toggleWishlist, addToCart, API_URL } = useContext(AppContext);
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'orders');
 
@@ -31,7 +31,7 @@ export const Dashboard = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/orders/my-orders');
+      const { data } = await axios.get(`${API_URL}/orders/my-orders`);
       if (data.success) {
         setOrders(data.orders);
         if (data.orders.length > 0) {
@@ -47,7 +47,7 @@ export const Dashboard = () => {
     e.preventDefault();
     setProfileSuccess('');
     try {
-      const { data } = await axios.put('http://localhost:5000/api/auth/profile', {
+      const { data } = await axios.put(`${API_URL}/auth/profile`, {
         name: profileName,
         phone: profilePhone
       });
@@ -64,7 +64,7 @@ export const Dashboard = () => {
     setPasswordError('');
     setPasswordSuccess('');
     try {
-      const { data } = await axios.put('http://localhost:5000/api/auth/change-password', {
+      const { data } = await axios.put(`${API_URL}/auth/change-password`, {
         currentPassword,
         newPassword
       });

@@ -9,7 +9,7 @@ export const Auth = () => {
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect') || '/';
 
-  const { login, signup, verifyOtp } = useContext(AppContext);
+  const { login, signup, verifyOtp, API_URL } = useContext(AppContext);
 
   // Modes: login, signup, forgot, otp
   const [authMode, setAuthMode] = useState('login');
@@ -82,7 +82,7 @@ export const Auth = () => {
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+      const { data } = await axios.post(`${API_URL}/auth/forgot-password`, { email });
       if (data.success) {
         setSuccessMsg('Reset code sent! Check terminal console.');
         setAuthMode('reset');
@@ -97,7 +97,7 @@ export const Auth = () => {
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/reset-password', {
+      const { data } = await axios.post(`${API_URL}/auth/reset-password`, {
         email,
         otp: otpCode,
         newPassword

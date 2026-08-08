@@ -7,7 +7,7 @@ import { Star, Heart, ShoppingCart, Plus, Minus, Check, AlertTriangle } from 'lu
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, wishlist, toggleWishlist, products } = useContext(AppContext);
+  const { addToCart, wishlist, toggleWishlist, products, API_URL } = useContext(AppContext);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,14 +26,14 @@ export const ProductDetails = () => {
   const fetchProductDetail = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const { data } = await axios.get(`${API_URL}/products/${id}`);
       if (data.success) {
         setProduct(data.product);
         setSelectedImage(data.product.images?.[0] || '');
       }
       
       // Fetch reviews
-      const reviewsRes = await axios.get(`http://localhost:5000/api/products/${id}/reviews`);
+      const reviewsRes = await axios.get(`${API_URL}/products/${id}/reviews`);
       if (reviewsRes.data.success) {
         setReviews(reviewsRes.data.reviews);
       }
@@ -54,7 +54,7 @@ export const ProductDetails = () => {
     setReviewSuccess('');
     setReviewError('');
     try {
-      const { data } = await axios.post(`http://localhost:5000/api/products/${id}/reviews`, {
+      const { data } = await axios.post(`${API_URL}/products/${id}/reviews`, {
         rating: userRating,
         comment: userComment
       });
