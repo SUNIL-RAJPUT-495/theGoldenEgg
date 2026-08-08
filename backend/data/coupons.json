@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "k8vx65696mshd6s60",
+    "createdAt": "2026-08-06T10:19:51.960Z",
+    "updatedAt": "2026-08-06T10:19:51.960Z",
+    "code": "WELCOME10",
+    "discountType": "percentage",
+    "value": 10,
+    "minOrderValue": 200,
+    "expiryDate": "2027-08-06T10:19:51.960Z",
+    "active": true
+  },
+  {
+    "_id": "ygzmg8vpjmshd6s60",
+    "createdAt": "2026-08-06T10:19:51.960Z",
+    "updatedAt": "2026-08-06T10:19:51.960Z",
+    "code": "SUPERFOOD",
+    "discountType": "flat",
+    "value": 100,
+    "minOrderValue": 500,
+    "expiryDate": "2027-08-06T10:19:51.960Z",
+    "active": true
+  }
+]

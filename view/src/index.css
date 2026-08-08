@@ -1,1 +1,69 @@
 @import "tailwindcss";
+
+@theme {
+  --color-organic-green-50: #f0fdf4;
+  --color-organic-green-100: #dcfce7;
+  --color-organic-green-600: #16a34a;
+  --color-organic-green-700: #15803d;
+  --color-organic-green-800: #166534;
+  --color-organic-green-900: #14532d;
+  
+  --color-organic-gold-500: #eab308;
+  --color-organic-gold-600: #ca8a04;
+  
+  --animate-spin-slow: spin 8s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@layer base {
+  body {
+    @apply bg-stone-50 text-stone-800 transition-colors duration-300 font-sans;
+  }
+  
+  body.dark {
+    @apply bg-stone-950 text-stone-100;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-stone-200/50 shadow-sm transition-all duration-300;
+  }
+  .dark .glass-card {
+    @apply bg-stone-900/80 border-stone-800/50 shadow-black/40;
+  }
+  
+  .glass-nav {
+    @apply bg-white/70 backdrop-blur-lg border-b border-stone-200/30 sticky top-0 z-50 transition-all duration-300;
+  }
+  .dark .glass-nav {
+    @apply bg-stone-950/70 border-stone-900/30;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-organic-green-700 to-organic-gold-600 bg-clip-text text-transparent;
+  }
+  .dark .text-gradient {
+    @apply bg-gradient-to-r from-organic-green-100 to-organic-gold-500 bg-clip-text text-transparent;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Custom scrollbar for premium look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-stone-100;
+}
+.dark ::-webkit-scrollbar-track {
+  @apply bg-stone-900;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-organic-green-600/40 rounded-full hover:bg-organic-green-700/60 transition-colors;
+}

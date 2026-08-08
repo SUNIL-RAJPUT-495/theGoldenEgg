@@ -1,0 +1,22 @@
+[
+  {
+    "_id": "y4dpv6hg8mshdvg55",
+    "createdAt": "2026-08-06T10:39:02.777Z",
+    "updatedAt": "2026-08-06T10:39:02.780Z",
+    "title": "Goodness of Superfood",
+    "subtitle": "100% Certified Organic Ragi Flour milled to perfection",
+    "imageUrl": "/ragi_flour_banner.png",
+    "linkUrl": "/products",
+    "active": true
+  },
+  {
+    "_id": "5ktudkp1qmshdvg59",
+    "createdAt": "2026-08-06T10:39:02.781Z",
+    "updatedAt": "2026-08-06T10:39:02.781Z",
+    "title": "Great Taste, Great Health",
+    "subtitle": "Dosa, Roti, Cookies, Porridge, and Ragi Balls",
+    "imageUrl": "/ragi_flour_banner.png",
+    "linkUrl": "/products",
+    "active": true
+  }
+]
