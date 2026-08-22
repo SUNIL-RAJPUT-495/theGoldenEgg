@@ -272,6 +272,16 @@ export const ProductDetails = () => {
           </button>
 
           <button
+            onClick={() => setActiveTab('storage')}
+            className={`pb-4 font-bold transition-all shrink-0 relative ${
+              activeTab === 'storage' ? 'text-organic-green-700 dark:text-organic-green-400 font-extrabold' : 'text-stone-400 hover:text-stone-600'
+            }`}
+          >
+            Storage & Handling
+            {activeTab === 'storage' && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-organic-green-700" />}
+          </button>
+
+          <button
             onClick={() => setActiveTab('reviews')}
             className={`pb-4 font-bold transition-all shrink-0 relative ${
               activeTab === 'reviews' ? 'text-organic-green-700 dark:text-organic-green-400 font-extrabold' : 'text-stone-400 hover:text-stone-600'
@@ -339,6 +349,23 @@ export const ProductDetails = () => {
               <div className="p-4 bg-stone-50 dark:bg-stone-900 border border-stone-150 dark:border-stone-850 rounded-2xl">
                 <p className="font-bold text-stone-800 dark:text-white mb-2">Ingredients List:</p>
                 <p>{product.ingredients || "100% Certified Organic Millet Flour. Free from wheat, gluten, artificial colors, and preservatives."}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Storage & Handling Guidelines */}
+          {activeTab === 'storage' && (
+            <div className="text-stone-600 dark:text-stone-300 text-sm leading-relaxed max-w-3xl space-y-4">
+              <div className="p-5 bg-stone-50 dark:bg-stone-900 border border-stone-150 dark:border-stone-850 rounded-2xl space-y-3">
+                <h4 className="font-bold text-stone-900 dark:text-white text-base">How to Store Ragi Powder</h4>
+                <p className="text-xs text-stone-500 dark:text-stone-400">Proper storage helps maintain the quality and freshness of ragi powder after opening:</p>
+                <ul className="space-y-2 text-xs sm:text-sm text-stone-700 dark:text-stone-300 list-disc pl-5">
+                  <li>Store in a cool and dry place.</li>
+                  <li>Keep the powder away from direct light, heat, and moisture.</li>
+                  <li>Always handle with a clean and dry spoon.</li>
+                  <li>Always keep the product tightly closed after each use.</li>
+                  <li>Follow directions for storage and best before date mentioned on packaging label.</li>
+                </ul>
               </div>
             </div>
           )}

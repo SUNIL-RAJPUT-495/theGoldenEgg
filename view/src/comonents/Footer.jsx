@@ -1,136 +1,83 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
+import { ShieldCheck, MessageCircle, MapPin, Mail } from 'lucide-react';
 
 export const Footer = () => {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail('');
-      setTimeout(() => setSubscribed(false), 3000);
-    }
-  };
-
   return (
-    <footer className="bg-stone-900 text-stone-300 dark:bg-stone-950 border-t border-stone-800 pt-16 pb-8 transition-colors duration-300 relative">
+    <footer className="bg-[#1A2E22] text-stone-300 dark:bg-stone-950 border-t border-[#14241b] pt-16 pb-8 transition-colors duration-300 relative font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Newsletter & Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        {/* 8. FOOTER — TRUST & TRANSPARENCY */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           
-          {/* Brand Info */}
-          <div>
-            <span className="text-2xl font-bold text-white tracking-tight">
-              The Golden Egg
+          {/* Column 1: Brand Summary & Location */}
+          <div className="space-y-4">
+            <span className="text-2xl font-serif font-black text-white tracking-tight">
+              Golden Egg
             </span>
-            <p className="text-xs text-organic-gold-500 font-semibold tracking-wider uppercase mt-1 mb-4">
-              Certified Organic
+            <p className="text-xs text-[#C28E58] font-extrabold tracking-widest uppercase block">
+              100% ORGANIC • ETHICAL FARMING
             </p>
-            <p className="text-sm text-stone-400 mb-6">
-              Milling goodness and health directly from our organic millet farms in Mysore. Gluten-free, nutrient-dense finger millet (ragi) superfoods.
+            <p className="text-sm text-stone-300 leading-relaxed font-sans">
+              Pure, thoughtfully grown food and botanical products born from a living ecosystem.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="h-8 w-8 rounded-full bg-stone-800 hover:bg-organic-green-700 flex items-center justify-center text-white transition-colors">
-                F
-              </a>
-              <a href="#" className="h-8 w-8 rounded-full bg-stone-800 hover:bg-organic-green-700 flex items-center justify-center text-white transition-colors">
-                I
-              </a>
-              <a href="#" className="h-8 w-8 rounded-full bg-stone-800 hover:bg-organic-green-700 flex items-center justify-center text-white transition-colors">
-                T
-              </a>
+            <div className="flex items-center space-x-2 text-xs text-[#C28E58] pt-1">
+              <MapPin className="h-4 w-4 shrink-0" />
+              <span>Periyapatna, Mysore District, Karnataka, India.</span>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-semibold text-base mb-4">Shop & Recipes</h3>
-            <ul className="space-y-2 text-sm">
+          {/* Column 2: Quick Links */}
+          <div className="space-y-4">
+            <h3 className="text-white font-serif font-bold text-lg">Quick Links</h3>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/products" className="hover:text-white transition-colors">Organic Ragi Flour (5KG)</Link>
+                <Link to="/" className="text-stone-300 hover:text-[#C28E58] transition-colors">Our Story</Link>
               </li>
               <li>
-                <Link to="/products" className="hover:text-white transition-colors">Organic Ragi Flour (2KG)</Link>
+                <Link to="/products" className="text-stone-300 hover:text-[#C28E58] transition-colors">Shop</Link>
               </li>
               <li>
-                <Link to="/products" className="hover:text-white transition-colors">Organic Ragi Flour (1KG)</Link>
+                <a href="/#ecosystem" className="text-stone-300 hover:text-[#C28E58] transition-colors">Food Forest</a>
               </li>
               <li>
-                <Link to="/#recipes" className="hover:text-white transition-colors">Organic Recipes</Link>
+                <a href="/#ethos" className="text-stone-300 hover:text-[#C28E58] transition-colors">Ethical Pledge</a>
+              </li>
+              <li>
+                <Link to="/contact" className="text-stone-300 hover:text-[#C28E58] transition-colors">Contact</Link>
               </li>
             </ul>
           </div>
 
-          {/* Manufacturer & Location */}
-          <div>
-            <h3 className="text-white font-semibold text-base mb-4">Manufacturer Details</h3>
-            <ul className="space-y-4 text-sm text-stone-400">
-              <li className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-organic-gold-500 shrink-0 mt-0.5" />
-                <span>
-                  <strong>Processed & MFG BY:</strong><br />
-                  The Golden Egg<br />
-                  Doddanna Ichahalli Village, Gonikoppa Road, Periyapatna, MYSORE - 571107
-                </span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-organic-gold-500" />
-                <span>+91 98765 43210</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-organic-gold-500" />
-                <span>hello@thegoldenegg.com</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter Form */}
-          <div>
-            <h3 className="text-white font-semibold text-base mb-4">Newsletter</h3>
-            <p className="text-sm text-stone-400 mb-4">
-              Subscribe to receive recipe ideas, discount coupons, and farm updates.
-            </p>
-            <form onSubmit={handleSubscribe} className="flex relative">
-              <input
-                type="email"
-                placeholder="Your email address"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-stone-800 text-white pl-4 pr-12 py-2.5 rounded-lg border border-stone-700 focus:outline-none focus:border-organic-green-600 text-sm"
-              />
-              <button
-                type="submit"
-                className="absolute right-1 top-1 bg-organic-green-700 hover:bg-organic-green-600 text-white p-1.5 rounded-md transition-colors"
-                aria-label="Subscribe"
-              >
-                <Send className="h-4 w-4" />
-              </button>
-            </form>
-            {subscribed && (
-              <p className="text-xs text-organic-green-600 font-semibold mt-2 animate-pulse">
-                Successfully subscribed! Check your inbox.
+          {/* Column 3: Core Standard */}
+          <div className="space-y-4">
+            <h3 className="text-white font-serif font-bold text-lg">Core Standard</h3>
+            <div className="p-5 bg-white/5 border border-white/10 rounded-2xl space-y-3 shadow-inner">
+              <div className="flex items-center space-x-2 text-[#C28E58] text-xs font-bold uppercase tracking-wider">
+                <ShieldCheck className="h-4 w-4" />
+                <span>Zero-Culling Commitment</span>
+              </div>
+              <p className="text-xs text-stone-200 leading-relaxed font-semibold">
+                100% Zero-Culling Policy • Ethical Farming Commitment
               </p>
-            )}
+              <p className="text-[11px] text-stone-400 leading-relaxed font-sans">
+                Every bird remains a valued citizen of our food forest, living out its full, natural lifespan in complete freedom.
+              </p>
+            </div>
           </div>
 
         </div>
 
-        <hr className="border-stone-800 my-8" />
+        <hr className="border-white/10 my-8" />
 
-        {/* Legals & Copy */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-xs text-stone-500 space-y-4 md:space-y-0">
+        {/* Bottom Copy */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-xs text-stone-400 space-y-4 md:space-y-0">
           <div>
-            &copy; {new Date().getFullYear()} The Golden Egg. All Rights Reserved.
+            &copy; {new Date().getFullYear()} Golden Egg Food Forest. Periyapatna, Mysore District, Karnataka.
           </div>
           <div className="flex space-x-6">
-            <a href="#" className="hover:text-stone-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-stone-400 transition-colors">Terms & Conditions</a>
-            <a href="#" className="hover:text-stone-400 transition-colors">Return & Refund Policy</a>
+            <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
+            <a href="mailto:support@thegoldenegg.org.in" className="hover:text-white transition-colors">support@thegoldenegg.org.in</a>
           </div>
         </div>
 
@@ -138,13 +85,13 @@ export const Footer = () => {
 
       {/* Floating WhatsApp chat widget */}
       <a
-        href="https://wa.me/919876543210?text=Hi! I am interested in ordering Organic Ragi Flour."
+        href="https://wa.me/919876543210?text=Hi! I am interested in Golden Egg organic products."
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-3.5 rounded-full shadow-2xl z-40 transition-all hover:scale-110 flex items-center justify-center animate-bounce duration-1000"
+        className="fixed bottom-6 right-6 bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full shadow-2xl z-40 transition-all hover:scale-110 flex items-center justify-center"
         title="Chat on WhatsApp"
       >
-        <MessageCircle className="h-6 w-6 fill-white text-green-500" />
+        <MessageCircle className="h-6 w-6 fill-white text-emerald-600" />
       </a>
     </footer>
   );

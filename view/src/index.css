@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
   --color-organic-green-50: #f0fdf4;
   --color-organic-green-100: #dcfce7;
   --color-organic-green-600: #16a34a;
@@ -8,8 +11,13 @@
   --color-organic-green-800: #166534;
   --color-organic-green-900: #14532d;
   
-  --color-organic-gold-500: #eab308;
-  --color-organic-gold-600: #ca8a04;
+  --color-forest-green: #1A2E22;
+  --color-oatmeal: #F9F6F0;
+  --color-earth-gold: #C28E58;
+  --color-charcoal: #2C2C2C;
+  
+  --color-organic-gold-500: #C28E58;
+  --color-organic-gold-600: #a97745;
   
   --animate-spin-slow: spin 8s linear infinite;
   --animate-float: float 6s ease-in-out infinite;

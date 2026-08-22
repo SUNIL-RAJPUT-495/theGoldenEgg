@@ -78,23 +78,33 @@ const seedInitialData = async () => {
         description: 'Nutritious stone-ground flours loaded with health benefits.',
         image: 'https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?auto=format&fit=crop&w=400&q=80'
       });
-      console.log('🌱 Seeded Categories (Organic Flours only).');
+      await Category.create({
+        name: 'Culinary Foundations',
+        description: 'Rich, umami-packed and sun-dried dehydrated essential powders.',
+        image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=400&q=80'
+      });
+      await Category.create({
+        name: 'Botanical Apothecary',
+        description: 'Sustainably harvested botanical powders for everyday wellness rituals.',
+        image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80'
+      });
+      console.log('🌱 Seeded Categories (Organic Flours, Culinary Foundations, Botanical Apothecary).');
     }
 
     // 3. Seed Banners
     const bannersCount = await Banner.countDocuments();
     if (bannersCount === 0) {
       await Banner.create({
-        title: 'Goodness of Superfood',
-        subtitle: '100% Certified Organic Ragi Flour milled to perfection',
-        imageUrl: '/ragi_flour_banner.png',
+        title: 'Rooted in Nature. Grown with Compassion.',
+        subtitle: '100% Certified Organic Ragi Flour & Annapurna Collection',
+        imageUrl: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=80',
         linkUrl: '/products',
         active: true
       });
       await Banner.create({
-        title: 'Great Taste, Great Health',
-        subtitle: 'Dosa, Roti, Cookies, Porridge, and Ragi Balls',
-        imageUrl: '/ragi_flour_banner.png',
+        title: 'The Annapurna Collection: Nature, Preserved',
+        subtitle: 'Freeze-dried culinary & botanical powders with 2+ years shelf life',
+        imageUrl: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=1200&q=80',
         linkUrl: '/products',
         active: true
       });
@@ -129,7 +139,7 @@ const seedInitialData = async () => {
       // Product 1: Ragi Flour 5KG
       await Product.create({
         name: 'Organic Ragi Flour (5KG)',
-        description: 'Our Certified Organic Ragi Flour (Finger Millet) is loaded with calcium, iron, and dietary fiber. Milled from carefully selected premium organic grains, it is gluten-free and 100% natural. Goodness of Superfood directly from Doddanna Ichahalli Village, Gonikoppa Road, Periyapatna, Mysore.',
+        description: 'Made from carefully selected organic finger millet grains, our ragi is cleaned and processed before being milled into a convenient flour for everyday cooking. Rich in calcium, protein, dietary fibre and minerals. Grown in our 4-acre Mysore food forest.',
         category: 'Organic Flours',
         price: 450,
         stock: 60,
@@ -145,15 +155,15 @@ const seedInitialData = async () => {
           calcium: '33%',
           iron: '96%'
         },
-        ingredients: '100% Organic Finger Millet (Ragi) Flour. No preservatives or chemical additives.',
-        reviewsCount: 2,
-        averageRating: 4.8
+        ingredients: '100% Organically Grown Finger Millet (Ragi) Flour. Chemical-free.',
+        reviewsCount: 12,
+        averageRating: 4.9
       });
 
       // Product 2: Ragi Flour 2KG
       await Product.create({
         name: 'Organic Ragi Flour (2KG)',
-        description: 'Premium organic finger millet flour stone-ground to preserve all natural fibers, vitamins, and minerals. Loaded with calcium and iron, ideal for daily rotis, porridge, and dosas.',
+        description: 'Made from organically grown ragi, reflecting our commitment to working with nature. Suited to traditional Indian preparations as well as contemporary recipes like porridges, rotis, dosas, pancakes, and bakes.',
         category: 'Organic Flours',
         price: 190,
         stock: 80,
@@ -169,15 +179,15 @@ const seedInitialData = async () => {
           calcium: '33%',
           iron: '96%'
         },
-        ingredients: '100% Organic Finger Millet (Ragi) Flour.',
-        reviewsCount: 1,
-        averageRating: 4.5
+        ingredients: '100% Organically Grown Finger Millet (Ragi) Flour.',
+        reviewsCount: 8,
+        averageRating: 4.8
       });
 
       // Product 3: Ragi Flour 1KG
       await Product.create({
         name: 'Organic Ragi Flour (1KG)',
-        description: '100% stone-ground premium Ragi Flour. Perfect for making traditional ragi balls, nutritious porridge, and soft rotis.',
+        description: 'Naturally gluten-free organic finger millet flour. Cleaned, milled, and packed for convenient everyday use in the home kitchen.',
         category: 'Organic Flours',
         price: 99,
         stock: 120,
@@ -193,12 +203,146 @@ const seedInitialData = async () => {
           calcium: '33%',
           iron: '96%'
         },
-        ingredients: '100% Organic Finger Millet (Ragi) Flour.',
-        reviewsCount: 3,
+        ingredients: '100% Organically Grown Finger Millet (Ragi) Flour.',
+        reviewsCount: 15,
         averageRating: 4.9
       });
 
-      console.log('🌱 Seeded Organic Ragi Packs.');
+      // Product 4: Turmeric Powder
+      await Product.create({
+        name: 'Annapurna Collection - Turmeric Powder (200g)',
+        description: 'Deeply golden, high-curcumin roots harvested from our food forest. Advanced freeze-drying preservation ensures over 2 years of shelf life without synthetic additives.',
+        category: 'Culinary Foundations',
+        price: 249,
+        stock: 50,
+        images: [
+          'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80'
+        ],
+        nutritionFacts: {
+          curcumin: 'High Curcumin (5.5%+)',
+          preservatives: '0% Synthetic Additives',
+          shelfLife: '2+ Years'
+        },
+        ingredients: '100% Pure High-Curcumin Turmeric Root Powder.',
+        reviewsCount: 6,
+        averageRating: 5.0
+      });
+
+      // Product 5: Garlic & Onion Powder
+      await Product.create({
+        name: 'Annapurna Collection - Garlic & Onion Powder (150g)',
+        description: 'Rich, umami-packed aromatics dehydrated from natural forest produce. Pure, potent, and pantry-ready essential for soups, curries, and gravies.',
+        category: 'Culinary Foundations',
+        price: 279,
+        stock: 40,
+        images: [
+          'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?auto=format&fit=crop&w=600&q=80'
+        ],
+        nutritionFacts: {
+          shelfLife: '2+ Years',
+          additives: 'None'
+        },
+        ingredients: 'Dehydrated Organic Garlic & Onion Powder.',
+        reviewsCount: 4,
+        averageRating: 4.7
+      });
+
+      // Product 6: Ginger & Pepper Powder
+      await Product.create({
+        name: 'Annapurna Collection - Ginger & Pepper Powder (150g)',
+        description: 'Potent heat, sun-dried for maximum potency. Blended from heritage Malnad ginger and Coorg black pepper roots.',
+        category: 'Culinary Foundations',
+        price: 299,
+        stock: 35,
+        images: [
+          'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=600&q=80'
+        ],
+        nutritionFacts: {
+          shelfLife: '2+ Years',
+          additives: 'None'
+        },
+        ingredients: 'Sun-dried Organic Ginger & Black Pepper Powder.',
+        reviewsCount: 5,
+        averageRating: 4.9
+      });
+
+      // Product 7: Tomato & Carrot Powder
+      await Product.create({
+        name: 'Annapurna Collection - Tomato & Carrot Powder (200g)',
+        description: 'Concentrated ingredients for soups, stews and smoothies. Preserves natural vitamins, color, and rich flavor naturally.',
+        category: 'Culinary Foundations',
+        price: 269,
+        stock: 45,
+        images: [
+          'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80'
+        ],
+        nutritionFacts: {
+          shelfLife: '2+ Years',
+          additives: 'None'
+        },
+        ingredients: 'Dehydrated Tomato & Carrot Powder.',
+        reviewsCount: 3,
+        averageRating: 4.8
+      });
+
+      // Product 8: Beetroot Powder
+      await Product.create({
+        name: 'Annapurna Collection - Beetroot Powder (200g)',
+        description: 'A vibrant addition to everyday recipes, baking, porridges, and drinks. Loaded with natural antioxidants.',
+        category: 'Culinary Foundations',
+        price: 259,
+        stock: 55,
+        images: [
+          'https://images.unsplash.com/photo-1587393855524-087f83d95bc9?auto=format&fit=crop&w=600&q=80'
+        ],
+        nutritionFacts: {
+          shelfLife: '2+ Years',
+          additives: 'None'
+        },
+        ingredients: '100% Dehydrated Organic Beetroot Powder.',
+        reviewsCount: 7,
+        averageRating: 4.9
+      });
+
+      // Product 9: Tulsi Powder
+      await Product.create({
+        name: 'Apothecary Series - Tulsi (Holy Basil) Powder (100g)',
+        description: 'A traditional botanical for everyday wellness rituals. Handpicked Holy Basil leaves from our food forest, shade-dried and finely ground.',
+        category: 'Botanical Apothecary',
+        price: 219,
+        stock: 60,
+        images: [
+          'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'
+        ],
+        nutritionFacts: {
+          shelfLife: '2+ Years',
+          additives: 'None'
+        },
+        ingredients: '100% Organic Tulsi (Holy Basil) Leaf Powder.',
+        reviewsCount: 9,
+        averageRating: 5.0
+      });
+
+      // Product 10: Rose Powder
+      await Product.create({
+        name: 'Apothecary Series - Rose Powder (100g)',
+        description: 'Sustainably harvested petals for culinary infusion and skincare. Pure, aromatic, and free from synthetic fragrances or preservatives.',
+        category: 'Botanical Apothecary',
+        price: 249,
+        stock: 40,
+        images: [
+          'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80'
+        ],
+        nutritionFacts: {
+          shelfLife: '2+ Years',
+          additives: 'None'
+        },
+        ingredients: '100% Organically Grown Rose Petal Powder.',
+        reviewsCount: 11,
+        averageRating: 4.9
+      });
+
+      console.log('🌱 Seeded Organic Ragi Packs & Annapurna Collection Products.');
     }
   } catch (err) {
     console.error('Error seeding data:', err);

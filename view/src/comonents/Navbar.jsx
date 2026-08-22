@@ -31,16 +31,8 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 shrink-0">
-            <img src={logo} alt="The Golden Egg" className="h-12 w-auto object-contain" />
-            <div className="hidden md:block">
-              <span className="text-xl font-bold text-organic-green-800 dark:text-organic-green-100 leading-none block">
-                The Golden Egg
-              </span>
-              <span className="text-xs text-organic-gold-600 font-semibold tracking-wider uppercase block">
-                Certified Organic
-              </span>
-            </div>
+          <Link to="/" className="flex items-center space-x-3 shrink-0">
+            <img src={logo} alt="Golden Egg" className="h-11 w-auto object-contain" />
           </Link>
 
           {/* Search Bar - Desktop */}
@@ -63,24 +55,8 @@ export const Navbar = () => {
             <Link to="/products" className="text-stone-600 dark:text-stone-300 hover:text-organic-green-700 dark:hover:text-organic-green-100 font-medium transition-colors">
               Shop Products
             </Link>
-
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2 text-stone-500 hover:text-organic-green-700 dark:text-stone-400 dark:hover:text-organic-green-100 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full transition-all"
-              aria-label="Toggle Dark Mode"
-            >
-              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </button>
-
-            {/* Wishlist */}
-            <Link to={user ? "/dashboard?tab=wishlist" : "/auth"} className="p-2 relative text-stone-500 hover:text-organic-green-700 dark:text-stone-400 dark:hover:text-organic-green-100 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full transition-all">
-              <Heart className="h-5 w-5" />
-              {wishlist.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center animate-bounce">
-                  {wishlist.length}
-                </span>
-              )}
+            <Link to="/contact" className="text-stone-600 dark:text-stone-300 hover:text-organic-green-700 dark:hover:text-organic-green-100 font-medium transition-colors">
+              Contact
             </Link>
 
             {/* Cart */}
@@ -162,11 +138,6 @@ export const Navbar = () => {
 
           {/* Mobile controls */}
           <div className="flex lg:hidden items-center space-x-4">
-            {/* Dark Mode */}
-            <button onClick={() => setDarkMode(!darkMode)} className="p-2 text-stone-500 dark:text-stone-400">
-              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </button>
-
             {/* Cart */}
             <Link to="/cart" className="p-2 relative text-stone-500 dark:text-stone-400">
               <ShoppingCart className="h-5 w-5" />
@@ -213,6 +184,13 @@ export const Navbar = () => {
             className="block px-3 py-2 rounded-md text-base font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-900"
           >
             Shop Products
+          </Link>
+          <Link
+            to="/contact"
+            onClick={() => setMenuOpen(false)}
+            className="block px-3 py-2 rounded-md text-base font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-900"
+          >
+            Contact
           </Link>
 
           {user && (
