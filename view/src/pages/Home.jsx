@@ -197,8 +197,8 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           
           <div className="lg:col-span-5 relative h-80 lg:h-full min-h-[420px] bg-stone-200">
             <img
-              src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1000&q=80"
-              alt="The Heart of Golden Egg"
+              src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1000&q=80"
+              alt="Free Roaming Flock in Food Forest Sanctuary"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
