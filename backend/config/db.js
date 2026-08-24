@@ -8,29 +8,23 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
-let useLocalDb = false;
-
 export const connectDB = async () => {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
-    console.log('⚠️  No MONGODB_URI found in environment variables. Falling back to local JSON database.');
-    useLocalDb = true;
-    return { useLocalDb: true };
+    console.error('❌ MONGODB_URI missing in .env file!');
+    process.exit(1);
   }
 
   try {
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 5000 
+      serverSelectionTimeoutMS: 10000 
     });
-    console.log('✅ Connected to MongoDB successfully.');
+    console.log('✅ Connected to MongoDB Atlas Database successfully.');
     return { useLocalDb: false };
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    console.log('⚠️  Falling back to local JSON database.');
-    useLocalDb = true;
-    return { useLocalDb: true };
+    console.error('❌ MongoDB Connection Error:', error.message);
+    throw error;
   }
 };
 
-export const isLocalDb = () => useLocalDb;
-export const setLocalDb = (val) => { useLocalDb = val; };
+export const isLocalDb = () => false;

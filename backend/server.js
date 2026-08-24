@@ -5,12 +5,15 @@ import bcrypt from 'bcryptjs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/db.js';
-import { Product, Category, Coupon, Banner, User } from './database/models.js';
+import { Product, Category, Coupon, Banner, User, Inquiry, Payment } from './database/models.js';
 
-// Route Imports
+// Modular Route Imports
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
 import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
+import paymentRoutes from './routes/payments.js';
+import inquiryRoutes from './routes/inquiries.js';
 import couponRoutes from './routes/coupons.js';
 import bannerRoutes from './routes/banners.js';
 import analyticsRoutes from './routes/analytics.js';
@@ -23,20 +26,45 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 const app = express();
 
 // Middlewares
-app.use(cors());
-app.use(express.json());
+const allowedOrigins = [
+  'http://thegoldenegg.co.in',
+  'https://thegoldenegg.co.in',
+  'http://www.thegoldenegg.co.in',
+  'https://www.thegoldenegg.co.in',
+  'http://api.thegoldenegg.co.in',
+  'https://api.thegoldenegg.co.in',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5000'
+];
 
-// Routes
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(null, true);
+    }
+  },
+  credentials: true
+}));
+app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Modular API Endpoints
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/inquiries', inquiryRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/banners', bannerRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
 // Root Endpoint
 app.get('/', (req, res) => {
-  res.json({ message: 'The Golden Egg E-Commerce API is running...' });
+  res.json({ message: 'The Golden Egg Modular E-Commerce API is running...' });
 });
 
 // Seed Initial Data function
@@ -144,7 +172,7 @@ const seedInitialData = async () => {
         price: 450,
         stock: 60,
         images: [
-          'https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?auto=format&fit=crop&w=600&q=80'
+          '/ragi-flour-5kg.jpg'
         ],
         nutritionFacts: {
           dietaryFiber: '35g (140% DV)',
@@ -168,7 +196,7 @@ const seedInitialData = async () => {
         price: 190,
         stock: 80,
         images: [
-          'https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?auto=format&fit=crop&w=600&q=80'
+          '/ragi-flour-5kg.jpg'
         ],
         nutritionFacts: {
           dietaryFiber: '35g (140% DV)',
@@ -192,7 +220,7 @@ const seedInitialData = async () => {
         price: 99,
         stock: 120,
         images: [
-          'https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?auto=format&fit=crop&w=600&q=80'
+          '/ragi-flour-5kg.jpg'
         ],
         nutritionFacts: {
           dietaryFiber: '35g (140% DV)',
@@ -343,6 +371,56 @@ const seedInitialData = async () => {
       });
 
       console.log('🌱 Seeded Organic Ragi Packs & Annapurna Collection Products.');
+    }
+
+    // 6. Seed Inquiries if none exist
+    const inquiriesCount = await Inquiry.countDocuments();
+    if (inquiriesCount === 0) {
+      await Inquiry.create({
+        name: 'Ananya Sharma',
+        email: 'ananya@example.com',
+        phone: '9812345678',
+        subject: 'Ragi Flour & Product Orders',
+        message: 'Hi, I would like to know if you offer bulk ordering for organic ragi flour (50KG+) for our bakery in Bangalore.',
+        status: 'New',
+        replyNote: ''
+      });
+      await Inquiry.create({
+        name: 'Dr. Vikram Seth',
+        email: 'vikram.seth@gmail.com',
+        phone: '9988776655',
+        subject: 'March 2027 Desi Egg Waitlist',
+        message: 'Hello, please add me to the priority waitlist for ethical Desi Eggs launching in March 2027.',
+        status: 'In Progress',
+        replyNote: 'Added user to VIP early access list.'
+      });
+      console.log('🌱 Seeded Demo Inquiries.');
+    }
+
+    // 7. Seed Payments if none exist
+    const paymentsCount = await Payment.countDocuments();
+    if (paymentsCount === 0) {
+      await Payment.create({
+        orderId: 'ORD_1001',
+        userId: 'customer123',
+        userName: 'Ramesh Kumar',
+        amount: 649,
+        paymentMethod: 'UPI',
+        paymentStatus: 'Paid',
+        transactionId: 'TXN_UPI_98234192',
+        notes: 'GPay Successful'
+      });
+      await Payment.create({
+        orderId: 'ORD_1002',
+        userId: 'customer123',
+        userName: 'Ramesh Kumar',
+        amount: 450,
+        paymentMethod: 'COD',
+        paymentStatus: 'Pending',
+        transactionId: 'TXN_COD_1002',
+        notes: 'Cash on delivery upon arrival'
+      });
+      console.log('🌱 Seeded Demo Payments.');
     }
   } catch (err) {
     console.error('Error seeding data:', err);

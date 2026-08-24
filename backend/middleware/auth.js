@@ -7,7 +7,7 @@ export const protect = async (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'golden_egg_super_secret_key_2026');
       
       const user = await User.findById(decoded.id);
       if (!user) {

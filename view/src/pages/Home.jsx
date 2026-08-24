@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { 
   ArrowRight, Heart, ShoppingCart, Sparkles, CheckCircle, 
-  Box, Leaf, HelpCircle, ShieldCheck, Globe, Download, X, Check, Calendar, Sprout
+  Box, Leaf, ShieldCheck, Globe, Download, X, Check, Calendar, Sprout
 } from 'lucide-react';
 
 export const Home = () => {
   const { products, addToCart, toggleWishlist, wishlist } = useContext(AppContext);
-  const [selectedRecipe, setSelectedRecipe] = useState('Porridge');
-  const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistName, setWaitlistName] = useState('');
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
@@ -24,10 +22,6 @@ export const Home = () => {
     message: ''
   });
   const [partnerSubmitted, setPartnerSubmitted] = useState(false);
-
-  const toggleFaq = (index) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
 
   const handleWaitlistSubmit = (e) => {
     e.preventDefault();
@@ -91,64 +85,12 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
     { name: "Rose Powder", desc: "Sustainably harvested petals for culinary infusion and skincare." }
   ];
 
-  // Everyday Uses matching document text
-  const recipes = {
-    Porridge: {
-      title: "Ragi Porridge",
-      description: "Prepare a smooth, comforting porridge with water or milk, and customize with sweet or savoury ingredients."
-    },
-    Rotis: {
-      title: "Ragi Rotis",
-      description: "Knead into dough and prepare traditional flatbreads to serve with dals, vegetables and curries."
-    },
-    Dosas: {
-      title: "Ragi Dosas",
-      description: "Blend with dosa batter to create crisp, flavourful breakfast or light-meal options."
-    },
-    Pancakes: {
-      title: "Ragi Pancakes",
-      description: "Add to your favourite pancake recipe for a distinctive, nutty grain flavour."
-    },
-    Bakes: {
-      title: "Ladoos, Cookies & Bakes",
-      description: "Use in homemade ladoos, cookies and other traditional or contemporary baked preparations."
-    }
-  };
-
-  // Exact 6 FAQs from Website Content Master document
-  const faqs = [
-    {
-      question: "Is ragi powder the same as ragi flour?",
-      answer: "Yes. In everyday usage, ragi powder and ragi flour generally refer to finely milled finger millet used for cooking and baking."
-    },
-    {
-      question: "What can I make with Organic Ragi Flour?",
-      answer: "It can be used for rotis, dosas, porridges, pancakes, ladoos, cookies and other homemade preparations."
-    },
-    {
-      question: "Is the ragi flour organic?",
-      answer: "The product is positioned as organic ragi flour. The final packaging should carry the applicable organic certification and approved organic claim."
-    },
-    {
-      question: "Is ragi naturally gluten-free?",
-      answer: "Ragi is naturally gluten-free. Individuals with celiac disease or medically diagnosed gluten sensitivity should check the product label for applicable processing and allergen information."
-    },
-    {
-      question: "How should I store ragi flour after opening?",
-      answer: "Keep it tightly sealed in a cool, dry place away from moisture, heat and direct sunlight."
-    },
-    {
-      question: "Can ragi be included in an everyday diet?",
-      answer: "Ragi can be included as part of a varied and balanced diet. Individual dietary needs and preferences may differ."
-    }
-  ];
-
   return (
     <div className="space-y-24 pb-24 font-sans bg-white dark:bg-stone-950 transition-colors duration-300">
       
-      {/* 1. THE HERO SECTION */}
-      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-[#1A2E22] text-white">
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#1A2E22]/90 via-[#1A2E22]/75 to-black/70" />
+      {/* 1. HERO SECTION */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#1A2E22] text-white">
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#1A2E22]/95 via-[#1A2E22]/80 to-black/70" />
         <img
           src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80"
           alt="Golden Egg Food Forest"
@@ -173,12 +115,12 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-5 pt-4">
-            <a
-              href="#offering"
+            <Link
+              to="/products"
               className="bg-[#C28E58] hover:bg-[#a97745] text-stone-950 font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full transition-all shadow-xl hover:scale-105"
             >
               Explore Ragi Flour
-            </a>
+            </Link>
             
             <a
               href="#ethos"
@@ -191,7 +133,60 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
         </div>
       </section>
 
-      {/* 2. THE CORE ETHOS */}
+      {/* 2. THE FOOD FOREST INTRODUCTION & STORY (Placed immediately beneath Hero Section) */}
+      <section id="food-forest" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#F9F6F0] dark:bg-stone-900 rounded-3xl p-8 sm:p-14 border border-stone-200/60 dark:border-stone-800 space-y-10 shadow-sm">
+          
+          <div className="max-w-3xl space-y-3">
+            <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58] bg-white dark:bg-stone-800 px-4 py-1.5 rounded-full inline-block">
+              THE GOLDEN EGG FOOD FOREST
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
+              Pure, Chemical-Free Superfoods Born from a Living Ecosystem
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+            
+            <div className="lg:col-span-7 space-y-6 text-stone-700 dark:text-stone-300 text-base leading-relaxed font-sans">
+              <p className="font-medium text-stone-800 dark:text-stone-100 text-lg">
+                Golden Egg began with a singular vision: to nurture high-nutrition, forest-grazed Desi eggs through pure, organic, and natural farming. Today, that vision has grown into a vibrant, multi-layered Food Forest in Periyapatna, Mysore district.
+              </p>
+
+              <p>
+                We cultivate natural, chemical-free produce, health-restoring grains, seasonal fruits, vegetables, pulses, and spices. Every product from our soil is a step toward conscious living and uncompromised wellness.
+              </p>
+
+              <div className="pt-4 border-t border-stone-300/60 dark:border-stone-800 space-y-3">
+                <h3 className="text-xl font-serif font-bold text-[#1A2E22] dark:text-white">
+                  Our Story: Rooted in Nature, Guided by Compassion
+                </h3>
+                <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
+                  Golden Egg was founded on 4 acres of lush forest agricultural land, designed from day one to honor nature's design. As our birds grazed freely across green, fenced pastures, the natural synergy between livestock, soil, and vegetation transformed our land into a self-sustaining food forest, expanding far beyond poultry into chemical-free abundance.
+                </p>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 relative min-h-[360px] h-80 sm:h-96 lg:h-full rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 bg-stone-200 dark:bg-stone-800">
+              <img
+                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80"
+                alt="Golden Egg 4-Acres Lush Food Forest Ecosystem"
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                <p className="text-white text-xs font-semibold uppercase tracking-widest drop-shadow">
+                  4-Acre Forest Ecosystem • Periyapatna, Mysore
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 3. THE CORE ETHOS (ZERO-CULLING) */}
       <section id="ethos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center rounded-3xl overflow-hidden bg-[#F9F6F0] dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800 shadow-md">
           
@@ -213,11 +208,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
             </h2>
 
             <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
-              In conventional farming, animals are often treated as commodities and their value can be reduced to their productive output. At Golden Egg, we believe otherwise. We never cull our birds.
-            </p>
-
-            <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
-              Even after reaching their natural menopausal stage, every single bird remains a valued citizen of our food forest, living out its full, natural lifespan in complete freedom. They contribute naturally to soil fertility and ecological balance, proving that farming can be deeply productive without losing its soul.
+              In conventional farming, animals are often treated as commodities and their value can be reduced to their productive output. At Golden Egg, we believe otherwise. We never cull our birds. Even after reaching their natural menopausal stage, every single bird remains a valued citizen of our food forest, living out its full, natural lifespan in complete freedom. They contribute naturally to soil fertility and ecological balance, proving that farming can be deeply productive without losing its soul.
             </p>
 
             <div className="p-6 bg-white dark:bg-stone-950 rounded-2xl border-l-4 border-[#C28E58] space-y-1 shadow-sm">
@@ -230,255 +221,108 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
         </div>
       </section>
 
-      {/* 3. CURRENT OFFERING */}
-      <section id="offering" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        
-        {/* Header & Main Narrative */}
-        <div className="bg-[#F9F6F0] dark:bg-stone-900 p-8 sm:p-12 rounded-3xl border border-stone-200/60 dark:border-stone-800 space-y-6">
-          <div className="space-y-1">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block">
-              3. CURRENT OFFERING
-            </span>
-            <p className="text-sm font-bold text-[#C28E58] uppercase tracking-wider">
-              Harvested Today, From Our Forest
-            </p>
-          </div>
-
-          <h2 className="text-3xl sm:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
-            Organic Ragi Flour
-          </h2>
-
-          <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
-            Ragi, also known as finger millet, nachni or mandua, has long been valued in Indian kitchens for its distinctive earthy taste and naturally occurring nutrients.
-          </p>
-
-          <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
-            The Golden Egg’s Organic Ragi Flour brings this traditional grain into the modern kitchen as a versatile flour made from organically grown ragi.
-          </p>
-
-          <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
-            Made from carefully selected organic finger millet grains, our ragi is cleaned and processed before being milled into a convenient flour for everyday cooking. It is suited to traditional Indian preparations as well as contemporary recipes.
-          </p>
-        </div>
-
-        {/* Why Choose Organic Ragi? */}
-        <div className="space-y-8">
-          <div className="text-center space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1A2E22] dark:text-white">
-              Why Choose Organic Ragi?
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <div className="p-6 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-3 shadow-sm hover:shadow-md transition-all">
-              <h4 className="font-bold text-base text-[#1A2E22] dark:text-white">Organic Finger Millet</h4>
-              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Made from organically grown ragi, reflecting our commitment to working with nature and building a food system rooted in care, responsibility and respect for the living ecosystem.
-              </p>
-            </div>
-
-            <div className="p-6 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-3 shadow-sm hover:shadow-md transition-all">
-              <h4 className="font-bold text-base text-[#1A2E22] dark:text-white">Naturally Nutritious</h4>
-              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Ragi naturally provides carbohydrates, plant protein, dietary fibre and minerals.
-              </p>
-            </div>
-
-            <div className="p-6 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-3 shadow-sm hover:shadow-md transition-all">
-              <h4 className="font-bold text-base text-[#1A2E22] dark:text-white">Naturally Rich in Calcium</h4>
-              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Ragi is naturally known for its calcium content, an important mineral in a balanced diet.
-              </p>
-            </div>
-
-            <div className="p-6 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-3 shadow-sm hover:shadow-md transition-all">
-              <h4 className="font-bold text-base text-[#1A2E22] dark:text-white">Naturally Gluten-Free</h4>
-              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Ragi itself is naturally gluten-free. Please refer to the product label for applicable processing and allergen information.
-              </p>
-            </div>
-
-          </div>
-        </div>
-
-        {/* From Grain to Flour */}
-        <div className="p-8 sm:p-10 bg-[#1A2E22] text-white rounded-3xl space-y-3 shadow-xl">
-          <h3 className="text-2xl sm:text-3xl font-serif font-bold text-white">
-            From Grain to Flour
-          </h3>
-          <p className="text-stone-200 text-sm sm:text-base leading-relaxed">
-            Our ragi flour begins with carefully selected organic finger millet grains. The grains undergo appropriate cleaning and processing before being milled into flour.
-          </p>
-          <p className="text-stone-200 text-sm sm:text-base leading-relaxed">
-            The finished flour is packed to make it convenient for everyday use in the home kitchen.
-          </p>
-        </div>
-
-        {/* Everyday Uses */}
-        <div className="space-y-8">
+      {/* 4. CURRENT OFFERING (PRODUCT PREVIEW CARD - MINIMALIST IMMERSIVE DESIGN) */}
+      <section id="offering" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#F9F6F0] dark:bg-stone-900 rounded-3xl p-8 sm:p-12 border border-stone-200/60 dark:border-stone-800 space-y-10 shadow-sm">
+          
           <div className="space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1A2E22] dark:text-white">
-              Everyday Uses
-            </h3>
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block">
+              Harvested Today, From Our Forest
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
+              Organic Ragi Flour
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Minimalist Immersive Product Preview Card */}
+          <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center">
             
-            <div className="lg:col-span-4 flex flex-col space-y-3">
-              {Object.keys(recipes).map((key) => (
-                <button
-                  key={key}
-                  onClick={() => setSelectedRecipe(key)}
-                  className={`w-full text-left px-6 py-4 rounded-2xl flex items-center justify-between font-bold text-sm border transition-all ${
-                    selectedRecipe === key
-                      ? 'bg-[#1A2E22] text-white border-[#1A2E22] shadow-md'
-                      : 'bg-[#F9F6F0] dark:bg-stone-900 border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-800'
-                  }`}
-                >
-                  <span>{recipes[key].title}</span>
-                  <CheckCircle className={`h-4 w-4 ${selectedRecipe === key ? 'text-[#C28E58]' : 'text-stone-300 dark:text-stone-700'}`} />
-                </button>
-              ))}
+            <div className="lg:col-span-5 relative h-72 sm:h-96 lg:h-full bg-stone-100 dark:bg-stone-900 overflow-hidden">
+              <img
+                src="/ragi-flour-5kg.jpg"
+                alt="Organic Ragi Flour"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute top-4 left-4 bg-[#C28E58] text-stone-950 text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
+                100% Organically Grown
+              </div>
             </div>
 
-            <div className="lg:col-span-8 bg-[#F9F6F0] dark:bg-stone-900 p-8 sm:p-10 rounded-3xl border border-stone-200/60 dark:border-stone-800 space-y-4">
-              <h4 className="text-2xl font-serif font-bold text-[#1A2E22] dark:text-white">
-                {recipes[selectedRecipe].title}
-              </h4>
-              <p className="text-base text-stone-700 dark:text-stone-300 leading-relaxed font-medium">
-                {recipes[selectedRecipe].description}
-              </p>
-              <div className="pt-4 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between">
-                <Link to="/products" className="text-xs font-bold text-[#C28E58] hover:underline flex items-center space-x-1">
-                  <span>Shop Ragi Flour</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
+            <div className="lg:col-span-7 p-8 sm:p-12 space-y-6 flex flex-col justify-between">
+              <div className="space-y-4">
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1A2E22] dark:text-white">
+                  Traditional Grain, Modern Vitality
+                </h3>
+
+                <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
+                  Ragi, also known as finger millet, nachni or mandua, has long been valued in Indian kitchens for its distinctive earthy taste and naturally occurring nutrients. Our Organic Ragi Flour brings this traditional grain into the modern kitchen as a versatile flour made from organically grown ragi.
+                </p>
+
+                {/* Key Benefits Badges */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                    <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Organic Millet</span>
+                  </div>
+                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                    <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Nutritious Fibre</span>
+                  </div>
+                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                    <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Rich in Calcium</span>
+                  </div>
+                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                    <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Gluten-Free</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-stone-100 dark:border-stone-850 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <div>
+                  <span className="text-xs text-stone-400 font-bold uppercase block">Starting From</span>
+                  <span className="text-2xl font-black text-[#1A2E22] dark:text-white">₹99 / 1KG</span>
+                </div>
+
+                <Link
+                  to="/products"
+                  className="bg-[#1A2E22] hover:bg-[#14241b] text-white font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-full transition-all shadow-md hover:scale-105 text-center flex items-center justify-center space-x-2"
+                >
+                  <span>Explore Ragi Flour</span>
+                  <ArrowRight className="h-4 w-4 text-[#C28E58]" />
                 </Link>
               </div>
             </div>
 
           </div>
+
         </div>
-
-        {/* Organic Ragi Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {products.filter(p => p.category === 'Organic Flours').slice(0, 3).map((p) => {
-            const isWish = wishlist.some(item => item._id === p._id);
-            return (
-              <div
-                key={p._id}
-                className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between"
-              >
-                <div className="relative pt-[80%] bg-[#F9F6F0] dark:bg-stone-850 overflow-hidden">
-                  <img
-                    src={p.images?.[0] || 'https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?auto=format&fit=crop&w=600&q=80'}
-                    alt={p.name}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <button
-                    onClick={() => toggleWishlist(p)}
-                    className="absolute top-4 right-4 h-10 w-10 bg-white/90 dark:bg-stone-900/90 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 text-stone-500 hover:text-red-500 transition-all shadow-sm"
-                  >
-                    <Heart className={`h-5 w-5 ${isWish ? 'fill-red-500 text-red-500' : ''}`} />
-                  </button>
-                </div>
-
-                <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#C28E58] bg-[#F9F6F0] dark:bg-stone-800 px-2.5 py-1 rounded-md inline-block">
-                      {p.category}
-                    </span>
-                    <h4 className="font-serif font-bold text-lg text-[#1A2E22] dark:text-white">
-                      {p.name}
-                    </h4>
-                    <p className="text-xs text-stone-600 dark:text-stone-400 line-clamp-2 leading-relaxed">
-                      {p.description}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-stone-100 dark:border-stone-800">
-                    <div className="text-2xl font-black text-[#1A2E22] dark:text-white">
-                      ₹{p.price}
-                    </div>
-                    <button
-                      onClick={() => addToCart(p, 1)}
-                      className="bg-[#1A2E22] hover:bg-[#14241b] text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-full transition-transform hover:scale-105 shadow-md flex items-center space-x-2"
-                    >
-                      <ShoppingCart className="h-4 w-4" />
-                      <span>Add to Cart</span>
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Frequently Asked Questions */}
-        <div className="max-w-4xl mx-auto space-y-8 pt-8 border-t border-stone-200 dark:border-stone-800">
-          <div className="text-center space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-serif font-black text-[#1A2E22] dark:text-white">
-              Frequently Asked Questions
-            </h3>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaqIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  className="bg-[#F9F6F0] dark:bg-stone-900 rounded-2xl border border-stone-200/50 dark:border-stone-800 overflow-hidden transition-all"
-                >
-                  <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full p-5 text-left flex justify-between items-center font-bold text-sm sm:text-base text-[#1A2E22] dark:text-white focus:outline-none"
-                  >
-                    <span className="flex items-center space-x-3 pr-4">
-                      <HelpCircle className="h-5 w-5 text-[#C28E58] shrink-0" />
-                      <span>{faq.question}</span>
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed border-t border-stone-200/60 dark:border-stone-800">
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
       </section>
 
-      {/* 4. THE GOLDEN HARVEST — THE ANNAPURNA COLLECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-[#F9F6F0] dark:bg-stone-900/70 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-sm">
+      {/* 5. THE GOLDEN HARVEST — THE ANNAPURNA COLLECTION (Generous White Space & Visual Container) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-[#F9F6F0] dark:bg-stone-900/80 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-sm space-y-12">
+        
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           <div className="lg:col-span-5 space-y-6">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58]">
-              4. THE GOLDEN HARVEST — THE ANNAPURNA COLLECTION
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] bg-white dark:bg-stone-800 px-3 py-1 rounded-md inline-block">
+              THE ANNAPURNA COLLECTION
             </span>
 
-            <h2 className="text-3xl sm:text-4xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
               The Annapurna Collection: Nature, Preserved.
             </h2>
 
-            <h4 className="text-lg font-medium text-[#C28E58] italic font-serif">
+            <h3 className="text-lg font-medium text-[#C28E58] italic font-serif">
               Pure, Heritage Essentials for your Kitchen.
-            </h4>
+            </h3>
 
-            <p className="text-stone-600 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
+            <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
               Our food forest captures the essence of traditional Indian wellness. We have curated a signature range of dehydrated botanical and culinary powders—bringing the ancient wisdom of the soil directly to your home kitchen.
             </p>
 
             <div className="p-6 bg-white dark:bg-stone-950 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-3 shadow-sm">
-              <h5 className="font-bold text-[#1A2E22] dark:text-white text-base flex items-center space-x-2">
+              <h4 className="font-bold text-[#1A2E22] dark:text-white text-base flex items-center space-x-2">
                 <Sparkles className="h-5 w-5 text-[#C28E58]" />
                 <span>Built to Last, Naturally.</span>
-              </h5>
+              </h4>
               <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
                 Through advanced preservation techniques, our freeze-dried powders offer an exceptional shelf life of over 2 years—without a single synthetic additive or preservative. Pure, potent, and pantry-ready.
               </p>
@@ -488,7 +332,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           <div className="lg:col-span-7 space-y-6">
             
             {/* Culinary Foundations */}
-            <div className="bg-white dark:bg-stone-950 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-4 shadow-sm">
+            <div className="bg-white dark:bg-stone-950 p-6 sm:p-8 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-4 shadow-sm">
               <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-[#C28E58]">
                 <Box className="h-4 w-4" />
                 <span>Culinary Foundations — The Essentials</span>
@@ -496,7 +340,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {culinaryEssentials.map((item, idx) => (
-                  <div key={idx} className="p-4 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl space-y-1">
+                  <div key={idx} className="p-4 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl space-y-1 border border-stone-200/50 dark:border-stone-800">
                     <h5 className="font-bold text-sm text-[#1A2E22] dark:text-white">{item.name}</h5>
                     <p className="text-xs text-stone-600 dark:text-stone-400">{item.desc}</p>
                   </div>
@@ -505,7 +349,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
             </div>
 
             {/* Botanical Wellness */}
-            <div className="bg-white dark:bg-stone-950 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-4 shadow-sm">
+            <div className="bg-white dark:bg-stone-950 p-6 sm:p-8 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-4 shadow-sm">
               <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-[#C28E58]">
                 <Leaf className="h-4 w-4" />
                 <span>Botanical Wellness — The Apothecary</span>
@@ -513,7 +357,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {botanicalApothecary.map((item, idx) => (
-                  <div key={idx} className="p-4 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl space-y-1">
+                  <div key={idx} className="p-4 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl space-y-1 border border-stone-200/50 dark:border-stone-800">
                     <h5 className="font-bold text-sm text-[#1A2E22] dark:text-white">{item.name}</h5>
                     <p className="text-xs text-stone-600 dark:text-stone-400">{item.desc}</p>
                   </div>
@@ -524,7 +368,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
             <div className="pt-2 text-right">
               <Link
                 to="/products"
-                className="inline-flex items-center space-x-2 bg-[#1A2E22] hover:bg-[#14241b] text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-full transition-transform hover:scale-105 shadow-md"
+                className="inline-flex items-center space-x-2 bg-[#1A2E22] hover:bg-[#14241b] text-white font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-full transition-transform hover:scale-105 shadow-md"
               >
                 <span>Shop Annapurna Powders</span>
                 <ArrowRight className="h-4 w-4 text-[#C28E58]" />
@@ -534,13 +378,14 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           </div>
 
         </div>
+
       </section>
 
-      {/* 5. THE JOURNEY & ECOSYSTEM */}
+      {/* 6. THE JOURNEY & ECOSYSTEM */}
       <section id="ecosystem" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-3">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58]">
-            5. THE JOURNEY & ECOSYSTEM
+          <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] bg-[#F9F6F0] dark:bg-stone-900 px-4 py-1.5 rounded-full inline-block">
+            OUR JOURNEY & ECOSYSTEM
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-[#1A2E22] dark:text-white">
             A Living, Breathing Ecosystem
@@ -550,7 +395,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Foundation */}
-          <div className="bg-[#F9F6F0] dark:bg-stone-900 p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 space-y-4 relative flex flex-col justify-between shadow-sm">
+          <div className="bg-[#F9F6F0] dark:bg-stone-900 p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 space-y-4 relative flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
             <div className="space-y-4">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] bg-white dark:bg-stone-800 px-3 py-1 rounded-md inline-block">
                 The Foundation
@@ -569,7 +414,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           </div>
 
           {/* Expansion */}
-          <div className="bg-[#F9F6F0] dark:bg-stone-900 p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 space-y-4 relative flex flex-col justify-between shadow-sm">
+          <div className="bg-[#F9F6F0] dark:bg-stone-900 p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 space-y-4 relative flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
             <div className="space-y-4">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] bg-white dark:bg-stone-800 px-3 py-1 rounded-md inline-block">
                 The Expansion
@@ -588,7 +433,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           </div>
 
           {/* Future */}
-          <div className="bg-[#1A2E22] text-white p-8 rounded-3xl border border-[#14241b] space-y-4 relative flex flex-col justify-between shadow-xl">
+          <div className="bg-[#1A2E22] text-white p-8 rounded-3xl border border-[#14241b] space-y-4 relative flex flex-col justify-between shadow-xl hover:shadow-2xl transition-shadow">
             <div className="space-y-4">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] bg-white/10 px-3 py-1 rounded-md inline-block">
                 The Future
@@ -609,22 +454,18 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
         </div>
       </section>
 
-      {/* 6. CULTIVATE A LEGACY OF PURITY */}
+      {/* 7. CULTIVATE A LEGACY OF PURITY (GLOBAL PARTNERSHIP INVITATION) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-br from-[#1A2E22] via-[#243f2f] to-[#14241b] text-white p-8 sm:p-12 lg:p-16 rounded-3xl space-y-8 shadow-2xl relative overflow-hidden">
           
           <div className="max-w-3xl space-y-4 relative z-10">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58] bg-white/10 px-4 py-1.5 rounded-full inline-block">
-              6. CULTIVATE A LEGACY OF PURITY
+              GLOBAL PARTNERSHIP INVITATION
             </span>
 
             <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-white leading-tight">
-              Global Partnership Invitation
-            </h2>
-
-            <h3 className="text-lg sm:text-2xl font-medium text-[#C28E58] font-serif">
               Invest in the Future of Conscious Agriculture
-            </h3>
+            </h2>
           </div>
 
           <div className="max-w-4xl space-y-4 text-stone-200 text-sm sm:text-base leading-relaxed relative z-10 font-sans">
@@ -660,24 +501,20 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
         </div>
       </section>
 
-      {/* 7. FUTURE ANTICIPATION & LEAD CAPTURE */}
-      <section className="bg-[#1A2E22] text-white py-20 transition-colors duration-300 border-t border-[#14241b]">
+      {/* 8. FUTURE ANTICIPATION & LEAD CAPTURE (DEEP FOREST GREEN CONTAINER #1A2E22 WITH GENEROUS PADDING) */}
+      <section className="bg-[#1A2E22] text-white py-24 transition-colors duration-300 border-t border-[#14241b]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="text-center space-y-4">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58] bg-white/10 px-4 py-1.5 rounded-full inline-block">
-              7. FUTURE ANTICIPATION & LEAD CAPTURE
-            </span>
-
-            <p className="text-xs font-bold text-[#C28E58] tracking-widest uppercase">
               COMING MARCH 2027
-            </p>
+            </span>
             
             <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight leading-tight">
               The Return of the Ethical Desi Egg
             </h2>
             
-            <p className="text-base sm:text-lg text-[#F9F6F0]/90 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-[#F9F6F0]/90 max-w-2xl mx-auto leading-relaxed font-light">
               Our flock is expanding naturally and stress-free within our food forest sanctuary. Our life-honored, forest-grazed Desi eggs will officially launch in March 2027.
             </p>
           </div>
@@ -736,7 +573,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
                   required
                   value={waitlistName}
                   onChange={(e) => setWaitlistName(e.target.value)}
-                  className="w-full bg-white/10 text-white placeholder-stone-400 px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:border-[#C28E58] text-sm"
+                  className="w-full bg-white/10 text-white placeholder-stone-400 px-4 py-3.5 rounded-xl border border-white/20 focus:outline-none focus:border-[#C28E58] text-sm"
                 />
                 <div className="flex flex-col sm:flex-row gap-3">
                   <input
@@ -745,7 +582,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
                     required
                     value={waitlistEmail}
                     onChange={(e) => setWaitlistEmail(e.target.value)}
-                    className="flex-1 bg-white/10 text-white placeholder-stone-400 px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:border-[#C28E58] text-sm"
+                    className="flex-1 bg-white/10 text-white placeholder-stone-400 px-4 py-3.5 rounded-xl border border-white/20 focus:outline-none focus:border-[#C28E58] text-sm"
                   />
                   <button
                     type="submit"

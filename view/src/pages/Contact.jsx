@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Mail, MapPin, CheckCircle, Send, UserCheck } from 'lucide-react';
+import axios from 'axios';
+import { AppContext } from '../context/AppContext';
 
 export const Contact = () => {
+  const { API_URL } = useContext(AppContext);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,25 +15,34 @@ export const Contact = () => {
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
+    setErrorMsg('');
+    try {
+      const res = await axios.post(`${API_URL}/inquiries`, formData);
+      if (res.data.success) {
+        setSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: 'General Inquiry / Food Forest Story',
+          message: ''
+        });
+      }
+    } catch (err) {
+      console.error('Error submitting inquiry:', err);
+      setErrorMsg('Could not submit inquiry right now. Please try again.');
+    } finally {
       setSubmitting(false);
-      setSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: 'General Inquiry / Food Forest Story',
-        message: ''
-      });
-    }, 1000);
+    }
   };
 
   return (

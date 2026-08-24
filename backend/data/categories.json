@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "_id": "k9m46cl7zmt6y8q7e",
+    "createdAt": "2026-08-24T08:03:29.066Z",
+    "updatedAt": "2026-08-24T08:03:29.067Z",
+    "name": "Organic Flours",
+    "description": "Nutritious stone-ground flours loaded with health benefits.",
+    "image": "https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    "_id": "fo2jzgcwemt6y8q7g",
+    "createdAt": "2026-08-24T08:03:29.068Z",
+    "updatedAt": "2026-08-24T08:03:29.068Z",
+    "name": "Culinary Foundations",
+    "description": "Rich, umami-packed and sun-dried dehydrated essential powders.",
+    "image": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    "_id": "7ibbhffcbmt6y8q7i",
+    "createdAt": "2026-08-24T08:03:29.070Z",
+    "updatedAt": "2026-08-24T08:03:29.070Z",
+    "name": "Botanical Apothecary",
+    "description": "Sustainably harvested botanical powders for everyday wellness rituals.",
+    "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80"
+  }
+]

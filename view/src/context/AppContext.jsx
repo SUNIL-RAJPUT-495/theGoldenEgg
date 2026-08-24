@@ -6,7 +6,7 @@ export const AppContext = createContext();
 const API_URL = import.meta.env.VITE_API_URL || 
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '[::1]'
     ? 'http://localhost:5000/api'
-    : 'https://the-golden-egg-11p1.vercel.app/api');
+    : 'http://api.thegoldenegg.co.in/api');
 
 export const AppProvider = ({ children }) => {
   // Load initial states from localStorage

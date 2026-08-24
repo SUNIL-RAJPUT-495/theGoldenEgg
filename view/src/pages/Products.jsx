@@ -113,42 +113,6 @@ export const Products = () => {
                 ))}
               </div>
             </div>
-
-            {/* Price Range */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-sm font-bold">
-                <span className="text-stone-700 dark:text-stone-300">Max Price</span>
-                <span className="text-organic-green-700 dark:text-organic-green-400">₹{priceRange}</span>
-              </div>
-              <input
-                type="range"
-                min="50"
-                max="1000"
-                step="10"
-                value={priceRange}
-                onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                className="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer accent-organic-green-700"
-              />
-              <div className="flex justify-between text-[10px] text-stone-400 font-bold">
-                <span>₹50</span>
-                <span>₹1000</span>
-              </div>
-            </div>
-
-            {/* Sort options */}
-            <div className="space-y-3">
-              <h4 className="font-bold text-sm text-stone-700 dark:text-stone-300">Sort By</h4>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full bg-stone-50 dark:bg-stone-800 text-stone-850 dark:text-stone-200 text-sm p-2 rounded-lg border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-1 focus:ring-organic-green-600"
-              >
-                <option value="newest">New Arrivals</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-              </select>
-            </div>
           </div>
         </aside>
 
@@ -320,37 +284,6 @@ export const Products = () => {
                 </div>
               </div>
 
-              {/* Price Range */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm font-bold">
-                  <span>Max Price</span>
-                  <span className="text-organic-green-700">₹{priceRange}</span>
-                </div>
-                <input
-                  type="range"
-                  min="50"
-                  max="1000"
-                  step="10"
-                  value={priceRange}
-                  onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                  className="w-full accent-organic-green-700"
-                />
-              </div>
-
-              {/* Sort Options */}
-              <div className="space-y-3">
-                <h4 className="font-bold text-sm text-stone-700 dark:text-stone-300">Sort By</h4>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full bg-stone-50 border p-2 rounded-lg text-sm"
-                >
-                  <option value="newest">New Arrivals</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="rating">Top Rated</option>
-                </select>
-              </div>
             </div>
 
             <div className="pt-6 border-t flex space-x-3">

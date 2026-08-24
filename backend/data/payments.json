@@ -1,0 +1,28 @@
+[
+  {
+    "_id": "6fzltgmh8mt70x7zo",
+    "createdAt": "2026-08-24T09:18:31.092Z",
+    "updatedAt": "2026-08-24T09:18:31.092Z",
+    "orderId": "ORD_1001",
+    "userId": "customer123",
+    "userName": "Ramesh Kumar",
+    "amount": 649,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "transactionId": "TXN_UPI_98234192",
+    "notes": "GPay Successful"
+  },
+  {
+    "_id": "3vwvizm6hmt70x7zp",
+    "createdAt": "2026-08-24T09:18:31.093Z",
+    "updatedAt": "2026-08-24T09:18:31.093Z",
+    "orderId": "ORD_1002",
+    "userId": "customer123",
+    "userName": "Ramesh Kumar",
+    "amount": 450,
+    "paymentMethod": "COD",
+    "paymentStatus": "Pending",
+    "transactionId": "TXN_COD_1002",
+    "notes": "Cash on delivery upon arrival"
+  }
+]

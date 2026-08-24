@@ -120,5 +120,7 @@ export const localDb = {
   Coupons: new LocalCollection('coupons'),
   Reviews: new LocalCollection('reviews'),
   Banners: new LocalCollection('banners'),
-  Addresses: new LocalCollection('addresses')
+  Addresses: new LocalCollection('addresses'),
+  Inquiries: new LocalCollection('inquiries'),
+  Payments: new LocalCollection('payments')
 };
