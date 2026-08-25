@@ -32,7 +32,7 @@ export const Navbar = () => {
           
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 shrink-0">
-            <img src={logo} alt="Golden Egg" className="h-11 w-auto object-contain" />
+            <img src={logo} alt="The Golden Egg" className="h-11 w-auto object-contain" />
           </Link>
 
           {/* Search Bar - Desktop */}

@@ -13,7 +13,7 @@ export const Footer = () => {
           {/* Column 1: Brand Summary & Location */}
           <div className="space-y-4">
             <span className="text-2xl font-serif font-black text-white tracking-tight">
-              Golden Egg
+              <b>The Golden Egg</b>
             </span>
             <p className="text-xs text-[#C28E58] font-extrabold tracking-widest uppercase block">
               100% ORGANIC • ETHICAL FARMING
@@ -73,7 +73,7 @@ export const Footer = () => {
         {/* Bottom Copy */}
         <div className="flex flex-col md:flex-row justify-between items-center text-xs text-stone-400 space-y-4 md:space-y-0">
           <div>
-            &copy; {new Date().getFullYear()} Golden Egg Food Forest. Periyapatna, Mysore District, Karnataka.
+            &copy; {new Date().getFullYear()} <b>The Golden Egg</b> Food Forest. Periyapatna, Mysore District, Karnataka.
           </div>
           <div className="flex space-x-6">
             <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
@@ -85,7 +85,7 @@ export const Footer = () => {
 
       {/* Floating WhatsApp chat widget */}
       <a
-        href="https://wa.me/919876543210?text=Hi! I am interested in Golden Egg organic products."
+        href="https://wa.me/919876543210?text=Hi! I am interested in The Golden Egg organic products."
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full shadow-2xl z-40 transition-all hover:scale-110 flex items-center justify-center"

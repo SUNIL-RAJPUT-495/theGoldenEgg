@@ -81,8 +81,9 @@ export const Contact = () => {
                 <div className="space-y-1">
                   <h3 className="font-bold text-[#1A2E22] dark:text-white">Location</h3>
                   <p className="leading-relaxed">
-                    Golden Egg Food Forest<br />
-                    Periyapatna, Mysore District<br />
+                    The Golden Egg  
+                    Doddanna ichanahalli village Gonnikoppa road
+                    Periyapatna, Mysore 571107<br />
                     Karnataka, India
                   </p>
                 </div>
@@ -94,7 +95,7 @@ export const Contact = () => {
                 <div className="space-y-1">
                   <h3 className="font-bold text-[#1A2E22] dark:text-white">Email</h3>
                   <a href="mailto:support@thegoldenegg.org.in" className="text-[#C28E58] font-bold hover:underline">
-                    support@thegoldenegg.org.in
+                    info@thegoldenegg.org.in
                   </a>
                 </div>
               </div>
@@ -171,7 +172,7 @@ export const Contact = () => {
               {/* Inquiry Topics (Exact 5 topics from Website Content Master) */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
-                  Inquiry Topics <span className="text-red-500">*</span>
+                  APPOINTMENT Topics <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="subject"

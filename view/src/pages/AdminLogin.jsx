@@ -58,7 +58,7 @@ export const AdminLogin = () => {
             🍳
           </div>
           <div>
-            <h1 className="text-2xl font-serif font-black text-white tracking-tight">The Golden Egg</h1>
+            <h1 className="text-2xl font-serif font-black text-white tracking-tight"><b>The Golden Egg</b></h1>
             <p className="text-xs uppercase font-extrabold tracking-widest text-[#C28E58] mt-1 flex items-center justify-center space-x-1">
               <ShieldCheck className="h-3.5 w-3.5 inline" />
               <span>Admin Console Authentication</span>

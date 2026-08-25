@@ -325,7 +325,7 @@ export const AdminDashboard = () => {
               🍳
             </div>
             <div>
-              <h2 className="font-serif font-bold text-base text-white leading-tight">The Golden Egg</h2>
+              <h2 className="font-serif font-bold text-base text-white leading-tight"><b>The Golden Egg</b></h2>
               <p className="text-[10px] uppercase font-bold tracking-widest text-[#C28E58]">Admin Portal</p>
             </div>
           </div>

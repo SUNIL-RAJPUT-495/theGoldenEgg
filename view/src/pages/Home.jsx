@@ -53,19 +53,19 @@ Periyapatna, Mysore District, Karnataka, India
 GLOBAL PARTNERSHIP INVITATION
 Invest in the Future of Conscious Agriculture
 
-As we scale our proven model from our foundational food forest in Periyapatna to international soil, Golden Egg invites visionary global partners and investors to co-create the future of conscious agriculture.
+As we scale our proven model from our foundational food forest in Periyapatna to international soil, The Golden Egg invites visionary global partners and investors to co-create the future of conscious agriculture.
 
 We are opening strategic opportunities to establish larger, self-sustaining food forest farms abroad, dedicated exclusively to cultivating our signature Annapurna Collection—pure, chemical-free kitchen essentials and long-shelf-life botanical powders.
 
 By blending ancestral wisdom with ethical, zero-culling stewardship, this partnership offers a rare chance to scale high-impact, regenerative agriculture while meeting the booming global demand for uncompromising food transparency and wellness.
 
 Contact Email: support@thegoldenegg.org.in
-Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
+Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
 ====================================================`;
     const blob = new Blob([briefContent], { type: 'text/plain;charset=utf-8' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'Golden_Egg_Global_Expansion_Brief.txt';
+    link.download = 'The_Golden_Egg_Global_Expansion_Brief.txt';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -93,7 +93,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#1A2E22]/95 via-[#1A2E22]/80 to-black/70" />
         <img
           src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80"
-          alt="Golden Egg Food Forest"
+          alt="The Golden Egg Food Forest"
           className="absolute inset-0 w-full h-full object-cover object-center scale-105"
         />
 
@@ -101,7 +101,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           
           <div className="inline-block bg-[#C28E58]/20 backdrop-blur-md border border-[#C28E58]/40 px-6 py-2 rounded-full">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-[0.25em] text-[#C28E58]">
-              100% ORGANIC • ETHICAL FARMING
+              Organic Food Forest 100% Organic
             </span>
           </div>
 
@@ -111,7 +111,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           </h1>
 
           <p className="text-base sm:text-xl text-[#F9F6F0]/90 max-w-3xl mx-auto font-light leading-relaxed">
-            Welcome to Golden Egg—a thriving 4-acre food forest where hyper-local soil meets uncompromised purity.
+            Welcome to <b>The Golden Egg</b>—a thriving 4-acre food forest where hyper-local soil meets uncompromised purity.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-5 pt-4">
@@ -139,7 +139,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           
           <div className="max-w-3xl space-y-3">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58] bg-white dark:bg-stone-800 px-4 py-1.5 rounded-full inline-block">
-              THE GOLDEN EGG FOOD FOREST
+              <b>THE GOLDEN EGG</b> FOOD FOREST
             </span>
             <h2 className="text-3xl sm:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
               Pure, Chemical-Free Superfoods Born from a Living Ecosystem
@@ -150,7 +150,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
             
             <div className="lg:col-span-7 space-y-6 text-stone-700 dark:text-stone-300 text-base leading-relaxed font-sans">
               <p className="font-medium text-stone-800 dark:text-stone-100 text-lg">
-                Golden Egg began with a singular vision: to nurture high-nutrition, forest-grazed Desi eggs through pure, organic, and natural farming. Today, that vision has grown into a vibrant, multi-layered Food Forest in Periyapatna, Mysore district.
+                <b>The Golden Egg</b> began with a singular vision: to nurture high-nutrition, forest-grazed Desi eggs through pure, organic, and natural farming. Today, that vision has grown into a vibrant, multi-layered Food Forest in Periyapatna, Mysore district.
               </p>
 
               <p>
@@ -162,7 +162,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
                   Our Story: Rooted in Nature, Guided by Compassion
                 </h3>
                 <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
-                  Golden Egg was founded on 4 acres of lush forest agricultural land, designed from day one to honor nature's design. As our birds grazed freely across green, fenced pastures, the natural synergy between livestock, soil, and vegetation transformed our land into a self-sustaining food forest, expanding far beyond poultry into chemical-free abundance.
+                  <b>The Golden Egg</b> was founded on 4 acres of lush forest agricultural land, designed from day one to honor nature's design. As our birds grazed freely across green, fenced pastures, the natural synergy between livestock, soil, and vegetation transformed our land into a self-sustaining food forest, expanding far beyond poultry into chemical-free abundance.
                 </p>
               </div>
             </div>
@@ -170,7 +170,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
             <div className="lg:col-span-5 relative min-h-[360px] h-80 sm:h-96 lg:h-full rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 bg-stone-200 dark:bg-stone-800">
               <img
                 src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80"
-                alt="Golden Egg 4-Acres Lush Food Forest Ecosystem"
+                alt="The Golden Egg 4-Acres Lush Food Forest Ecosystem"
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="eager"
               />
@@ -192,23 +192,24 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           
           <div className="lg:col-span-5 relative h-80 lg:h-full min-h-[420px] bg-stone-200">
             <img
-              src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1000&q=80"
-              alt="Free Roaming Flock in Food Forest Sanctuary"
+              src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1000&q=80"
+              alt="Free Roaming Hen in Food Forest Sanctuary"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
 
           <div className="lg:col-span-7 p-8 sm:p-12 space-y-6">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58]">
-              THE HEART OF GOLDEN EGG
+              THE HEART OF <b>THE GOLDEN EGG</b>
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
-              Life Without Compromise.
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight flex items-center flex-wrap gap-4">
+              <span>Life Without Compromise.</span>
+              
             </h2>
 
             <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
-              In conventional farming, animals are often treated as commodities and their value can be reduced to their productive output. At Golden Egg, we believe otherwise. We never cull our birds. Even after reaching their natural menopausal stage, every single bird remains a valued citizen of our food forest, living out its full, natural lifespan in complete freedom. They contribute naturally to soil fertility and ecological balance, proving that farming can be deeply productive without losing its soul.
+              In conventional farming, animals are often treated as commodities and their value can be reduced to their productive output. At <b>The Golden Egg</b>, we believe otherwise. We never cull our birds. Even after reaching their natural menopausal stage, every single bird remains a valued citizen of our food forest, living out its full, natural lifespan in complete freedom. They contribute naturally to soil fertility and ecological balance, proving that farming can be deeply productive without losing its soul.
             </p>
 
             <div className="p-6 bg-white dark:bg-stone-950 rounded-2xl border-l-4 border-[#C28E58] space-y-1 shadow-sm">
@@ -227,7 +228,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           
           <div className="space-y-2">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block">
-              Harvested Today, From Our Forest
+              Harvested Today, From Our Food Forest
             </span>
             <h2 className="text-3xl sm:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight">
               Organic Ragi Flour
@@ -249,8 +250,24 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
             </div>
 
             <div className="lg:col-span-7 p-8 sm:p-12 space-y-6 flex flex-col justify-between">
-              <div className="space-y-4">
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1A2E22] dark:text-white">
+              <div className="space-y-5">
+                {/* Why Ragi Qualifies as a Nutraceutical */}
+                <div className="p-5 bg-[#F9F6F0] dark:bg-stone-900/90 rounded-2xl border border-[#C28E58]/30 dark:border-stone-800 space-y-3 shadow-sm">
+                  <h4 className="text-lg sm:text-xl font-serif font-extrabold text-[#1A2E22] dark:text-white flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-[#C28E58] shrink-0" />
+                    Why Ragi Qualifies as a Nutraceutical
+                  </h4>
+                  <div className="space-y-2.5 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
+                    <p>
+                      <strong className="text-[#1A2E22] dark:text-stone-100 font-semibold">• Anti-Diabetic Properties:</strong> Ragi has a low glycemic index and is packed with polyphenols and high dietary fiber. These compounds slow down digestion and glucose absorption, preventing post-meal blood sugar spikes.
+                    </p>
+                    <p>
+                      <strong className="text-[#1A2E22] dark:text-stone-100 font-semibold">• Bone Health &amp; Osteoporosis Prevention:</strong> It contains an exceptional amount of calcium (~344 mg per 100g), which is 5 to 30 times higher than other major cereals. This makes it a natural therapeutic food for maintaining bone density and preventing osteoporosis.
+                    </p>
+                  </div>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1A2E22] dark:text-white pt-2">
                   Traditional Grain, Modern Vitality
                 </h3>
 
@@ -313,6 +330,10 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
             <h3 className="text-lg font-medium text-[#C28E58] italic font-serif">
               Pure, Heritage Essentials for your Kitchen.
             </h3>
+
+            <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed font-medium">
+              The Tomato, Onion, Beetroot, Carrot &amp; Spinach are the veggies used before it get rotten for transforming them into Frozen-Powder form for better usage till 2 to 3 years of span life.
+            </p>
 
             <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
               Our food forest captures the essence of traditional Indian wellness. We have curated a signature range of dehydrated botanical and culinary powders—bringing the ancient wisdom of the soil directly to your home kitchen.
@@ -401,7 +422,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
                 The Foundation
               </span>
               <h3 className="text-2xl font-serif font-bold text-[#1A2E22] dark:text-white">
-                4 Acres of Forest Agriculture
+                4 Acres of Food Forest Permaculture
               </h3>
               <p className="text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-medium">
                 Designed from day one to honor nature’s design, transforming raw land into a self-sustaining food forest.
@@ -470,7 +491,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
 
           <div className="max-w-4xl space-y-4 text-stone-200 text-sm sm:text-base leading-relaxed relative z-10 font-sans">
             <p>
-              As we scale our proven model from our foundational food forest in Periyapatna to international soil, Golden Egg invites visionary global partners and investors to co-create the future of conscious agriculture.
+              As we scale our proven model from our foundational food forest in Periyapatna to international soil, <b>The Golden Egg</b> invites visionary global partners and investors to co-create the future of conscious agriculture.
             </p>
             <p>
               We are opening strategic opportunities to establish larger, self-sustaining food forest farms abroad, dedicated exclusively to cultivating our signature Annapurna Collection—pure, chemical-free kitchen essentials and long-shelf-life botanical powders.
@@ -522,7 +543,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10 space-y-6">
             <div className="border-b border-white/10 pb-4">
               <h3 className="text-xl font-serif font-bold text-[#C28E58]">
-                Why Wait for Golden Egg?
+                Why Wait for <b>The Golden Egg</b>?
               </h3>
             </div>
 
@@ -539,7 +560,7 @@ Location: Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
 
               <div className="p-6 bg-emerald-950/50 border border-emerald-800/40 rounded-2xl space-y-3">
                 <h4 className="text-xs font-extrabold uppercase tracking-widest text-emerald-400 block">
-                  The Golden Egg Difference
+                  <b>The Golden Egg</b> Difference
                 </h4>
                 <p className="text-xs sm:text-sm text-stone-200 leading-relaxed font-sans font-medium">
                   Our forest-grazed, life-honored birds will be raised within a living ecosystem, guided by our zero-culling and ethical farming principles.

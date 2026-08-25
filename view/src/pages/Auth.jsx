@@ -131,7 +131,7 @@ export const Auth = () => {
           </h2>
           <p className="text-xs text-stone-400 mt-1">
             {authMode === 'login' && 'Access your orders, tracking timeline, and wishlist.'}
-            {authMode === 'signup' && 'Join The Golden Egg for organic superfoods.'}
+            {authMode === 'signup' && <span>Join <b>The Golden Egg</b> for organic superfoods.</span>}
             {authMode === 'forgot' && 'Retrieve your account credentials.'}
             {authMode === 'otp' && 'Verify your email to complete registration.'}
             {authMode === 'reset' && 'Enter reset OTP and create a new secure password.'}
