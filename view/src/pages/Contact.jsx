@@ -95,7 +95,7 @@ export const Contact = () => {
                 <div className="space-y-1">
                   <h3 className="font-bold text-[#1A2E22] dark:text-white">Email</h3>
                   <a href="mailto:support@thegoldenegg.org.in" className="text-[#C28E58] font-bold hover:underline">
-                    info@thegoldenegg.org.in
+                    info@thegoldenegg.co.in   
                   </a>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, MessageCircle, MapPin, Mail } from 'lucide-react';
+import { ShieldCheck, MessageCircle, MapPin, QrCode, Smartphone } from 'lucide-react';
 
 export const Footer = () => {
   return (
@@ -8,7 +8,7 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* 8. FOOTER — TRUST & TRANSPARENCY */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           
           {/* Column 1: Brand Summary & Location */}
           <div className="space-y-4">
@@ -64,6 +64,39 @@ export const Footer = () => {
                 Every bird remains a valued citizen of our food forest, living out its full, natural lifespan in complete freedom.
               </p>
             </div>
+          </div>
+
+          {/* Column 4: Mobile QR Scanner */}
+          <div className="space-y-3">
+            <h3 className="text-white font-serif font-bold text-base flex items-center gap-1.5">
+              <QrCode className="h-4 w-4 text-[#C28E58]" />
+              <span>Scan to Visit</span>
+            </h3>
+            <a
+              href="https://thegoldenegg.co.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-white/5 border border-white/10 rounded-xl flex flex-col items-center text-center space-y-2 shadow-inner hover:border-[#C28E58]/50 hover:bg-white/[0.08] transition-all group max-w-[170px]"
+              title="Click or Scan to visit thegoldenegg.co.in"
+            >
+              <div className="relative p-1.5 bg-white rounded-lg shadow-sm group-hover:scale-105 transition-transform duration-300">
+                <div className="absolute inset-0 border border-emerald-600/30 rounded-lg pointer-events-none animate-pulse"></div>
+                <img
+                  src="/qr-code.svg"
+                  alt="Scan QR Code to open https://thegoldenegg.co.in/"
+                  className="w-20 h-20 object-contain"
+                />
+              </div>
+              <div className="space-y-0.5">
+                <p className="text-[11px] font-semibold text-stone-200 flex items-center justify-center gap-1">
+                  <Smartphone className="h-3 w-3 text-[#C28E58]" />
+                  <span>Scan with Camera</span>
+                </p>
+                <p className="text-[10px] text-stone-400 font-sans">
+                  <span className="text-[#C28E58] font-mono">thegoldenegg.co.in</span>
+                </p>
+              </div>
+            </a>
           </div>
 
         </div>

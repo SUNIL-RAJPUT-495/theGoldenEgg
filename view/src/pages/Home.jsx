@@ -5,6 +5,7 @@ import {
   ArrowRight, Heart, ShoppingCart, Sparkles, CheckCircle, 
   Box, Leaf, ShieldCheck, Globe, Download, X, Check, Calendar, Sprout
 } from 'lucide-react';
+import forestimage from '../assets/forestimage.jpeg';
 
 export const Home = () => {
   const { products, addToCart, toggleWishlist, wishlist } = useContext(AppContext);
@@ -101,7 +102,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
           
           <div className="inline-block bg-[#C28E58]/20 backdrop-blur-md border border-[#C28E58]/40 px-6 py-2 rounded-full">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-[0.25em] text-[#C28E58]">
-              Organic Food Forest 100% Organic
+              Organic Food Forest 
             </span>
           </div>
 
@@ -169,7 +170,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
 
             <div className="lg:col-span-5 relative min-h-[360px] h-80 sm:h-96 lg:h-full rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 bg-stone-200 dark:bg-stone-800">
               <img
-                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80"
+                src={forestimage}
                 alt="The Golden Egg 4-Acres Lush Food Forest Ecosystem"
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="eager"
