@@ -76,16 +76,26 @@ export const Footer = () => {
               href="https://thegoldenegg.co.in/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-white/5 border border-white/10 rounded-xl flex flex-col items-center text-center space-y-2 shadow-inner hover:border-[#C28E58]/50 hover:bg-white/[0.08] transition-all group max-w-[170px]"
+              className="p-3.5 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center text-center space-y-2.5 shadow-inner hover:border-[#C28E58]/50 hover:bg-white/[0.08] transition-all group max-w-[200px]"
               title="Click or Scan to visit thegoldenegg.co.in"
             >
-              <div className="relative p-1.5 bg-white rounded-lg shadow-sm group-hover:scale-105 transition-transform duration-300">
-                <div className="absolute inset-0 border border-emerald-600/30 rounded-lg pointer-events-none animate-pulse"></div>
+              <div className="relative p-2 bg-white rounded-xl shadow-md group-hover:scale-105 transition-transform duration-300">
+                <div className="absolute inset-0 border-2 border-emerald-600/30 rounded-xl pointer-events-none animate-pulse"></div>
                 <img
                   src="/qr-code.svg"
                   alt="Scan QR Code to open https://thegoldenegg.co.in/"
-                  className="w-20 h-20 object-contain"
+                  className="w-32 h-32 object-contain block"
                 />
+                {/* Center Logo Overlay - Optimized for Scannability */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="h-8 w-12 bg-white p-0.5 rounded shadow border border-[#C28E58]/50 flex items-center justify-center">
+                    <img
+                      src="/logo.png"
+                      alt="The Golden Egg Logo"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
               </div>
               <div className="space-y-0.5">
                 <p className="text-[11px] font-semibold text-stone-200 flex items-center justify-center gap-1">
