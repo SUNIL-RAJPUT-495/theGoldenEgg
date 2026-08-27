@@ -6,10 +6,10 @@ export const Footer = () => {
   return (
     <footer className="bg-[#1A2E22] text-stone-300 dark:bg-stone-950 border-t border-[#14241b] pt-16 pb-8 transition-colors duration-300 relative font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* 8. FOOTER — TRUST & TRANSPARENCY */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          
+
           {/* Column 1: Brand Summary & Location */}
           <div className="space-y-4">
             <span className="text-2xl font-serif font-black text-white tracking-tight">
@@ -115,8 +115,22 @@ export const Footer = () => {
 
         {/* Bottom Copy */}
         <div className="flex flex-col md:flex-row justify-between items-center text-xs text-stone-400 space-y-4 md:space-y-0">
-          <div>
-            &copy; {new Date().getFullYear()} <b>The Golden Egg</b> Food Forest. Periyapatna, Mysore District, Karnataka.
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+            <span>
+              &copy; {new Date().getFullYear()} <b>The Golden Egg</b> Food Forest. Periyapatna, Mysore District, Karnataka.
+            </span>
+            <span className="hidden sm:inline text-stone-600">•</span>
+            <span>
+              Powered by{' '}
+              <a
+                href="https://ashtrinox.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#C28E58] hover:text-white transition-colors font-semibold underline decoration-[#C28E58]/40 underline-offset-2"
+              >
+                Ashtrinox
+              </a>
+            </span>
           </div>
           <div className="flex space-x-6">
             <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
