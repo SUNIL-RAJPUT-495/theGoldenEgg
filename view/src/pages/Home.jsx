@@ -294,9 +294,13 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
               </div>
 
               <div className="pt-6 border-t border-stone-100 dark:border-stone-850 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-                <div>
+                <div className="space-y-0.5">
                   <span className="text-xs text-stone-400 font-bold uppercase block">Starting From</span>
-                  <span className="text-2xl font-black text-[#1A2E22] dark:text-white">₹99 / 1KG</span>
+                  <div className="flex items-baseline gap-2.5">
+                    <span className="text-2xl font-black text-[#1A2E22] dark:text-white">₹99 <span className="text-xs font-bold text-stone-500">/ 1KG</span></span>
+                    <span className="text-stone-300 dark:text-stone-700">•</span>
+                    <span className="text-lg font-bold text-[#C28E58]">₹690 <span className="text-xs font-semibold text-stone-400">/ 5KG</span></span>
+                  </div>
                 </div>
 
                 <Link
