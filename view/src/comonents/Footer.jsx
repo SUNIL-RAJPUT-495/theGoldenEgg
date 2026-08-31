@@ -134,7 +134,7 @@ export const Footer = () => {
           </div>
           <div className="flex space-x-6">
             <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
-            <a href="mailto:support@thegoldenegg.org.in" className="hover:text-white transition-colors">support@thegoldenegg.org.in</a>
+            <a href="mailto:info@thegoldenegg.co.in" className="hover:text-white transition-colors">info@thegoldenegg.co.in</a>
           </div>
         </div>
 

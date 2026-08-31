@@ -60,7 +60,7 @@ We are opening strategic opportunities to establish larger, self-sustaining food
 
 By blending ancestral wisdom with ethical, zero-culling stewardship, this partnership offers a rare chance to scale high-impact, regenerative agriculture while meeting the booming global demand for uncompromising food transparency and wellness.
 
-Contact Email: support@thegoldenegg.org.in
+Contact Email: info@thegoldenegg.co.in
 Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, India
 ====================================================`;
     const blob = new Blob([briefContent], { type: 'text/plain;charset=utf-8' });

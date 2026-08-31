@@ -94,8 +94,8 @@ export const Contact = () => {
                 <Mail className="h-6 w-6 text-[#C28E58] shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <h3 className="font-bold text-[#1A2E22] dark:text-white">Email</h3>
-                  <a href="mailto:support@thegoldenegg.org.in" className="text-[#C28E58] font-bold hover:underline">
-                    info@thegoldenegg.co.in   
+                  <a href="mailto:info@thegoldenegg.co.in" className="text-[#C28E58] font-bold hover:underline">
+                    info@thegoldenegg.co.in
                   </a>
                 </div>
               </div>
