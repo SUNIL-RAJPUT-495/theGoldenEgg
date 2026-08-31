@@ -49,9 +49,8 @@ export const AdminDashboard = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [productForm, setProductForm] = useState({
-    name: '', price: '', stock: '', category: 'Organic Flours', description: '',
-    images: '', ingredients: '',
-    dietaryFiber: '', sugar: '', protein: '', vitaminA: '', vitaminC: '', calcium: '', iron: ''
+    name: '', weight: '500g', price: '', stock: '', category: 'Organic Flours', description: '',
+    images: '', ingredients: '', storageHandling: '', nutritionFacts: []
   });
 
   const handleFileUpload = async (e) => {
@@ -170,6 +169,7 @@ export const AdminDashboard = () => {
 
       setProductForm({
         name: product.name || '',
+        weight: product.weight || '500g',
         price: product.price || '',
         stock: product.stock || '',
         category: product.category || 'Organic Flours',
@@ -182,7 +182,7 @@ export const AdminDashboard = () => {
     } else {
       setEditingProduct(null);
       setProductForm({
-        name: '', price: '', stock: '', category: 'Organic Flours', description: '',
+        name: '', weight: '500g', price: '', stock: '', category: 'Organic Flours', description: '',
         images: '', ingredients: '', storageHandling: '',
         nutritionFacts: [
           { name: 'Energy', amount: '' },
@@ -236,9 +236,10 @@ export const AdminDashboard = () => {
 
     const payload = {
       name: productForm.name,
+      weight: productForm.weight,
       price: parseFloat(productForm.price),
       stock: parseInt(productForm.stock || 0),
-      category: productForm.category,
+      category: productForm.category || 'Organic Flours',
       description: productForm.description,
       images: productForm.images ? productForm.images.split(',').map(s => s.trim()).filter(Boolean) : [],
       ingredients: productForm.ingredients,
@@ -1336,16 +1337,15 @@ export const AdminDashboard = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-stone-300 font-bold">Category *</label>
-                  <select
-                    value={productForm.category}
-                    onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
+                  <label className="block text-stone-300 font-bold">Weight / Pack Size *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. 500g, 1 kg, 250g, 100g"
+                    value={productForm.weight}
+                    onChange={(e) => setProductForm({ ...productForm, weight: e.target.value })}
                     className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
-                  >
-                    <option value="Organic Flours">Organic Flours</option>
-                    <option value="Culinary Foundations">Culinary Foundations</option>
-                    <option value="Botanical Apothecary">Botanical Apothecary</option>
-                  </select>
+                  />
                 </div>
               </div>
 
