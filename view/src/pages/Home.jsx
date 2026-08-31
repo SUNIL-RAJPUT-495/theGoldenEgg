@@ -170,8 +170,8 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
 
             <div className="lg:col-span-5 relative min-h-[360px] h-80 sm:h-96 lg:h-full rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 bg-stone-200 dark:bg-stone-800">
               <img
-                src={forestimage}
-                alt="The Golden Egg 4-Acres Lush Food Forest Ecosystem"
+                src="/farm-board-livestock.jpg"
+                alt="The Golden Egg Certified Organic Farm Sanctuary"
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="eager"
               />
