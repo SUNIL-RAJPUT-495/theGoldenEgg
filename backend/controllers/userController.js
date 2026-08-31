@@ -19,6 +19,7 @@ export const getAllUsers = async (req, res) => {
         email: u.email,
         phone: u.phone || 'N/A',
         role: u.role || 'customer',
+        status: u.status || 'Active',
         verified: u.verified ?? true,
         createdAt: u.createdAt || new Date().toISOString(),
         orderCount: userOrders.length,
@@ -52,6 +53,28 @@ export const updateUserRole = async (req, res) => {
   } catch (error) {
     console.error('Error updating user role:', error);
     res.status(500).json({ success: false, message: 'Failed to update user role' });
+  }
+};
+
+// Update User Status (Active, Suspended, Blocked) (Admin)
+export const updateUserStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['Active', 'Suspended', 'Blocked'].includes(status)) {
+      return res.status(400).json({ success: false, message: 'Invalid status. Must be Active, Suspended, or Blocked.' });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(id, { status }, { new: true });
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, message: `User status changed to ${status}`, user: updatedUser });
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    res.status(500).json({ success: false, message: 'Failed to update user status' });
   }
 };
 

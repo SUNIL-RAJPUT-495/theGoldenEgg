@@ -74,6 +74,13 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
+    if (user.status && user.status !== 'Active') {
+      return res.status(403).json({ 
+        success: false, 
+        message: `Your account has been ${user.status.toLowerCase()} by the Administrator. Please contact info@thegoldenegg.co.in` 
+      });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });

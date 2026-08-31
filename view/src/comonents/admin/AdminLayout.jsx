@@ -293,9 +293,39 @@ export const AdminLayout = () => {
   const handleToggleUserRole = async (userId, newRole) => {
     try {
       await axios.put(`${API_URL}/users/${userId}/role`, { role: newRole });
+      setUsersList(prev => prev.map(u => (u._id === userId || u.id === userId) ? { ...u, role: newRole } : u));
+      if (selectedUser && (selectedUser._id === userId || selectedUser.id === userId)) {
+        setSelectedUser(prev => ({ ...prev, role: newRole }));
+      }
       fetchAllAdminData();
     } catch (err) {
       alert('Failed to update user role');
+    }
+  };
+
+  const handleUpdateUserStatus = async (userId, newStatus) => {
+    try {
+      const res = await axios.put(`${API_URL}/users/${userId}/status`, { status: newStatus });
+      if (res.data.success) {
+        setUsersList(prev => prev.map(u => (u._id === userId || u.id === userId) ? { ...u, status: newStatus } : u));
+        if (selectedUser && (selectedUser._id === userId || selectedUser.id === userId)) {
+          setSelectedUser(prev => ({ ...prev, status: newStatus }));
+        }
+      }
+      fetchAllAdminData();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update user status');
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm('Are you sure you want to delete this user account?')) return;
+    try {
+      await axios.delete(`${API_URL}/users/${userId}`);
+      setSelectedUser(null);
+      fetchAllAdminData();
+    } catch (err) {
+      alert('Failed to delete user');
     }
   };
 
@@ -383,6 +413,8 @@ export const AdminLayout = () => {
     setReplyNote,
     handleDeleteInquiry,
     handleToggleUserRole,
+    handleUpdateUserStatus,
+    handleDeleteUser,
     showCouponModal,
     setShowCouponModal,
     couponForm,
@@ -445,6 +477,9 @@ export const AdminLayout = () => {
         selectedUser={selectedUser}
         setSelectedUser={setSelectedUser}
         ordersList={ordersList}
+        handleUpdateUserStatus={handleUpdateUserStatus}
+        handleToggleUserRole={handleToggleUserRole}
+        handleDeleteUser={handleDeleteUser}
       />
     </div>
   );

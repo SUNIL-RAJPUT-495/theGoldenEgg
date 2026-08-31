@@ -1,12 +1,24 @@
-import React from 'react';
-import { X, User, Mail, Phone, Calendar, ShoppingBag, MapPin, Shield, CheckCircle, CreditCard, DollarSign } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  X, Mail, Phone, Shield, DollarSign, ShoppingBag, 
+  Ban, ShieldAlert, CheckCircle, AlertTriangle, UserCheck, Trash2
+} from 'lucide-react';
 
-export const AdminUserModal = ({ selectedUser, setSelectedUser, ordersList = [] }) => {
+export const AdminUserModal = ({ 
+  selectedUser, 
+  setSelectedUser, 
+  ordersList = [], 
+  handleUpdateUserStatus,
+  handleToggleUserRole,
+  handleDeleteUser
+}) => {
   if (!selectedUser) return null;
 
   const uId = selectedUser._id || selectedUser.id;
   const uEmail = (selectedUser.email || '').toLowerCase();
   const uPhone = (selectedUser.phone || '').trim();
+  const currentStatus = selectedUser.status || 'Active';
+  const currentRole = selectedUser.role || 'customer';
 
   // Find all orders placed by this user
   const userOrders = ordersList.filter(o => {
@@ -34,10 +46,23 @@ export const AdminUserModal = ({ selectedUser, setSelectedUser, ordersList = [] 
               {selectedUser.name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-serif font-bold text-white leading-tight">
-                {selectedUser.name || 'User Profile'}
-              </h3>
-              <p className="text-[11px] text-stone-400 font-mono">Account ID: #{uId}</p>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-lg sm:text-xl font-serif font-bold text-white leading-tight">
+                  {selectedUser.name || 'User Profile'}
+                </h3>
+                
+                {/* Account Status Badge */}
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase border ${
+                  currentStatus === 'Active'
+                    ? 'bg-emerald-950 text-emerald-400 border-emerald-800'
+                    : currentStatus === 'Suspended'
+                    ? 'bg-amber-950 text-amber-400 border-amber-800'
+                    : 'bg-red-950 text-red-400 border-red-800'
+                }`}>
+                  {currentStatus}
+                </span>
+              </div>
+              <p className="text-[11px] text-stone-400 font-mono pt-0.5">Account ID: #{uId}</p>
             </div>
           </div>
           <button 
@@ -51,6 +76,88 @@ export const AdminUserModal = ({ selectedUser, setSelectedUser, ordersList = [] 
         {/* Modal Body */}
         <div className="space-y-6 text-xs overflow-y-auto pr-1 max-h-[70vh]">
           
+          {/* Admin Control Panel: Block / Suspend / Unblock & Role Toggle */}
+          <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 space-y-3">
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center space-x-2">
+              <ShieldAlert className="h-4 w-4 text-[#C28E58]" />
+              <span>Admin Management Actions</span>
+            </h4>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              
+              {/* Account Status Actions */}
+              <div className="space-y-1.5">
+                <span className="text-[10px] text-stone-400 font-bold block">Account Access Status:</span>
+                <div className="flex items-center space-x-1.5">
+                  <button
+                    onClick={() => handleUpdateUserStatus(uId, 'Active')}
+                    className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1 border ${
+                      currentStatus === 'Active'
+                        ? 'bg-emerald-600 text-white border-emerald-500 shadow'
+                        : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
+                    }`}
+                  >
+                    <CheckCircle className="h-3.5 w-3.5" />
+                    <span>Active</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleUpdateUserStatus(uId, 'Suspended')}
+                    className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1 border ${
+                      currentStatus === 'Suspended'
+                        ? 'bg-amber-600 text-white border-amber-500 shadow'
+                        : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
+                    }`}
+                  >
+                    <AlertTriangle className="h-3.5 w-3.5" />
+                    <span>Suspend</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleUpdateUserStatus(uId, 'Blocked')}
+                    className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1 border ${
+                      currentStatus === 'Blocked'
+                        ? 'bg-red-600 text-white border-red-500 shadow'
+                        : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
+                    }`}
+                  >
+                    <Ban className="h-3.5 w-3.5" />
+                    <span>Block</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Role Toggle Action */}
+              <div className="space-y-1.5">
+                <span className="text-[10px] text-stone-400 font-bold block">User Permissions & Role:</span>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => handleToggleUserRole(uId, currentRole === 'admin' ? 'customer' : 'admin')}
+                    className={`w-full py-2 px-3 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1.5 border ${
+                      currentRole === 'admin'
+                        ? 'bg-stone-800 hover:bg-stone-700 text-stone-200 border-stone-700'
+                        : 'bg-[#C28E58] hover:bg-[#b07e4a] text-stone-950 border-[#C28E58]'
+                    }`}
+                  >
+                    <UserCheck className="h-3.5 w-3.5" />
+                    <span>{currentRole === 'admin' ? 'Demote to Customer' : 'Promote to Admin'}</span>
+                  </button>
+
+                  {handleDeleteUser && (
+                    <button
+                      onClick={() => handleDeleteUser(uId)}
+                      className="p-2 rounded-xl bg-red-950/80 hover:bg-red-600 text-red-300 hover:text-white border border-red-900/40 transition-all shrink-0"
+                      title="Delete User Account"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           {/* User Basic Info Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="p-3.5 rounded-2xl bg-stone-950 border border-stone-800 space-y-1">
@@ -75,11 +182,11 @@ export const AdminUserModal = ({ selectedUser, setSelectedUser, ordersList = [] 
                 Account Role
               </span>
               <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                selectedUser.role === 'admin' 
+                currentRole === 'admin' 
                   ? 'bg-[#C28E58]/20 text-[#C28E58] border border-[#C28E58]/40' 
                   : 'bg-stone-800 text-stone-300 border border-stone-700'
               }`}>
-                {selectedUser.role === 'admin' ? 'ADMINISTRATOR' : 'CUSTOMER'}
+                {currentRole === 'admin' ? 'ADMINISTRATOR' : 'CUSTOMER'}
               </span>
             </div>
           </div>
