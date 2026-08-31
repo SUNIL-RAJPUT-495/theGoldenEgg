@@ -136,18 +136,18 @@ export const Products = () => {
             </div>
           </div>
 
-          {/* Product grid */}
+          {/* Product grid (2-column on mobile like standard e-commerce stores) */}
           {products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
               {products.map((p) => {
                 const isWish = wishlist.some(item => item._id === p._id);
                 return (
                   <div
                     key={p._id}
-                    className="glass-card hover:border-organic-green-700/30 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg group flex flex-col h-full"
+                    className="glass-card hover:border-organic-green-700/30 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-lg group flex flex-col h-full"
                   >
                     {/* Image */}
-                    <div className="relative pt-[100%] bg-stone-100 overflow-hidden shrink-0">
+                    <div className="relative pt-[100%] bg-stone-100 dark:bg-stone-900 overflow-hidden shrink-0">
                       <Link to={`/products/${p._id}`}>
                         <img
                           src={p.images?.[0]}
@@ -156,63 +156,67 @@ export const Products = () => {
                         />
                       </Link>
                       
-                      {/* Actions */}
+                      {/* Wishlist Button */}
                       <button
                         onClick={() => toggleWishlist(p)}
-                        className="absolute top-4 right-4 h-10 w-10 bg-white/90 dark:bg-stone-900/90 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 text-stone-500 dark:text-stone-400 hover:text-red-500 dark:hover:text-red-500 transition-all shadow-sm z-10"
+                        className="absolute top-2 right-2 sm:top-4 sm:right-4 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 dark:bg-stone-900/90 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 text-stone-500 dark:text-stone-400 hover:text-red-500 dark:hover:text-red-500 transition-all shadow-sm z-10"
                       >
-                        <Heart className={`h-5 w-5 ${isWish ? 'fill-red-500 text-red-500' : ''}`} />
+                        <Heart className={`h-4 w-4 sm:h-5 sm:w-5 ${isWish ? 'fill-red-500 text-red-500' : ''}`} />
                       </button>
 
                       {p.stock <= 0 && (
-                        <span className="absolute bottom-4 left-4 bg-red-600 text-white text-[10px] uppercase font-bold px-2 py-1 rounded-md z-10">
+                        <span className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 bg-red-600 text-white text-[9px] sm:text-[10px] uppercase font-bold px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-md z-10">
                           Out of Stock
                         </span>
                       )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-5 flex-grow flex flex-col justify-between">
-                      <div className="space-y-2">
-                        <span className="text-xs text-organic-gold-600 dark:text-organic-gold-500 font-extrabold uppercase tracking-wide">
-                          {p.category}
-                        </span>
+                    <div className="p-3 sm:p-5 flex-grow flex flex-col justify-between">
+                      <div className="space-y-1 sm:space-y-2">
+                        <div className="flex items-center justify-between text-[10px] sm:text-xs">
+                          <span className="text-[#C28E58] font-extrabold uppercase tracking-wide truncate">
+                            {p.weight ? p.weight : p.category}
+                          </span>
+                        </div>
+
                         <Link to={`/products/${p._id}`}>
-                          <h3 className="text-base font-bold text-stone-800 dark:text-stone-100 hover:text-organic-green-700 dark:hover:text-organic-green-100 transition-colors line-clamp-2">
+                          <h3 className="text-xs sm:text-base font-bold text-stone-800 dark:text-stone-100 hover:text-organic-green-700 dark:hover:text-organic-green-100 transition-colors line-clamp-2 leading-tight">
                             {p.name}
                           </h3>
                         </Link>
                         
                         {/* Rating */}
-                        <div className="flex items-center space-x-1.5">
+                        <div className="flex items-center space-x-1 pt-0.5">
                           <div className="flex text-amber-400">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`h-3 w-3 ${
+                                className={`h-2.5 w-2.5 sm:h-3 sm:w-3 ${
                                   i < Math.floor(p.averageRating || 0) ? 'fill-amber-400' : 'text-stone-300 dark:text-stone-700'
                                 }`}
                               />
                             ))}
                           </div>
-                          <span className="text-xs text-stone-400 font-bold">
+                          <span className="text-[10px] sm:text-xs text-stone-400 font-bold">
                             ({p.reviewsCount || 0})
                           </span>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between mt-6">
-                        <span className="text-xl font-extrabold text-stone-900 dark:text-white">
+                      {/* Price & Add to Cart */}
+                      <div className="flex items-center justify-between mt-3 sm:mt-6 pt-2 border-t border-stone-100 dark:border-stone-800/60">
+                        <span className="text-sm sm:text-xl font-extrabold text-stone-900 dark:text-white">
                           ₹{p.price}
                         </span>
                         
                         <button
                           onClick={() => addToCart(p, 1)}
                           disabled={p.stock <= 0}
-                          className="bg-organic-green-700 hover:bg-organic-green-800 disabled:bg-stone-200 disabled:dark:bg-stone-800 disabled:cursor-not-allowed text-white p-2.5 rounded-xl transition-all hover:scale-105 active:scale-95 shadow-md shadow-organic-green-700/10"
+                          className="bg-organic-green-700 hover:bg-organic-green-800 disabled:bg-stone-200 disabled:dark:bg-stone-800 disabled:cursor-not-allowed text-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl transition-all hover:scale-105 active:scale-95 shadow-md shadow-organic-green-700/10"
                           title="Add to Cart"
                         >
-                          <ShoppingCart className="h-5 w-5" />
+                          <ShoppingCart className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
                         </button>
                       </div>
                     </div>
