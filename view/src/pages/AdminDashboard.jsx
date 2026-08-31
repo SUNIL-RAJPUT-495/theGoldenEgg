@@ -30,6 +30,19 @@ export const AdminDashboard = () => {
   // Search & Filters
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
+  const [stockFilter, setStockFilter] = useState('All'); // All, Low, Out, Healthy
+
+  const handleQuickStockUpdate = async (productId, newStock) => {
+    try {
+      const stockVal = Math.max(0, Number(newStock));
+      const res = await axios.put(`${API_URL}/products/${productId}`, { stock: stockVal });
+      if (res.data.success) {
+        setProductsList(prev => prev.map(p => (p._id === productId || p.id === productId) ? { ...p, stock: stockVal } : p));
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update stock');
+    }
+  };
 
   // Product Modal State
   const [showProductModal, setShowProductModal] = useState(false);
@@ -335,11 +348,11 @@ export const AdminDashboard = () => {
             {[
               { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, badge: null },
               { id: 'products', label: 'Products', icon: ShoppingBag, badge: productsList.length },
+              { id: 'inventory', label: 'Inventory & Stock', icon: Box, badge: productsList.filter(p => p.stock <= 5).length || null, highlight: productsList.some(p => p.stock <= 5) },
               { id: 'orders', label: 'Orders', icon: ShoppingCart, badge: ordersList.length },
               { id: 'payments', label: 'Payments Log', icon: CreditCard, badge: paymentsList.length },
               { id: 'inquiries', label: 'Customer Inquiries', icon: MessageSquare, badge: inquiriesList.filter(i => i.status === 'New').length || null, highlight: true },
               { id: 'users', label: 'Users & Customers', icon: Users, badge: usersList.length },
-              // { id: 'marketing', label: 'Coupons & Banners', icon: Tag, badge: null }
             ].map(tab => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -636,6 +649,213 @@ export const AdminDashboard = () => {
                     {filteredProducts.length === 0 && (
                       <tr>
                         <td colSpan={5} className="p-8 text-center text-stone-500">No products found.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          )}
+
+          {/* INVENTORY & STOCK TAB BODY */}
+          {activeTab === 'inventory' && (
+            <div className="space-y-6 max-w-7xl mx-auto">
+              
+              {/* Inventory Overview Stats Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-5 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Total Stocked Units</span>
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-2xl font-black text-white">
+                      {productsList.reduce((acc, p) => acc + (Number(p.stock) || 0), 0)}
+                    </span>
+                    <Box className="h-5 w-5 text-[#C28E58]" />
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Low Stock Alert (≤ 10)</span>
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-2xl font-black text-amber-400">
+                      {productsList.filter(p => (Number(p.stock) || 0) <= 10 && (Number(p.stock) || 0) > 0).length}
+                    </span>
+                    <AlertCircle className="h-5 w-5 text-amber-400" />
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Out of Stock (0)</span>
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-2xl font-black text-red-400">
+                      {productsList.filter(p => (Number(p.stock) || 0) <= 0).length}
+                    </span>
+                    <X className="h-5 w-5 text-red-400" />
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-stone-900 border border-stone-800 space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Total Inventory Valuation</span>
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-2xl font-black text-emerald-400">
+                      ₹{productsList.reduce((acc, p) => acc + ((Number(p.price) || 0) * (Number(p.stock) || 0)), 0).toLocaleString()}
+                    </span>
+                    <DollarSign className="h-5 w-5 text-emerald-400" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Toolbar & Filters */}
+              <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+                <div className="relative flex-1 max-w-md">
+                  <Search className="absolute left-3.5 top-3 h-4 w-4 text-stone-400" />
+                  <input
+                    type="text"
+                    placeholder="Search product inventory by name or category..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full bg-stone-900 border border-stone-800 pl-10 pr-4 py-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-[#C28E58]"
+                  />
+                </div>
+
+                {/* Stock Filter Pills */}
+                <div className="flex items-center space-x-2 overflow-x-auto pb-1">
+                  {[
+                    { key: 'All', label: 'All Items' },
+                    { key: 'Out', label: `Out of Stock (${productsList.filter(p => p.stock <= 0).length})` },
+                    { key: 'Low', label: `Low Stock (${productsList.filter(p => p.stock > 0 && p.stock <= 10).length})` },
+                    { key: 'Healthy', label: `In Stock (${productsList.filter(p => p.stock > 10).length})` },
+                  ].map(f => (
+                    <button
+                      key={f.key}
+                      onClick={() => setStockFilter(f.key)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
+                        stockFilter === f.key
+                          ? 'bg-[#C28E58] text-stone-950 shadow-md'
+                          : 'bg-stone-900 border border-stone-800 text-stone-400 hover:text-white'
+                      }`}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Inventory Table */}
+              <div className="bg-stone-900 rounded-2xl border border-stone-800 overflow-hidden">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-stone-950 text-stone-400 font-bold border-b border-stone-800 uppercase tracking-wider">
+                    <tr>
+                      <th className="p-4">Product Info</th>
+                      <th className="p-4">Price</th>
+                      <th className="p-4">Stock Status</th>
+                      <th className="p-4">Current Stock</th>
+                      <th className="p-4 text-center">Quick Add Stock</th>
+                      <th className="p-4 text-right">Update Stock</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-800 text-stone-300">
+                    {productsList
+                      .filter(p => {
+                        const matchSearch = (p.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                            (p.category || '').toLowerCase().includes(searchTerm.toLowerCase());
+                        if (!matchSearch) return false;
+                        if (stockFilter === 'Out') return (p.stock || 0) <= 0;
+                        if (stockFilter === 'Low') return (p.stock || 0) > 0 && (p.stock || 0) <= 10;
+                        if (stockFilter === 'Healthy') return (p.stock || 0) > 10;
+                        return true;
+                      })
+                      .map(prod => {
+                        const pid = prod._id || prod.id;
+                        const currStock = Number(prod.stock) || 0;
+                        return (
+                          <tr key={pid} className="hover:bg-stone-800/40 transition-all">
+                            <td className="p-4 flex items-center space-x-3">
+                              <img
+                                src={prod.images?.[0] || '/ragi-flour-5kg.jpg'}
+                                alt={prod.name}
+                                className="w-10 h-10 rounded-lg object-cover bg-stone-800 border border-stone-700"
+                              />
+                              <div>
+                                <p className="font-bold text-white">{prod.name}</p>
+                                <p className="text-[10px] text-[#C28E58] font-semibold">{prod.category}</p>
+                              </div>
+                            </td>
+
+                            <td className="p-4 font-bold text-emerald-400">₹{prod.price}</td>
+
+                            <td className="p-4">
+                              {currStock <= 0 ? (
+                                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-950 text-red-300 border border-red-800 inline-flex items-center space-x-1">
+                                  <X className="h-3 w-3 inline" />
+                                  <span>Out of Stock</span>
+                                </span>
+                              ) : currStock <= 10 ? (
+                                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-950 text-amber-300 border border-amber-800 inline-flex items-center space-x-1">
+                                  <AlertCircle className="h-3 w-3 inline" />
+                                  <span>Low Stock</span>
+                                </span>
+                              ) : (
+                                <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 inline-flex items-center space-x-1">
+                                  <Check className="h-3 w-3 inline" />
+                                  <span>Healthy Stock</span>
+                                </span>
+                              )}
+                            </td>
+
+                            <td className="p-4">
+                              <span className="font-bold text-sm text-white">{currStock} units</span>
+                            </td>
+
+                            {/* Quick +5, +10, +50 buttons */}
+                            <td className="p-4 text-center">
+                              <div className="inline-flex items-center space-x-1 bg-stone-950 p-1 rounded-xl border border-stone-800">
+                                {[5, 10, 50].map(qty => (
+                                  <button
+                                    key={qty}
+                                    onClick={() => handleQuickStockUpdate(pid, currStock + qty)}
+                                    className="px-2.5 py-1 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-[10px] font-bold transition-all"
+                                  >
+                                    +{qty}
+                                  </button>
+                                ))}
+                                <button
+                                  onClick={() => handleQuickStockUpdate(pid, 0)}
+                                  className="px-2 py-1 rounded-lg bg-red-950 hover:bg-red-900 text-red-300 text-[10px] font-bold transition-all border border-red-900"
+                                >
+                                  Clear (0)
+                                </button>
+                              </div>
+                            </td>
+
+                            {/* Custom Stock Input Field */}
+                            <td className="p-4 text-right">
+                              <div className="flex items-center justify-end space-x-2">
+                                <input
+                                  type="number"
+                                  min="0"
+                                  defaultValue={currStock}
+                                  id={`stock_input_${pid}`}
+                                  className="w-20 bg-stone-950 border border-stone-800 text-center px-2 py-1.5 rounded-lg text-xs text-white focus:outline-none focus:border-[#C28E58]"
+                                />
+                                <button
+                                  onClick={() => {
+                                    const input = document.getElementById(`stock_input_${pid}`);
+                                    if (input) handleQuickStockUpdate(pid, input.value);
+                                  }}
+                                  className="px-3 py-1.5 rounded-lg bg-[#C28E58] hover:bg-[#b07e4a] text-stone-950 font-bold text-xs transition-all shadow"
+                                >
+                                  Save
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+
+                    {productsList.length === 0 && (
+                      <tr>
+                        <td colSpan={6} className="p-8 text-center text-stone-500">No products found in inventory.</td>
                       </tr>
                     )}
                   </tbody>
