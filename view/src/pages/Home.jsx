@@ -91,10 +91,10 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
       
       {/* 1. HERO SECTION */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#1A2E22] text-white">
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#1A2E22]/95 via-[#1A2E22]/80 to-black/70" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#1A2E22]/90 via-[#1A2E22]/65 to-black/60" />
         <img
-          src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80"
-          alt="The Golden Egg Food Forest"
+          src="/food-forest-aerial.jpg"
+          alt="The Golden Egg 4-Acre Food Forest Aerial View"
           className="absolute inset-0 w-full h-full object-cover object-center scale-105"
         />
 
