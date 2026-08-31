@@ -67,9 +67,32 @@ app.get('/', (req, res) => {
   res.json({ message: 'The Golden Egg Modular E-Commerce API is running...' });
 });
 
+const seedDefaultAdmin = async () => {
+  try {
+    const adminEmail = 'admin@thegoldenegg.com';
+    let admin = await User.findOne({ email: adminEmail });
+    if (!admin) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('admin123', salt);
+      await User.create({
+        name: 'The Golden Egg Admin',
+        email: adminEmail,
+        password: hashedPassword,
+        role: 'admin',
+        phone: '9876543210',
+        verified: true
+      });
+      console.log('✅ Default admin account initialized: admin@thegoldenegg.com / admin123');
+    }
+  } catch (err) {
+    console.error('⚠️ Could not seed admin account:', err.message);
+  }
+};
+
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
+connectDB().then(async () => {
+  await seedDefaultAdmin();
   if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);

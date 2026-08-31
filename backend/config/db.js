@@ -20,11 +20,8 @@ export const connectDB = async () => {
       serverSelectionTimeoutMS: 10000 
     });
     console.log('✅ Connected to MongoDB Atlas Database successfully.');
-    return { useLocalDb: false };
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error.message);
     throw error;
   }
 };
-
-export const isLocalDb = () => false;

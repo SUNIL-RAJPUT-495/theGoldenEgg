@@ -126,10 +126,16 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const setSession = (newToken, newUser) => {
+    setToken(newToken);
+    setUser(newUser);
+  };
+
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API_URL}/auth/login`, { email, password });
+      const cleanEmail = typeof email === 'string' ? email.trim() : email;
+      const { data } = await axios.post(`${API_URL}/auth/login`, { email: cleanEmail, password });
       if (data.success) {
         setToken(data.token);
         setUser(data.user);
@@ -323,6 +329,8 @@ export const AppProvider = ({ children }) => {
       user,
       setUser,
       token,
+      setToken,
+      setSession,
       cart,
       wishlist,
       darkMode,

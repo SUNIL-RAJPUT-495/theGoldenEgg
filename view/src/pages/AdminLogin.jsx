@@ -6,7 +6,7 @@ import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Sparkles } from 'luci
 
 export const AdminLogin = () => {
   const navigate = useNavigate();
-  const { login, API_URL } = useContext(AppContext);
+  const { login, logout, API_URL } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,20 +19,19 @@ export const AdminLogin = () => {
     setError('');
 
     try {
-      const res = await axios.post(`${API_URL}/auth/login`, { email, password });
-      if (res.data.success) {
-        if (res.data.user?.role !== 'admin') {
+      const cleanEmail = email.trim();
+      const data = await login(cleanEmail, password);
+      if (data && data.success) {
+        if (data.user?.role !== 'admin') {
+          logout();
           setError('Access Denied: Account does not have Administrator privileges.');
-          setLoading(false);
           return;
         }
-
-        login(res.data.token, res.data.user);
         navigate('/admin');
       }
     } catch (err) {
       console.error('Admin login error:', err);
-      setError(err.response?.data?.message || 'Invalid admin credentials');
+      setError(err.message || err.response?.data?.message || 'Invalid admin credentials');
     } finally {
       setLoading(false);
     }
