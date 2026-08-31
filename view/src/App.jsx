@@ -3,7 +3,6 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AppProvider, AppContext } from "./context/AppContext";
 import { Navbar } from "./comonents/Navbar";
 import { Footer } from "./comonents/Footer";
-import { WhatsAppButton } from "./comonents/WhatsAppButton";
 
 // Page Imports
 import { Home } from "./pages/Home";
@@ -85,7 +84,6 @@ function MainLayout() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
-      <WhatsAppButton />
       <Footer />
     </div>
   );
