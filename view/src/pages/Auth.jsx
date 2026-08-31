@@ -243,7 +243,7 @@ export const Auth = () => {
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="9876543210"
+                placeholder="e.g. 7411932830"
                 className="w-full bg-stone-50 dark:bg-stone-900 p-2.5 border rounded-xl text-sm"
               />
             </div>

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Mail, MapPin, CheckCircle, Send, UserCheck } from 'lucide-react';
+import { Mail, MapPin, CheckCircle, Send, UserCheck, Phone } from 'lucide-react';
 import axios from 'axios';
 import { AppContext } from '../context/AppContext';
 
@@ -96,6 +96,17 @@ export const Contact = () => {
                   <h3 className="font-bold text-[#1A2E22] dark:text-white">Email</h3>
                   <a href="mailto:info@thegoldenegg.co.in" className="text-[#C28E58] font-bold hover:underline">
                     info@thegoldenegg.co.in
+                  </a>
+                </div>
+              </div>
+
+              {/* Phone */}
+              <div className="flex items-start space-x-4 p-5 rounded-2xl bg-[#F9F6F0] dark:bg-stone-900 border border-stone-200/50 dark:border-stone-800 shadow-sm">
+                <Phone className="h-6 w-6 text-[#C28E58] shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <h3 className="font-bold text-[#1A2E22] dark:text-white">Phone Support</h3>
+                  <a href="tel:+917411932830" className="text-[#C28E58] font-bold hover:underline">
+                    +91 74119 32830
                   </a>
                 </div>
               </div>

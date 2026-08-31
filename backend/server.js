@@ -79,7 +79,7 @@ const seedDefaultAdmin = async () => {
         email: adminEmail,
         password: hashedPassword,
         role: 'admin',
-        phone: '9876543210',
+        phone: '7411932830',
         verified: true
       });
       console.log('✅ Default admin account initialized: admin@thegoldenegg.com / admin123');

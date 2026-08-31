@@ -139,17 +139,6 @@ export const Footer = () => {
         </div>
 
       </div>
-
-      {/* Floating WhatsApp chat widget */}
-      <a
-        href="https://wa.me/919876543210?text=Hi! I am interested in The Golden Egg organic products."
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full shadow-2xl z-40 transition-all hover:scale-110 flex items-center justify-center"
-        title="Chat on WhatsApp"
-      >
-        <MessageCircle className="h-6 w-6 fill-white text-emerald-600" />
-      </a>
     </footer>
   );
 };
