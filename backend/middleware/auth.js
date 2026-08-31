@@ -52,3 +52,30 @@ export const admin = (req, res, next) => {
     res.status(403).json({ success: false, message: 'Not authorized as admin' });
   }
 };
+
+export const protectOptional = async (req, res, next) => {
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      if (token && token !== 'null' && token !== 'undefined') {
+        const decoded = jwt.verify(token, getJwtSecret());
+        let user = null;
+        if (decoded.id && mongoose.Types.ObjectId.isValid(decoded.id)) {
+          user = await User.findById(decoded.id);
+        }
+        if (!user && (decoded.id || decoded.email)) {
+          user = await User.findOne({
+            $or: [
+              ...(decoded.id ? [{ _id: decoded.id }, { id: decoded.id }] : []),
+              ...(decoded.email ? [{ email: decoded.email }] : [])
+            ]
+          });
+        }
+        if (user) req.user = user;
+      }
+    } catch (e) {
+      // Ignore invalid optional tokens
+    }
+  }
+  return next();
+};
