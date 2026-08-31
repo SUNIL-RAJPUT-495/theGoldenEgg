@@ -4,6 +4,88 @@ import axios from 'axios';
 import { AppContext } from '../context/AppContext';
 import { Star, Heart, ShoppingCart, Plus, Minus, Check, AlertTriangle } from 'lucide-react';
 
+// Helper functions for nutritional facts and product specifications
+const getNutritionTableRows = (product) => {
+  const pName = (product?.name || '').toLowerCase();
+  
+  if (pName.includes('moringa')) {
+    return [
+      { name: 'Energy', amount: '205 kcal' },
+      { name: 'Protein', amount: '27.1 g' },
+      { name: 'Total Fat', amount: '2.3 g' },
+      { name: 'Carbohydrates', amount: '38.2 g' },
+      { name: 'Dietary Fiber', amount: '19.2 g' },
+      { name: 'Calcium', amount: '2003 mg' },
+      { name: 'Iron', amount: '28.2 mg' },
+      { name: 'Magnesium', amount: '368 mg' },
+      { name: 'Potassium', amount: '1324 mg' },
+      { name: 'Sodium', amount: '9 mg' },
+      { name: 'Vitamin C', amount: '17.3 mg' },
+      { name: 'Vitamin A', amount: '378 µg RAE' }
+    ];
+  }
+
+  if (pName.includes('ragi')) {
+    return [
+      { name: 'Energy', amount: '328 kcal' },
+      { name: 'Protein', amount: '7.3 g' },
+      { name: 'Total Fat', amount: '1.3 g' },
+      { name: 'Carbohydrates', amount: '72.0 g' },
+      { name: 'Dietary Fiber', amount: '11.5 g' },
+      { name: 'Calcium', amount: '344 mg' },
+      { name: 'Iron', amount: '3.9 mg' },
+      { name: 'Potassium', amount: '408 mg' }
+    ];
+  }
+
+  if (product?.nutritionFacts && Object.keys(product.nutritionFacts).length > 0) {
+    const rows = [];
+    const nf = product.nutritionFacts;
+    if (nf.calories) rows.push({ name: 'Energy / Calories', amount: nf.calories });
+    if (nf.protein) rows.push({ name: 'Protein', amount: nf.protein });
+    if (nf.fat) rows.push({ name: 'Total Fat', amount: nf.fat });
+    if (nf.carbs) rows.push({ name: 'Carbohydrates', amount: nf.carbs });
+    if (nf.dietaryFiber) rows.push({ name: 'Dietary Fiber', amount: nf.dietaryFiber });
+    if (nf.sugar) rows.push({ name: 'Sugar', amount: nf.sugar });
+    if (nf.calcium) rows.push({ name: 'Calcium', amount: nf.calcium });
+    if (nf.iron) rows.push({ name: 'Iron', amount: nf.iron });
+    if (nf.vitaminA) rows.push({ name: 'Vitamin A', amount: nf.vitaminA });
+    if (nf.vitaminC) rows.push({ name: 'Vitamin C', amount: nf.vitaminC });
+    if (rows.length > 0) return rows;
+  }
+
+  return [
+    { name: 'Energy', amount: '340 kcal' },
+    { name: 'Protein', amount: '9.2 g' },
+    { name: 'Total Fat', amount: '1.8 g' },
+    { name: 'Carbohydrates', amount: '71.5 g' },
+    { name: 'Dietary Fiber', amount: '8.4 g' },
+    { name: 'Calcium', amount: '120 mg' },
+    { name: 'Iron', amount: '4.2 mg' }
+  ];
+};
+
+const getProductIngredients = (product) => {
+  if (product?.ingredients) return product.ingredients;
+  const pName = (product?.name || '').toLowerCase();
+  if (pName.includes('moringa')) {
+    return '100% Pure Organic Moringa Oleifera (Drumstick) Leaf Powder. Harvested from our food forest and shadow-dried to retain maximum vitamins, proteins, minerals and natural green chlorophyll.';
+  }
+  if (pName.includes('ragi')) {
+    return '100% Organically Grown Whole Finger Millet (Ragi). Traditionally stone-ground to preserve natural nutrients and dietary fiber.';
+  }
+  return '100% Pure, Organically Cultivated Natural Produce from The Golden Egg Food Forest.';
+};
+
+const getProductStorage = (product) => {
+  if (product?.storageHandling) return product.storageHandling;
+  const pName = (product?.name || '').toLowerCase();
+  if (pName.includes('moringa')) {
+    return 'Store in a cool, dry place away from direct sunlight. Keep pouch tightly sealed or transfer to an airtight glass container to prevent moisture exposure and retain fresh aroma.';
+  }
+  return 'Store in a cool, dry place in an airtight container. Keep away from direct sunlight and humidity. Best consumed within 6 months from packaging.';
+};
+
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -204,16 +286,6 @@ export const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Stock indicator */}
-            {product.stock > 0 ? (
-              <p className="text-xs text-emerald-600 font-semibold flex items-center space-x-1">
-                <Check className="h-3.5 w-3.5 inline" />
-                <span>In Stock ({product.stock} units available)</span>
-              </p>
-            ) : (
-              <p className="text-xs text-red-500 font-semibold">Currently Out of Stock</p>
-            )}
-
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <button
@@ -311,45 +383,34 @@ export const ProductDetails = () => {
           
           {/* A. Nutrition Facts */}
           {activeTab === 'nutrition' && (
-            <div className="max-w-md bg-[#5b965c] text-white p-5 rounded-2xl border border-[#4c7e4d] font-sans shadow-lg">
-              <div className="border-b-4 border-white pb-1.5 mb-2.5">
-                <h3 className="text-2xl font-black uppercase tracking-tight leading-none">Nutrition Facts</h3>
-                <p className="text-xs">Serving size: per 100g serving</p>
+            <div className="max-w-xl bg-[#5b965c] text-white p-6 rounded-2xl border border-[#4c7e4d] font-sans shadow-lg space-y-4">
+              <div className="border-b-4 border-white pb-2 flex justify-between items-end">
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight leading-none">Nutrition Facts</h3>
+                  <p className="text-xs text-white/90 font-medium">Serving Size: per 100 g</p>
+                </div>
+                <span className="text-xs font-bold bg-white/20 px-3 py-1 rounded-full uppercase tracking-wider">
+                  {product.name}
+                </span>
               </div>
 
-              <div className="text-xs space-y-1.5">
-                <div className="flex justify-between border-b border-white/40 pb-1 font-bold">
-                  <span>Energy / Calories:</span>
-                  <span>{nutritionData.calories}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/40 pb-1 font-bold">
-                  <span>Dietary Fiber:</span>
-                  <span>{nutritionData.dietaryFiber}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/40 pb-1 font-bold">
-                  <span>Sugar:</span>
-                  <span>{nutritionData.sugar}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/40 pb-1 font-bold">
-                  <span>Protein:</span>
-                  <span>{nutritionData.protein}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/40 pb-1">
-                  <span>Vitamin A:</span>
-                  <span>{nutritionData.vitaminA}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/40 pb-1">
-                  <span>Vitamin C:</span>
-                  <span>{nutritionData.vitaminC}</span>
-                </div>
-                <div className="flex justify-between border-b border-white/40 pb-1">
-                  <span>Calcium:</span>
-                  <span>{nutritionData.calcium}</span>
-                </div>
-                <div className="flex justify-between pb-1 font-bold">
-                  <span>Iron:</span>
-                  <span>{nutritionData.iron}</span>
-                </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-white/50 text-white font-extrabold uppercase">
+                      <th className="pb-2">Nutrient</th>
+                      <th className="pb-2 text-right">Amount per 100 g</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/20">
+                    {getNutritionTableRows(product).map((row, idx) => (
+                      <tr key={idx} className="hover:bg-white/10 transition-colors">
+                        <td className="py-2 font-medium italic">{row.name}</td>
+                        <td className="py-2 text-right font-bold">{row.amount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
