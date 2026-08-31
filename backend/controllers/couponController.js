@@ -3,7 +3,7 @@ import { Coupon } from '../models/index.js';
 // Get All Coupons
 export const getAllCoupons = async (req, res) => {
   try {
-    const coupons = await Coupon.find();
+    const coupons = await Coupon.find().sort({ createdAt: -1 });
     res.json({ success: true, coupons });
   } catch (error) {
     console.error('Error fetching coupons:', error);
@@ -14,15 +14,21 @@ export const getAllCoupons = async (req, res) => {
 // Validate Coupon (Customer)
 export const validateCoupon = async (req, res) => {
   try {
-    const { code, orderValue } = req.body;
+    const { code, cartValue, orderValue, cartSubtotal } = req.body;
+    const valueNum = Number(orderValue || cartValue || cartSubtotal || 0);
+
     if (!code) return res.status(400).json({ success: false, message: 'Coupon code is required' });
 
-    const coupon = await Coupon.findOne({ code: code.toUpperCase(), active: true });
+    const coupon = await Coupon.findOne({ code: code.toUpperCase().trim(), active: true });
     if (!coupon) {
       return res.status(404).json({ success: false, message: 'Invalid or expired coupon code' });
     }
 
-    if (coupon.minOrderValue && Number(orderValue || 0) < coupon.minOrderValue) {
+    if (coupon.expiryDate && new Date(coupon.expiryDate) < new Date()) {
+      return res.status(400).json({ success: false, message: 'This coupon code has expired' });
+    }
+
+    if (coupon.minOrderValue && valueNum < coupon.minOrderValue) {
       return res.status(400).json({
         success: false,
         message: `Minimum order value for ${coupon.code} is ₹${coupon.minOrderValue}`
@@ -31,10 +37,17 @@ export const validateCoupon = async (req, res) => {
 
     let discountAmount = 0;
     if (coupon.discountType === 'percentage') {
-      discountAmount = (Number(orderValue || 0) * coupon.value) / 100;
+      discountAmount = (valueNum * coupon.value) / 100;
     } else {
       discountAmount = coupon.value;
     }
+
+    const finalCouponData = {
+      code: coupon.code,
+      discountType: coupon.discountType,
+      value: coupon.value,
+      discountAmount: Math.round(discountAmount)
+    };
 
     res.json({
       success: true,
@@ -42,6 +55,7 @@ export const validateCoupon = async (req, res) => {
       discountType: coupon.discountType,
       value: coupon.value,
       discountAmount: Math.round(discountAmount),
+      coupon: finalCouponData,
       message: `Coupon ${coupon.code} applied successfully!`
     });
   } catch (error) {
@@ -58,13 +72,14 @@ export const createCoupon = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Code and discount value are required' });
     }
 
-    const existing = await Coupon.findOne({ code: code.toUpperCase() });
+    const cleanCode = code.trim().toUpperCase();
+    const existing = await Coupon.findOne({ code: cleanCode });
     if (existing) {
       return res.status(400).json({ success: false, message: 'Coupon with this code already exists' });
     }
 
     const coupon = await Coupon.create({
-      code: code.toUpperCase(),
+      code: cleanCode,
       discountType: discountType || 'percentage',
       value: Number(value),
       minOrderValue: Number(minOrderValue || 0),

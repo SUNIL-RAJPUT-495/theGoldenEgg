@@ -6,11 +6,37 @@ import { MapPin, Phone, CreditCard, ShoppingBag, ArrowLeft, Check, AlertCircle }
 
 export const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, getCartTotals, placeOrder, user, token, API_URL } = useContext(AppContext);
+  const { cart, getCartTotals, placeOrder, user, token, API_URL, appliedCoupon, setAppliedCoupon, applyCoupon } = useContext(AppContext);
 
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('COD');
+  
+  // Coupon state in Checkout
+  const [couponCode, setCouponCode] = useState('');
+  const [couponError, setCouponError] = useState('');
+  const [couponSuccess, setCouponSuccess] = useState('');
+
+  const handleApplyCoupon = async (e) => {
+    e.preventDefault();
+    setCouponError('');
+    setCouponSuccess('');
+    try {
+      const res = await applyCoupon(couponCode);
+      if (res.success) {
+        setCouponSuccess(res.message || `Coupon ${couponCode.toUpperCase()} applied successfully!`);
+      }
+    } catch (err) {
+      setCouponError(err.message || 'Invalid coupon code');
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode('');
+    setCouponSuccess('');
+    setCouponError('');
+  };
   
   // New address form state
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
@@ -365,17 +391,39 @@ export const Checkout = () => {
             <span>Order Review</span>
           </h3>
 
-          <div className="max-h-56 overflow-y-auto divide-y divide-stone-100 pr-2">
-            {cart.map((item) => (
-              <div key={item.productId} className="py-3 flex justify-between gap-4 text-sm">
-                <span className="text-stone-500 max-w-[170px] truncate">
-                  {item.name} <span className="font-bold text-stone-750">x{item.quantity}</span>
-                </span>
-                <span className="font-bold text-stone-800 dark:text-white shrink-0">
-                  ₹{(item.price * item.quantity).toFixed(2)}
-                </span>
+          {/* Coupon Code Input in Checkout */}
+          <div className="pt-2 border-t border-stone-150 space-y-2">
+            {appliedCoupon ? (
+              <div className="flex items-center justify-between bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800 p-2.5 rounded-xl text-xs text-emerald-700 dark:text-emerald-300">
+                <span className="font-bold">✓ Coupon "{appliedCoupon.code}" Applied</span>
+                <button type="button" onClick={handleRemoveCoupon} className="hover:text-red-500 font-bold underline text-[11px]">
+                  Remove
+                </button>
               </div>
-            ))}
+            ) : (
+              <form onSubmit={handleApplyCoupon} className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Enter Coupon Code (e.g. GOLDEN10)"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  className="flex-grow bg-stone-50 dark:bg-stone-900 p-2 border border-stone-250 dark:border-stone-800 rounded-xl focus:outline-none text-xs text-stone-800 dark:text-white uppercase font-mono"
+                />
+                <button
+                  type="submit"
+                  className="bg-[#C28E58] hover:bg-[#b07e4a] text-stone-950 font-bold text-xs px-4 py-2 rounded-xl transition-all shadow"
+                >
+                  Apply
+                </button>
+              </form>
+            )}
+
+            {couponError && (
+              <p className="text-[11px] text-red-500 font-bold flex items-center space-x-1 pt-1">
+                <AlertCircle className="h-3 w-3 shrink-0" />
+                <span>{couponError}</span>
+              </p>
+            )}
           </div>
 
           <div className="border-t border-stone-150 pt-4 space-y-2.5 text-xs text-stone-500">
