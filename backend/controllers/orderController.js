@@ -43,15 +43,22 @@ export const createOrder = async (req, res) => {
       transactionId: `TXN_${Math.random().toString(36).substring(2, 10).toUpperCase()}`
     });
 
-    // Update Product Stock
+    // Update Product Stock automatically for all ordered items
     for (const item of items) {
       try {
-        const prod = await Product.findById(item.productId);
-        if (prod && prod.stock >= item.quantity) {
-          await Product.findByIdAndUpdate(item.productId, { stock: prod.stock - item.quantity });
+        const targetId = item.productId || item._id || item.id;
+        const qtyToDeduct = Number(item.quantity || item.qty || 1);
+        if (targetId) {
+          const prod = await Product.findById(targetId);
+          if (prod) {
+            const currentStock = Number(prod.stock || 0);
+            const newStock = Math.max(0, currentStock - qtyToDeduct);
+            await Product.findByIdAndUpdate(targetId, { stock: newStock });
+            console.log(`📦 Stock updated for "${prod.name}" (${targetId}): ${currentStock} -> ${newStock}`);
+          }
         }
       } catch (err) {
-        console.error(`Failed to update stock for product ${item.productId}:`, err);
+        console.error(`Failed to update stock for item:`, err);
       }
     }
 
