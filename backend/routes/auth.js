@@ -5,7 +5,12 @@ import {
   getMe,
   getUserAddresses,
   addUserAddress,
-  deleteUserAddress
+  deleteUserAddress,
+  verifyOtp,
+  forgotPassword,
+  resetPassword,
+  updateProfile,
+  changePassword
 } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 
@@ -15,6 +20,15 @@ router.post('/register', registerUser);
 router.post('/signup', registerUser);
 router.post('/login', loginUser);
 router.get('/me', protect, getMe);
+
+// OTP & Password Management
+router.post('/verify-otp', verifyOtp);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
+
+// Profile Updates
+router.put('/profile', protect, updateProfile);
+router.put('/change-password', protect, changePassword);
 
 // Address Management Routes
 router.get('/addresses', protect, getUserAddresses);

@@ -185,3 +185,135 @@ export const deleteUserAddress = async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to delete address' });
   }
 };
+
+// --- OTP & Password Management ---
+export const verifyOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    
+    let user = await User.findOne({ email: cleanEmail });
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'User account not found' });
+    }
+
+    await User.findByIdAndUpdate(user._id || user.id, { verified: true });
+    user.verified = true;
+
+    const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, getJwtSecret(), { expiresIn: '7d' });
+
+    res.json({
+      success: true,
+      message: 'OTP verified successfully!',
+      token,
+      user: {
+        id: user._id || user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        phone: user.phone
+      }
+    });
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    res.status(500).json({ success: false, message: 'Failed to verify OTP' });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    
+    const user = await User.findOne({ email: cleanEmail });
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'No account found with this email' });
+    }
+
+    const resetToken = Math.floor(100000 + Math.random() * 900000).toString();
+    await User.findByIdAndUpdate(user._id || user.id, { otp: resetToken, otpExpires: new Date(Date.now() + 3600000) });
+
+    res.json({
+      success: true,
+      message: `Password reset code sent. Demo Reset Code: ${resetToken}`,
+      resetToken
+    });
+  } catch (error) {
+    console.error('Error in forgotPassword:', error);
+    res.status(500).json({ success: false, message: 'Failed to initiate password reset' });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+
+    if (!newPassword || newPassword.length < 4) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 4 characters long' });
+    }
+
+    const user = await User.findOne({ email: cleanEmail });
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'User account not found' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await User.findByIdAndUpdate(user._id || user.id, { password: hashedPassword, otp: null });
+
+    res.json({ success: true, message: 'Password reset successfully! You can now log in with your new password.' });
+  } catch (error) {
+    console.error('Error in resetPassword:', error);
+    res.status(500).json({ success: false, message: 'Failed to reset password' });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user?._id || req.user?.id;
+    const { name, phone } = req.body;
+
+    const updated = await User.findByIdAndUpdate(userId, { name, phone }, { new: true });
+    res.json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: {
+        id: updated._id || updated.id,
+        name: updated.name,
+        email: updated.email,
+        role: updated.role,
+        phone: updated.phone
+      }
+    });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ success: false, message: 'Failed to update profile' });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    const userId = req.user?._id || req.user?.id;
+    const { currentPassword, newPassword } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ success: false, message: 'Failed to change password' });
+  }
+};
