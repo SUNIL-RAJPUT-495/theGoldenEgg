@@ -17,7 +17,10 @@ const ProductSchema = new mongoose.Schema({
     calcium: { type: String },
     iron: { type: String },
     fat: { type: String },
-    carbs: { type: String }
+    carbs: { type: String },
+    magnesium: { type: String },
+    potassium: { type: String },
+    sodium: { type: String }
   },
   ingredients: { type: String },
   storageHandling: { type: String },

@@ -156,20 +156,28 @@ export const AdminDashboard = () => {
         description: product.description || '',
         images: product.images ? product.images.join(', ') : '',
         ingredients: product.ingredients || '',
+        storageHandling: product.storageHandling || '',
+        calories: product.nutritionFacts?.calories || '',
+        protein: product.nutritionFacts?.protein || '',
+        fat: product.nutritionFacts?.fat || '',
+        carbs: product.nutritionFacts?.carbs || '',
         dietaryFiber: product.nutritionFacts?.dietaryFiber || '',
         sugar: product.nutritionFacts?.sugar || '',
-        protein: product.nutritionFacts?.protein || '',
-        vitaminA: product.nutritionFacts?.vitaminA || '',
-        vitaminC: product.nutritionFacts?.vitaminC || '',
         calcium: product.nutritionFacts?.calcium || '',
-        iron: product.nutritionFacts?.iron || ''
+        iron: product.nutritionFacts?.iron || '',
+        magnesium: product.nutritionFacts?.magnesium || '',
+        potassium: product.nutritionFacts?.potassium || '',
+        sodium: product.nutritionFacts?.sodium || '',
+        vitaminA: product.nutritionFacts?.vitaminA || '',
+        vitaminC: product.nutritionFacts?.vitaminC || ''
       });
     } else {
       setEditingProduct(null);
       setProductForm({
         name: '', price: '', stock: '', category: 'Organic Flours', description: '',
-        images: '', ingredients: '',
-        dietaryFiber: '', sugar: '', protein: '', vitaminA: '', vitaminC: '', calcium: '', iron: ''
+        images: '', ingredients: '', storageHandling: '',
+        calories: '', protein: '', fat: '', carbs: '', dietaryFiber: '', sugar: '',
+        calcium: '', iron: '', magnesium: '', potassium: '', sodium: '', vitaminA: '', vitaminC: ''
       });
     }
     setShowProductModal(true);
@@ -183,16 +191,23 @@ export const AdminDashboard = () => {
       stock: parseInt(productForm.stock || 0),
       category: productForm.category,
       description: productForm.description,
-      images: productForm.images ? productForm.images.split(',').map(s => s.trim()) : [],
+      images: productForm.images ? productForm.images.split(',').map(s => s.trim()).filter(Boolean) : [],
       ingredients: productForm.ingredients,
+      storageHandling: productForm.storageHandling,
       nutritionFacts: {
+        calories: productForm.calories,
+        protein: productForm.protein,
+        fat: productForm.fat,
+        carbs: productForm.carbs,
         dietaryFiber: productForm.dietaryFiber,
         sugar: productForm.sugar,
-        protein: productForm.protein,
-        vitaminA: productForm.vitaminA,
-        vitaminC: productForm.vitaminC,
         calcium: productForm.calcium,
-        iron: productForm.iron
+        iron: productForm.iron,
+        magnesium: productForm.magnesium,
+        potassium: productForm.potassium,
+        sodium: productForm.sodium,
+        vitaminA: productForm.vitaminA,
+        vitaminC: productForm.vitaminC
       }
     };
 
@@ -206,7 +221,7 @@ export const AdminDashboard = () => {
       setShowProductModal(false);
       fetchAllAdminData();
     } catch (err) {
-      alert('Failed to save product');
+      alert(err.response?.data?.message || 'Failed to save product');
     }
   };
 
@@ -1372,11 +1387,178 @@ export const AdminDashboard = () => {
               <div className="space-y-1">
                 <label className="block text-stone-300 font-bold">Description</label>
                 <textarea
-                  rows={3}
+                  rows={2}
+                  placeholder="Detailed product story and description..."
                   value={productForm.description}
                   onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
                   className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"
                 />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="block text-stone-300 font-bold">Ingredients</label>
+                  <textarea
+                    rows={2}
+                    placeholder="100% Pure Organic Leaf Powder..."
+                    value={productForm.ingredients}
+                    onChange={(e) => setProductForm({ ...productForm, ingredients: e.target.value })}
+                    className="w-full bg-stone-950 border border-stone-800 px-3 py-2 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-stone-300 font-bold">Storage & Handling</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Store in a cool, dry place away from direct sunlight..."
+                    value={productForm.storageHandling}
+                    onChange={(e) => setProductForm({ ...productForm, storageHandling: e.target.value })}
+                    className="w-full bg-stone-950 border border-stone-800 px-3 py-2 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"
+                  />
+                </div>
+              </div>
+
+              {/* Nutrition Facts Section */}
+              <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 space-y-3">
+                <h4 className="font-bold text-white text-xs flex items-center justify-between">
+                  <span>Nutrition Facts (Amount per 100g)</span>
+                  <span className="text-[10px] text-[#C28E58]">Custom Product Nutrients</span>
+                </h4>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Energy (kcal)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 205 kcal"
+                      value={productForm.calories}
+                      onChange={(e) => setProductForm({ ...productForm, calories: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Protein</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 27.1 g"
+                      value={productForm.protein}
+                      onChange={(e) => setProductForm({ ...productForm, protein: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Total Fat</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 2.3 g"
+                      value={productForm.fat}
+                      onChange={(e) => setProductForm({ ...productForm, fat: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Carbohydrates</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 38.2 g"
+                      value={productForm.carbs}
+                      onChange={(e) => setProductForm({ ...productForm, carbs: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Dietary Fiber</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 19.2 g"
+                      value={productForm.dietaryFiber}
+                      onChange={(e) => setProductForm({ ...productForm, dietaryFiber: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Calcium</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 2003 mg"
+                      value={productForm.calcium}
+                      onChange={(e) => setProductForm({ ...productForm, calcium: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Iron</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 28.2 mg"
+                      value={productForm.iron}
+                      onChange={(e) => setProductForm({ ...productForm, iron: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Magnesium</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 368 mg"
+                      value={productForm.magnesium}
+                      onChange={(e) => setProductForm({ ...productForm, magnesium: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Potassium</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 1324 mg"
+                      value={productForm.potassium}
+                      onChange={(e) => setProductForm({ ...productForm, potassium: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Sodium</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 9 mg"
+                      value={productForm.sodium}
+                      onChange={(e) => setProductForm({ ...productForm, sodium: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Vitamin A</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 378 µg RAE"
+                      value={productForm.vitaminA}
+                      onChange={(e) => setProductForm({ ...productForm, vitaminA: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-400 text-[10px]">Vitamin C</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 17.3 mg"
+                      value={productForm.vitaminC}
+                      onChange={(e) => setProductForm({ ...productForm, vitaminC: e.target.value })}
+                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
+                    />
+                  </div>
+                </div>
               </div>
 
               <button
