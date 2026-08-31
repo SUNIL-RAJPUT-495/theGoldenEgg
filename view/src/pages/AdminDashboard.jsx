@@ -197,32 +197,42 @@ export const AdminDashboard = () => {
   };
 
   const handleAddNutrientRow = () => {
-    setProductForm(prev => ({
-      ...prev,
-      nutritionFacts: [...prev.nutritionFacts, { name: '', amount: '' }]
-    }));
+    setProductForm(prev => {
+      const currentList = Array.isArray(prev.nutritionFacts) ? prev.nutritionFacts : [];
+      return {
+        ...prev,
+        nutritionFacts: [...currentList, { name: '', amount: '' }]
+      };
+    });
   };
 
   const handleRemoveNutrientRow = (index) => {
-    setProductForm(prev => ({
-      ...prev,
-      nutritionFacts: prev.nutritionFacts.filter((_, idx) => idx !== index)
-    }));
+    setProductForm(prev => {
+      const currentList = Array.isArray(prev.nutritionFacts) ? prev.nutritionFacts : [];
+      return {
+        ...prev,
+        nutritionFacts: currentList.filter((_, idx) => idx !== index)
+      };
+    });
   };
 
   const handleNutrientChange = (index, field, value) => {
     setProductForm(prev => {
-      const updated = [...prev.nutritionFacts];
-      updated[index] = { ...updated[index], [field]: value };
+      const currentList = Array.isArray(prev.nutritionFacts) ? prev.nutritionFacts : [];
+      const updated = [...currentList];
+      if (updated[index]) {
+        updated[index] = { ...updated[index], [field]: value };
+      }
       return { ...prev, nutritionFacts: updated };
     });
   };
 
   const handleProductSubmit = async (e) => {
     e.preventDefault();
-    const cleanNutritionFacts = productForm.nutritionFacts
-      .filter(item => item.name.trim() || item.amount.trim())
-      .map(item => ({ name: item.name.trim(), amount: item.amount.trim() }));
+    const currentList = Array.isArray(productForm.nutritionFacts) ? productForm.nutritionFacts : [];
+    const cleanNutritionFacts = currentList
+      .filter(item => item && (item.name?.trim() || item.amount?.trim()))
+      .map(item => ({ name: (item.name || '').trim(), amount: (item.amount || '').trim() }));
 
     const payload = {
       name: productForm.name,
