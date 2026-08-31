@@ -1,32 +1,33 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, ShoppingBag, ShoppingCart, CreditCard, MessageSquare, 
-  Users, Tag, ExternalLink, LogOut, X, Menu, ShieldCheck, Sparkles 
+  Users, Tag, ExternalLink, LogOut, X, Menu, ShieldCheck 
 } from 'lucide-react';
 
 export const AdminSidebar = ({ 
-  activeTab, 
-  setActiveTab, 
   user, 
   logout, 
-  navigate,
   mobileOpen,
   setMobileOpen,
   unreadInquiriesCount = 0,
   pendingOrdersCount = 0
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const navItems = [
-    { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
-    { id: 'products', label: 'Products & Inventory', icon: ShoppingBag },
-    { id: 'orders', label: 'Orders Management', icon: ShoppingCart, badge: pendingOrdersCount },
-    { id: 'payments', label: 'Payment Records', icon: CreditCard },
-    { id: 'inquiries', label: 'Customer Inquiries', icon: MessageSquare, badge: unreadInquiriesCount },
-    { id: 'users', label: 'User Database', icon: Users },
-    { id: 'marketing', label: 'Coupons & Banners', icon: Tag },
+    { path: '/admin/dashboard', label: 'Overview', icon: LayoutDashboard },
+    { path: '/admin/products', label: 'Products & Inventory', icon: ShoppingBag },
+    { path: '/admin/orders', label: 'Orders Management', icon: ShoppingCart, badge: pendingOrdersCount },
+    { path: '/admin/payments', label: 'Payment Records', icon: CreditCard },
+    { path: '/admin/inquiries', label: 'Customer Inquiries', icon: MessageSquare, badge: unreadInquiriesCount },
+    { path: '/admin/users', label: 'User Database', icon: Users },
+    { path: '/admin/marketing', label: 'Coupons & Banners', icon: Tag },
   ];
 
-  const handleTabClick = (tabId) => {
-    setActiveTab(tabId);
+  const handleNavClick = (path) => {
+    navigate(path);
     setMobileOpen(false);
   };
 
@@ -86,7 +87,7 @@ export const AdminSidebar = ({
                   The Golden Egg
                 </h1>
                 <span className="text-[10px] text-[#C28E58] font-bold uppercase tracking-widest block">
-                  Admin Dashboard
+                  Admin Control Panel
                 </span>
               </div>
             </div>
@@ -98,15 +99,15 @@ export const AdminSidebar = ({
             </button>
           </div>
 
-          {/* Navigation Links */}
+          {/* Router Navigation Links */}
           <nav className="space-y-1.5">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeTab === item.id;
+              const isActive = location.pathname === item.path || (item.path === '/admin/dashboard' && location.pathname === '/admin');
               return (
                 <button
-                  key={item.id}
-                  onClick={() => handleTabClick(item.id)}
+                  key={item.path}
+                  onClick={() => handleNavClick(item.path)}
                   className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl font-bold text-xs transition-all duration-200 ${
                     isActive
                       ? 'bg-[#C28E58] text-stone-950 shadow-lg shadow-[#C28E58]/20 scale-[1.02]'
