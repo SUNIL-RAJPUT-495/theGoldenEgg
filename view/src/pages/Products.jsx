@@ -152,7 +152,7 @@ export const Products = () => {
                         <img
                           src={p.images?.[0]}
                           alt={p.name}
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="absolute inset-0 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                         />
                       </Link>
                       

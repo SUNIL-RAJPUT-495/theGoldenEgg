@@ -199,11 +199,11 @@ export const ProductDetails = () => {
         
         {/* Left: Gallery */}
         <div className="space-y-4">
-          <div className="relative pt-[90%] bg-stone-100 rounded-3xl border border-stone-200/50 overflow-hidden group">
+          <div className="relative pt-[90%] bg-stone-100 dark:bg-stone-900 rounded-3xl border border-stone-200/50 dark:border-stone-800 overflow-hidden group">
             <img
               src={selectedImage}
               alt={product.name}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 cursor-zoom-in"
+              className="absolute inset-0 w-full h-full object-contain p-3 sm:p-5 transition-transform duration-300 group-hover:scale-105 cursor-zoom-in"
             />
           </div>
 
@@ -212,11 +212,11 @@ export const ProductDetails = () => {
               <button
                 key={idx}
                 onClick={() => setSelectedImage(img)}
-                className={`h-20 w-20 bg-stone-100 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${
-                  selectedImage === img ? 'border-organic-green-700 scale-95 shadow-md' : 'border-transparent'
+                className={`h-20 w-20 bg-stone-100 dark:bg-stone-900 rounded-xl overflow-hidden shrink-0 border-2 transition-all p-1 ${
+                  selectedImage === img ? 'border-[#C28E58] scale-95 shadow-md' : 'border-stone-200 dark:border-stone-800'
                 }`}
               >
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <img src={img} alt="" className="w-full h-full object-contain" />
               </button>
             ))}
           </div>
