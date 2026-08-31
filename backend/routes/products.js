@@ -7,9 +7,12 @@ import {
   deleteProduct,
   getCategories,
   createCategory,
-  uploadImages
+  uploadImages,
+  getProductReviews,
+  createProductReview
 } from '../controllers/productController.js';
 import { uploadProductImages } from '../middleware/upload.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -19,6 +22,10 @@ router.post('/upload-images', uploadProductImages.array('images', 5), uploadImag
 // Categories
 router.get('/categories/all', getCategories);
 router.post('/categories', createCategory);
+
+// Reviews
+router.get('/:id/reviews', getProductReviews);
+router.post('/:id/reviews', protect, createProductReview);
 
 // Products
 router.get('/', getAllProducts);

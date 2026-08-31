@@ -1,4 +1,4 @@
-import { Product, Category } from '../database/models.js';
+import { Product, Category, Review } from '../database/models.js';
 
 // Get All Products
 export const getAllProducts = async (req, res) => {
@@ -57,6 +57,7 @@ export const createProduct = async (req, res) => {
       description: description || '',
       images: Array.isArray(images) ? images : (images ? [images] : []),
       ingredients: ingredients || '',
+      storageHandling: req.body.storageHandling || '',
       nutritionFacts: nutritionFacts || {}
     });
 
@@ -145,5 +146,52 @@ export const uploadImages = async (req, res) => {
   } catch (error) {
     console.error('Error uploading images:', error);
     res.status(500).json({ success: false, message: 'Failed to process image uploads' });
+  }
+};
+
+// --- Reviews ---
+export const getProductReviews = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const reviews = await Review.find({ productId: id });
+    res.json({ success: true, reviews: Array.isArray(reviews) ? reviews.reverse() : [] });
+  } catch (error) {
+    console.error('Error fetching product reviews:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch reviews' });
+  }
+};
+
+export const createProductReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+    const userId = req.user?._id || req.user?.id;
+    const userName = req.user?.name || 'Verified Customer';
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ success: false, message: 'Rating must be between 1 and 5' });
+    }
+
+    const review = await Review.create({
+      productId: id,
+      userId,
+      userName,
+      rating: Number(rating),
+      comment: comment || ''
+    });
+
+    const allReviews = await Review.find({ productId: id });
+    const reviewsCount = allReviews.length;
+    const avg = allReviews.reduce((acc, curr) => acc + curr.rating, 0) / reviewsCount;
+
+    await Product.findByIdAndUpdate(id, {
+      reviewsCount,
+      averageRating: Math.round(avg * 10) / 10
+    });
+
+    res.status(201).json({ success: true, message: 'Review added successfully', review });
+  } catch (error) {
+    console.error('Error submitting review:', error);
+    res.status(500).json({ success: false, message: 'Failed to submit review' });
   }
 };

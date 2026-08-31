@@ -9,15 +9,19 @@ const ProductSchema = new mongoose.Schema({
   stock: { type: Number, default: 0 },
   images: [{ type: String }],
   nutritionFacts: {
+    calories: { type: String },
     dietaryFiber: { type: String },
     sugar: { type: String },
     protein: { type: String },
     vitaminA: { type: String },
     vitaminC: { type: String },
     calcium: { type: String },
-    iron: { type: String }
+    iron: { type: String },
+    fat: { type: String },
+    carbs: { type: String }
   },
   ingredients: { type: String },
+  storageHandling: { type: String },
   reviewsCount: { type: Number, default: 0 },
   averageRating: { type: Number, default: 0 }
 }, { timestamps: true });
