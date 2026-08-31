@@ -23,7 +23,7 @@ export const AdminSidebar = ({
     { path: '/admin/payments', label: 'Payment Records', icon: CreditCard },
     { path: '/admin/inquiries', label: 'Customer Inquiries', icon: MessageSquare, badge: unreadInquiriesCount },
     { path: '/admin/users', label: 'User Database', icon: Users },
-    { path: '/admin/marketing', label: 'Coupons & Banners', icon: Tag },
+    { path: '/admin/marketing', label: 'Coupons & Discounts', icon: Tag },
   ];
 
   const handleNavClick = (path) => {

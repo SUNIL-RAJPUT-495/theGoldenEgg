@@ -1,21 +1,14 @@
 import React from 'react';
-import { Tag, Image as ImageIcon, Plus, Trash2, X } from 'lucide-react';
+import { Tag, Plus, Trash2, X } from 'lucide-react';
 
 export const AdminMarketingTab = ({
-  couponsList,
-  bannersList,
+  couponsList = [],
   showCouponModal,
   setShowCouponModal,
   couponForm,
   setCouponForm,
   handleCreateCoupon,
-  handleDeleteCoupon,
-  showBannerModal,
-  setShowBannerModal,
-  bannerForm,
-  setBannerForm,
-  handleCreateBanner,
-  handleDeleteBanner
+  handleDeleteCoupon
 }) => {
   return (
     <div className="space-y-8 animate-fadeIn">
@@ -23,10 +16,10 @@ export const AdminMarketingTab = ({
       {/* Top Header */}
       <div>
         <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight">
-          Coupons & Hero Banners
+          Coupons & Discounts
         </h2>
         <p className="text-xs sm:text-sm text-stone-400">
-          Create promotional discount codes and customize homepage promotional banners
+          Create and manage promotional discount codes for customer checkout
         </p>
       </div>
 
@@ -72,50 +65,6 @@ export const AdminMarketingTab = ({
 
           {couponsList.length === 0 && (
             <p className="text-xs text-stone-500 italic py-4 col-span-full">No active coupons created yet.</p>
-          )}
-        </div>
-      </div>
-
-      {/* Banners Section */}
-      <div className="space-y-4 pt-6 border-t border-stone-800">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-serif font-bold text-white flex items-center space-x-2">
-            <ImageIcon className="h-5 w-5 text-[#C28E58]" />
-            <span>Homepage Hero Banners ({bannersList.length})</span>
-          </h3>
-          <button
-            onClick={() => setShowBannerModal(true)}
-            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-[#C28E58] text-stone-950 font-bold text-xs hover:bg-[#b07e4a] transition-all shadow"
-          >
-            <Plus className="h-4 w-4" />
-            <span>Add Banner</span>
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {bannersList.map(b => (
-            <div key={b._id || b.id} className="p-4 rounded-2xl bg-stone-900 border border-stone-800 space-y-3">
-              <div className="w-full h-36 rounded-xl overflow-hidden bg-stone-950 border border-stone-800 p-1">
-                <img src={b.imageUrl} alt={b.title} className="w-full h-full object-contain" />
-              </div>
-              <div className="flex items-start justify-between">
-                <div>
-                  <h4 className="font-bold text-white text-xs">{b.title || 'Banner'}</h4>
-                  <p className="text-[10px] text-stone-400">{b.subtitle}</p>
-                </div>
-                <button 
-                  onClick={() => handleDeleteBanner(b._id || b.id)}
-                  className="text-stone-500 hover:text-red-400 p-1 rounded-lg hover:bg-stone-800 transition-all"
-                  title="Delete Banner"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-
-          {bannersList.length === 0 && (
-            <p className="text-xs text-stone-500 italic py-4 col-span-full">No hero banners added yet.</p>
           )}
         </div>
       </div>
@@ -194,73 +143,6 @@ export const AdminMarketingTab = ({
                   className="px-6 py-2.5 rounded-xl bg-[#C28E58] text-stone-950 font-bold text-xs hover:bg-[#b07e4a] transition-all shadow"
                 >
                   Create Coupon
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL: ADD BANNER */}
-      {showBannerModal && (
-        <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
-          <div className="bg-stone-900 border border-stone-800 w-full max-w-md rounded-3xl p-6 space-y-6 shadow-2xl my-auto">
-            <div className="flex items-center justify-between border-b border-stone-800 pb-4">
-              <h3 className="text-base font-serif font-bold text-white">Add Homepage Hero Banner</h3>
-              <button onClick={() => setShowBannerModal(false)} className="text-stone-400 hover:text-white">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateBanner} className="space-y-4 text-xs">
-              <div>
-                <label className="block text-stone-300 font-bold mb-1">Banner Title *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. 100% Certified Organic Superfoods"
-                  value={bannerForm.title}
-                  onChange={(e) => setBannerForm({ ...bannerForm, title: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-stone-300 font-bold mb-1">Subtitle</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Grown in our Mysore Food Forest"
-                  value={bannerForm.subtitle}
-                  onChange={(e) => setBannerForm({ ...bannerForm, subtitle: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-stone-300 font-bold mb-1">Banner Image URL *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="https://..."
-                  value={bannerForm.imageUrl}
-                  onChange={(e) => setBannerForm({ ...bannerForm, imageUrl: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"
-                />
-              </div>
-
-              <div className="flex items-center justify-end space-x-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowBannerModal(false)}
-                  className="px-4 py-2.5 rounded-xl border border-stone-700 text-stone-300 font-bold text-xs hover:bg-stone-800"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-[#C28E58] text-stone-950 font-bold text-xs hover:bg-[#b07e4a] transition-all shadow"
-                >
-                  Add Banner
                 </button>
               </div>
             </form>
