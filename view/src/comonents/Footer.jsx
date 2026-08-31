@@ -21,9 +21,20 @@ export const Footer = () => {
             <p className="text-sm text-stone-300 leading-relaxed font-sans">
               Pure, thoughtfully grown food and botanical products born from a living ecosystem.
             </p>
-            <div className="flex items-center space-x-2 text-xs text-[#C28E58] pt-1">
-              <MapPin className="h-4 w-4 shrink-0" />
-              <span>Periyapatna, Mysore District, Karnataka, India.</span>
+            <div className="space-y-1.5 pt-1 text-xs">
+              <div className="flex items-center space-x-2 text-[#C28E58]">
+                <MapPin className="h-4 w-4 shrink-0" />
+                <span>Periyapatna, Mysore District, Karnataka, India.</span>
+              </div>
+              <a
+                href="https://wa.me/917411932830"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-emerald-400 font-bold hover:underline"
+              >
+                <Smartphone className="h-4 w-4 shrink-0" />
+                <span>Call & WhatsApp: +91 74119 32830</span>
+              </a>
             </div>
           </div>
 
