@@ -148,6 +148,26 @@ export const AdminDashboard = () => {
   const handleOpenProductModal = (product = null) => {
     if (product) {
       setEditingProduct(product);
+      
+      let initialNutrition = [];
+      if (Array.isArray(product.nutritionFacts)) {
+        initialNutrition = product.nutritionFacts.map(n => ({ name: n.name || n.label || '', amount: n.amount || n.value || '' }));
+      } else if (product.nutritionFacts && typeof product.nutritionFacts === 'object') {
+        initialNutrition = Object.entries(product.nutritionFacts)
+          .filter(([_, val]) => Boolean(val))
+          .map(([key, val]) => ({
+            name: key === 'calories' ? 'Energy' : key.charAt(0).toUpperCase() + key.slice(1),
+            amount: String(val)
+          }));
+      }
+
+      if (initialNutrition.length === 0) {
+        initialNutrition = [
+          { name: 'Energy', amount: '' },
+          { name: 'Protein', amount: '' }
+        ];
+      }
+
       setProductForm({
         name: product.name || '',
         price: product.price || '',
@@ -157,34 +177,53 @@ export const AdminDashboard = () => {
         images: product.images ? product.images.join(', ') : '',
         ingredients: product.ingredients || '',
         storageHandling: product.storageHandling || '',
-        calories: product.nutritionFacts?.calories || '',
-        protein: product.nutritionFacts?.protein || '',
-        fat: product.nutritionFacts?.fat || '',
-        carbs: product.nutritionFacts?.carbs || '',
-        dietaryFiber: product.nutritionFacts?.dietaryFiber || '',
-        sugar: product.nutritionFacts?.sugar || '',
-        calcium: product.nutritionFacts?.calcium || '',
-        iron: product.nutritionFacts?.iron || '',
-        magnesium: product.nutritionFacts?.magnesium || '',
-        potassium: product.nutritionFacts?.potassium || '',
-        sodium: product.nutritionFacts?.sodium || '',
-        vitaminA: product.nutritionFacts?.vitaminA || '',
-        vitaminC: product.nutritionFacts?.vitaminC || ''
+        nutritionFacts: initialNutrition
       });
     } else {
       setEditingProduct(null);
       setProductForm({
         name: '', price: '', stock: '', category: 'Organic Flours', description: '',
         images: '', ingredients: '', storageHandling: '',
-        calories: '', protein: '', fat: '', carbs: '', dietaryFiber: '', sugar: '',
-        calcium: '', iron: '', magnesium: '', potassium: '', sodium: '', vitaminA: '', vitaminC: ''
+        nutritionFacts: [
+          { name: 'Energy', amount: '' },
+          { name: 'Protein', amount: '' },
+          { name: 'Total Fat', amount: '' },
+          { name: 'Carbohydrates', amount: '' },
+          { name: 'Dietary Fiber', amount: '' }
+        ]
       });
     }
     setShowProductModal(true);
   };
 
+  const handleAddNutrientRow = () => {
+    setProductForm(prev => ({
+      ...prev,
+      nutritionFacts: [...prev.nutritionFacts, { name: '', amount: '' }]
+    }));
+  };
+
+  const handleRemoveNutrientRow = (index) => {
+    setProductForm(prev => ({
+      ...prev,
+      nutritionFacts: prev.nutritionFacts.filter((_, idx) => idx !== index)
+    }));
+  };
+
+  const handleNutrientChange = (index, field, value) => {
+    setProductForm(prev => {
+      const updated = [...prev.nutritionFacts];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, nutritionFacts: updated };
+    });
+  };
+
   const handleProductSubmit = async (e) => {
     e.preventDefault();
+    const cleanNutritionFacts = productForm.nutritionFacts
+      .filter(item => item.name.trim() || item.amount.trim())
+      .map(item => ({ name: item.name.trim(), amount: item.amount.trim() }));
+
     const payload = {
       name: productForm.name,
       price: parseFloat(productForm.price),
@@ -194,21 +233,7 @@ export const AdminDashboard = () => {
       images: productForm.images ? productForm.images.split(',').map(s => s.trim()).filter(Boolean) : [],
       ingredients: productForm.ingredients,
       storageHandling: productForm.storageHandling,
-      nutritionFacts: {
-        calories: productForm.calories,
-        protein: productForm.protein,
-        fat: productForm.fat,
-        carbs: productForm.carbs,
-        dietaryFiber: productForm.dietaryFiber,
-        sugar: productForm.sugar,
-        calcium: productForm.calcium,
-        iron: productForm.iron,
-        magnesium: productForm.magnesium,
-        potassium: productForm.potassium,
-        sodium: productForm.sodium,
-        vitaminA: productForm.vitaminA,
-        vitaminC: productForm.vitaminC
-      }
+      nutritionFacts: cleanNutritionFacts
     };
 
     try {
@@ -1419,145 +1444,56 @@ export const AdminDashboard = () => {
                 </div>
               </div>
 
-              {/* Nutrition Facts Section */}
+              {/* Dynamic Nutrition Facts Section */}
               <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 space-y-3">
-                <h4 className="font-bold text-white text-xs flex items-center justify-between">
-                  <span>Nutrition Facts (Amount per 100g)</span>
-                  <span className="text-[10px] text-[#C28E58]">Custom Product Nutrients</span>
-                </h4>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="flex items-center justify-between">
                   <div>
-                    <label className="block text-stone-400 text-[10px]">Energy (kcal)</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 205 kcal"
-                      value={productForm.calories}
-                      onChange={(e) => setProductForm({ ...productForm, calories: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
+                    <h4 className="font-bold text-white text-xs">Nutrition Facts (Amount per 100g)</h4>
+                    <p className="text-[10px] text-stone-400">Add or remove custom nutrient rows for this product</p>
                   </div>
+                  <button
+                    type="button"
+                    onClick={handleAddNutrientRow}
+                    className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#C28E58] text-stone-950 font-bold text-[11px] hover:bg-[#b07e4a] transition-all shadow-sm"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    <span>Add Nutrient</span>
+                  </button>
+                </div>
 
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Protein</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 27.1 g"
-                      value={productForm.protein}
-                      onChange={(e) => setProductForm({ ...productForm, protein: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                  {productForm.nutritionFacts?.map((item, idx) => (
+                    <div key={idx} className="flex items-center space-x-2 bg-stone-900 p-2 rounded-xl border border-stone-800">
+                      <input
+                        type="text"
+                        placeholder="Nutrient Name (e.g. Energy, Calcium, Protein)"
+                        value={item.name}
+                        onChange={(e) => handleNutrientChange(idx, 'name', e.target.value)}
+                        className="flex-1 bg-stone-950 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs focus:outline-none focus:border-[#C28E58]"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Amount (e.g. 205 kcal, 33%, 27.1 g)"
+                        value={item.amount}
+                        onChange={(e) => handleNutrientChange(idx, 'amount', e.target.value)}
+                        className="flex-1 bg-stone-950 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs focus:outline-none focus:border-[#C28E58]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveNutrientRow(idx)}
+                        className="p-1.5 text-stone-500 hover:text-red-400 hover:bg-stone-800 rounded-lg transition-colors"
+                        title="Delete nutrient row"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
 
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Total Fat</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 2.3 g"
-                      value={productForm.fat}
-                      onChange={(e) => setProductForm({ ...productForm, fat: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Carbohydrates</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 38.2 g"
-                      value={productForm.carbs}
-                      onChange={(e) => setProductForm({ ...productForm, carbs: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Dietary Fiber</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 19.2 g"
-                      value={productForm.dietaryFiber}
-                      onChange={(e) => setProductForm({ ...productForm, dietaryFiber: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Calcium</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 2003 mg"
-                      value={productForm.calcium}
-                      onChange={(e) => setProductForm({ ...productForm, calcium: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Iron</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 28.2 mg"
-                      value={productForm.iron}
-                      onChange={(e) => setProductForm({ ...productForm, iron: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Magnesium</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 368 mg"
-                      value={productForm.magnesium}
-                      onChange={(e) => setProductForm({ ...productForm, magnesium: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Potassium</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 1324 mg"
-                      value={productForm.potassium}
-                      onChange={(e) => setProductForm({ ...productForm, potassium: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Sodium</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 9 mg"
-                      value={productForm.sodium}
-                      onChange={(e) => setProductForm({ ...productForm, sodium: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Vitamin A</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 378 µg RAE"
-                      value={productForm.vitaminA}
-                      onChange={(e) => setProductForm({ ...productForm, vitaminA: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-stone-400 text-[10px]">Vitamin C</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 17.3 mg"
-                      value={productForm.vitaminC}
-                      onChange={(e) => setProductForm({ ...productForm, vitaminC: e.target.value })}
-                      className="w-full bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-lg text-white text-xs"
-                    />
-                  </div>
+                  {(!productForm.nutritionFacts || productForm.nutritionFacts.length === 0) && (
+                    <p className="text-center text-[11px] text-stone-500 py-2 italic">
+                      No nutrients added yet. Click "+ Add Nutrient" above to create one.
+                    </p>
+                  )}
                 </div>
               </div>
 

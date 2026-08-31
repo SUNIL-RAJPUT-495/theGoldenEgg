@@ -6,6 +6,32 @@ import { Star, Heart, ShoppingCart, Plus, Minus, Check, AlertTriangle } from 'lu
 
 // Helper functions for nutritional facts and product specifications
 const getNutritionTableRows = (product) => {
+  if (Array.isArray(product?.nutritionFacts) && product.nutritionFacts.length > 0) {
+    return product.nutritionFacts.map(n => ({
+      name: n.name || n.label || '',
+      amount: n.amount || n.value || ''
+    })).filter(n => n.name || n.amount);
+  }
+
+  if (product?.nutritionFacts && typeof product.nutritionFacts === 'object' && !Array.isArray(product.nutritionFacts)) {
+    const rows = [];
+    const nf = product.nutritionFacts;
+    if (nf.calories) rows.push({ name: 'Energy', amount: nf.calories });
+    if (nf.protein) rows.push({ name: 'Protein', amount: nf.protein });
+    if (nf.fat) rows.push({ name: 'Total Fat', amount: nf.fat });
+    if (nf.carbs) rows.push({ name: 'Carbohydrates', amount: nf.carbs });
+    if (nf.dietaryFiber) rows.push({ name: 'Dietary Fiber', amount: nf.dietaryFiber });
+    if (nf.sugar) rows.push({ name: 'Sugar', amount: nf.sugar });
+    if (nf.calcium) rows.push({ name: 'Calcium', amount: nf.calcium });
+    if (nf.iron) rows.push({ name: 'Iron', amount: nf.iron });
+    if (nf.magnesium) rows.push({ name: 'Magnesium', amount: nf.magnesium });
+    if (nf.potassium) rows.push({ name: 'Potassium', amount: nf.potassium });
+    if (nf.sodium) rows.push({ name: 'Sodium', amount: nf.sodium });
+    if (nf.vitaminA) rows.push({ name: 'Vitamin A', amount: nf.vitaminA });
+    if (nf.vitaminC) rows.push({ name: 'Vitamin C', amount: nf.vitaminC });
+    if (rows.length > 0) return rows;
+  }
+
   const pName = (product?.name || '').toLowerCase();
   
   if (pName.includes('moringa')) {
@@ -36,22 +62,6 @@ const getNutritionTableRows = (product) => {
       { name: 'Iron', amount: '3.9 mg' },
       { name: 'Potassium', amount: '408 mg' }
     ];
-  }
-
-  if (product?.nutritionFacts && Object.keys(product.nutritionFacts).length > 0) {
-    const rows = [];
-    const nf = product.nutritionFacts;
-    if (nf.calories) rows.push({ name: 'Energy / Calories', amount: nf.calories });
-    if (nf.protein) rows.push({ name: 'Protein', amount: nf.protein });
-    if (nf.fat) rows.push({ name: 'Total Fat', amount: nf.fat });
-    if (nf.carbs) rows.push({ name: 'Carbohydrates', amount: nf.carbs });
-    if (nf.dietaryFiber) rows.push({ name: 'Dietary Fiber', amount: nf.dietaryFiber });
-    if (nf.sugar) rows.push({ name: 'Sugar', amount: nf.sugar });
-    if (nf.calcium) rows.push({ name: 'Calcium', amount: nf.calcium });
-    if (nf.iron) rows.push({ name: 'Iron', amount: nf.iron });
-    if (nf.vitaminA) rows.push({ name: 'Vitamin A', amount: nf.vitaminA });
-    if (nf.vitaminC) rows.push({ name: 'Vitamin C', amount: nf.vitaminC });
-    if (rows.length > 0) return rows;
   }
 
   return [
