@@ -9,6 +9,13 @@ import forestimage from '../assets/forestimage.jpeg';
 
 export const Home = () => {
   const { products, addToCart, toggleWishlist, wishlist } = useContext(AppContext);
+
+  // Dynamic Ragi Flour product lookup
+  const ragiProducts = products?.filter(p => p.name?.toLowerCase().includes('ragi')) || [];
+  const ragiProduct = ragiProducts.length > 0
+    ? ragiProducts.reduce((min, p) => (Number(p.price) < Number(min.price) ? p : min), ragiProducts[0])
+    : null;
+
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistName, setWaitlistName] = useState('');
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
@@ -117,7 +124,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
 
           <div className="flex flex-wrap items-center justify-center gap-5 pt-4">
             <Link
-              to="/products"
+              to={ragiProduct?._id ? `/products/${ragiProduct._id}` : (ragiProduct?.id ? `/products/${ragiProduct.id}` : "/products")}
               className="bg-[#C28E58] hover:bg-[#a97745] text-stone-950 font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full transition-all shadow-xl hover:scale-105"
             >
               Explore Ragi Flour
@@ -241,8 +248,8 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
             
             <div className="lg:col-span-5 relative h-72 sm:h-96 lg:h-full bg-stone-100 dark:bg-stone-900 overflow-hidden">
               <img
-                src="/ragi-flour-5kg.jpg"
-                alt="Organic Ragi Flour"
+                src={ragiProduct?.images?.[0] || "/ragi-flour-5kg.jpg"}
+                alt={ragiProduct?.name || "Organic Ragi Flour"}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-4 left-4 bg-[#C28E58] text-stone-950 text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
@@ -296,11 +303,13 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
               <div className="pt-6 border-t border-stone-100 dark:border-stone-850 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 <div>
                   <span className="text-xs text-stone-400 font-bold uppercase block">Starting From</span>
-                  <span className="text-2xl font-black text-[#1A2E22] dark:text-white">₹690 / 5KG</span>
+                  <span className="text-2xl font-black text-[#1A2E22] dark:text-white">
+                    ₹{ragiProduct?.price ?? 670} {ragiProduct?.weight ? (ragiProduct.weight.startsWith('/') ? ragiProduct.weight : `/ ${ragiProduct.weight}`) : '/ 5KG'}
+                  </span>
                 </div>
 
                 <Link
-                  to="/products"
+                  to={ragiProduct?._id ? `/products/${ragiProduct._id}` : (ragiProduct?.id ? `/products/${ragiProduct.id}` : "/products")}
                   className="bg-[#1A2E22] hover:bg-[#14241b] text-white font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-full transition-all shadow-md hover:scale-105 text-center flex items-center justify-center space-x-2"
                 >
                   <span>Explore Ragi Flour</span>
