@@ -1,4 +1,4 @@
-import { Inquiry } from '../database/models.js';
+import { Inquiry } from '../models/index.js';
 
 // Submit Contact Inquiry (Public)
 export const createInquiry = async (req, res) => {

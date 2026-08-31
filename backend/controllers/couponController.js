@@ -1,4 +1,4 @@
-import { Coupon } from '../database/models.js';
+import { Coupon } from '../models/index.js';
 
 // Get All Coupons
 export const getAllCoupons = async (req, res) => {

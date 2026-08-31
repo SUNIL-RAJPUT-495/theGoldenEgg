@@ -1,4 +1,4 @@
-import { Order, Product, User, Inquiry, Payment } from '../database/models.js';
+import { Order, Product, User, Inquiry, Payment } from '../models/index.js';
 
 // Get Dashboard Analytics (Admin)
 export const getAnalyticsStats = async (req, res) => {

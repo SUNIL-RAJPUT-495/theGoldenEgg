@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -12,7 +11,5 @@ const UserSchema = new mongoose.Schema({
   otpExpires: { type: Date }
 }, { timestamps: true });
 
-const MongooseUser = mongoose.models.User || mongoose.model('User', UserSchema);
-
-export const User = makeWrapper(MongooseUser);
+export const User = mongoose.models.User || mongoose.model('User', UserSchema);
 export default User;

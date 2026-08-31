@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const InquirySchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -11,7 +10,5 @@ const InquirySchema = new mongoose.Schema({
   replyNote: { type: String }
 }, { timestamps: true });
 
-const MongooseInquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
-
-export const Inquiry = makeWrapper(MongooseInquiry);
+export const Inquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
 export default Inquiry;

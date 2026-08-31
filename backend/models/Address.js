@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const AddressSchema = new mongoose.Schema({
   userId: { type: String, required: true },
@@ -12,7 +11,5 @@ const AddressSchema = new mongoose.Schema({
   isDefault: { type: Boolean, default: false }
 }, { timestamps: true });
 
-const MongooseAddress = mongoose.models.Address || mongoose.model('Address', AddressSchema);
-
-export const Address = makeWrapper(MongooseAddress);
+export const Address = mongoose.models.Address || mongoose.model('Address', AddressSchema);
 export default Address;

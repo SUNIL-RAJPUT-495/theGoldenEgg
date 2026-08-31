@@ -1,4 +1,4 @@
-import { Banner } from '../database/models.js';
+import { Banner } from '../models/index.js';
 
 // Get All Banners
 export const getAllBanners = async (req, res) => {

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const PaymentSchema = new mongoose.Schema({
   orderId: { type: String, required: true },
@@ -12,7 +11,5 @@ const PaymentSchema = new mongoose.Schema({
   notes: { type: String }
 }, { timestamps: true });
 
-const MongoosePayment = mongoose.models.Payment || mongoose.model('Payment', PaymentSchema);
-
-export const Payment = makeWrapper(MongoosePayment);
+export const Payment = mongoose.models.Payment || mongoose.model('Payment', PaymentSchema);
 export default Payment;

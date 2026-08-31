@@ -1,4 +1,4 @@
-import { Product, Category, Review } from '../database/models.js';
+import { Product, Category, Review } from '../models/index.js';
 
 // Get All Products
 export const getAllProducts = async (req, res) => {

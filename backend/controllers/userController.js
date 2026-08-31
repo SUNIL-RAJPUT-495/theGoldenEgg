@@ -1,4 +1,4 @@
-import { User, Order } from '../database/models.js';
+import { User, Order } from '../models/index.js';
 
 // Get All Users (Admin)
 export const getAllUsers = async (req, res) => {

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const CouponSchema = new mongoose.Schema({
   code: { type: String, required: true, unique: true },
@@ -10,7 +9,5 @@ const CouponSchema = new mongoose.Schema({
   active: { type: Boolean, default: true }
 }, { timestamps: true });
 
-const MongooseCoupon = mongoose.models.Coupon || mongoose.model('Coupon', CouponSchema);
-
-export const Coupon = makeWrapper(MongooseCoupon);
+export const Coupon = mongoose.models.Coupon || mongoose.model('Coupon', CouponSchema);
 export default Coupon;

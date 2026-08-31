@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const CategorySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
@@ -7,7 +6,5 @@ const CategorySchema = new mongoose.Schema({
   image: { type: String }
 }, { timestamps: true });
 
-const MongooseCategory = mongoose.models.Category || mongoose.model('Category', CategorySchema);
-
-export const Category = makeWrapper(MongooseCategory);
+export const Category = mongoose.models.Category || mongoose.model('Category', CategorySchema);
 export default Category;

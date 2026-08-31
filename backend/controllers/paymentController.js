@@ -1,4 +1,4 @@
-import { Payment, Order } from '../database/models.js';
+import { Payment, Order } from '../models/index.js';
 
 // Get All Payment Logs (Admin)
 export const getAllPayments = async (req, res) => {

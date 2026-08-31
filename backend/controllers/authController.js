@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { User, Address } from '../database/models.js';
+import { User, Address } from '../models/index.js';
 import { getJwtSecret } from '../config/jwtSecret.js';
 
 // Register User

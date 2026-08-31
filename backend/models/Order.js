@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const OrderSchema = new mongoose.Schema({
   userId: { type: String, required: true },
@@ -34,7 +33,5 @@ const OrderSchema = new mongoose.Schema({
   }]
 }, { timestamps: true });
 
-const MongooseOrder = mongoose.models.Order || mongoose.model('Order', OrderSchema);
-
-export const Order = makeWrapper(MongooseOrder);
+export const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);
 export default Order;

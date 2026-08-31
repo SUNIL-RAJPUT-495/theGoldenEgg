@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { makeWrapper } from '../database/wrapper.js';
 
 const ReviewSchema = new mongoose.Schema({
   productId: { type: String, required: true },
@@ -9,7 +8,5 @@ const ReviewSchema = new mongoose.Schema({
   comment: { type: String },
 }, { timestamps: true });
 
-const MongooseReview = mongoose.models.Review || mongoose.model('Review', ReviewSchema);
-
-export const Review = makeWrapper(MongooseReview);
+export const Review = mongoose.models.Review || mongoose.model('Review', ReviewSchema);
 export default Review;
