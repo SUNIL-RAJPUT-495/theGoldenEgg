@@ -10,7 +10,7 @@ export const AdminUsersPage = () => {
       usersList={ctx.usersList}
       searchTerm={ctx.searchTerm}
       setSearchTerm={ctx.setSearchTerm}
-      handleToggleUserRole={ctx.handleToggleUserRole}
+      setSelectedUser={ctx.setSelectedUser}
     />
   );
 };

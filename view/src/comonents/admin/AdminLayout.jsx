@@ -8,6 +8,7 @@ import { AdminSidebar } from './AdminSidebar';
 import { AdminProductModal } from './AdminProductModal';
 import { AdminOrderModal } from './AdminOrderModal';
 import { AdminInquiryModal } from './AdminInquiryModal';
+import { AdminUserModal } from './AdminUserModal';
 
 export const AdminLayout = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export const AdminLayout = () => {
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedInquiry, setSelectedInquiry] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [replyNote, setReplyNote] = useState('');
 
   const [showCouponModal, setShowCouponModal] = useState(false);
@@ -374,7 +376,10 @@ export const AdminLayout = () => {
     handleQuickStockUpdate,
     handleUpdateOrderStatus,
     setSelectedOrder,
+    selectedInquiry,
     setSelectedInquiry,
+    selectedUser,
+    setSelectedUser,
     setReplyNote,
     handleDeleteInquiry,
     handleToggleUserRole,
@@ -434,6 +439,12 @@ export const AdminLayout = () => {
         replyNote={replyNote}
         setReplyNote={setReplyNote}
         handleUpdateInquiryStatus={handleUpdateInquiryStatus}
+      />
+
+      <AdminUserModal
+        selectedUser={selectedUser}
+        setSelectedUser={setSelectedUser}
+        ordersList={ordersList}
       />
     </div>
   );

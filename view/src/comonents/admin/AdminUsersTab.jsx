@@ -1,11 +1,11 @@
 import React from 'react';
-import { Search, ShieldCheck, User } from 'lucide-react';
+import { Search, Eye } from 'lucide-react';
 
 export const AdminUsersTab = ({
   usersList,
   searchTerm,
   setSearchTerm,
-  handleToggleUserRole
+  setSelectedUser
 }) => {
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -14,11 +14,11 @@ export const AdminUsersTab = ({
           User Database
         </h2>
         <p className="text-xs sm:text-sm text-stone-400">
-          Registered customer accounts, phone numbers and administrator roles
+          Registered customer accounts, phone numbers and order history details
         </p>
       </div>
 
-      {/* Search */}
+      {/* Search Bar */}
       <div className="p-4 rounded-2xl bg-stone-900 border border-stone-800">
         <div className="relative">
           <Search className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
@@ -75,16 +75,15 @@ export const AdminUsersTab = ({
                           {isAdmin ? 'ADMINISTRATOR' : 'CUSTOMER'}
                         </span>
                       </td>
+
+                      {/* Action: View User Details */}
                       <td className="p-4 text-right">
                         <button
-                          onClick={() => handleToggleUserRole(uId, isAdmin ? 'user' : 'admin')}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow ${
-                            isAdmin
-                              ? 'bg-stone-800 hover:bg-stone-700 text-stone-300'
-                              : 'bg-[#C28E58] hover:bg-[#b07e4a] text-stone-950'
-                          }`}
+                          onClick={() => setSelectedUser(u)}
+                          className="px-3.5 py-1.5 rounded-xl bg-stone-800 hover:bg-[#C28E58] hover:text-stone-950 text-stone-200 text-xs font-bold transition-all shadow inline-flex items-center space-x-1.5"
                         >
-                          {isAdmin ? 'Make Customer' : 'Promote to Admin'}
+                          <Eye className="h-3.5 w-3.5" />
+                          <span>View Details</span>
                         </button>
                       </td>
                     </tr>
