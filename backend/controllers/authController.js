@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { User } from '../database/models.js';
+import { User, Address } from '../database/models.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'golden_egg_super_secret_key_2026';
 
@@ -122,5 +122,67 @@ export const getMe = async (req, res) => {
   } catch (error) {
     console.error('Error in getMe:', error);
     res.status(500).json({ success: false, message: 'Server error fetching user details' });
+  }
+};
+
+// --- User Address Handlers ---
+export const getUserAddresses = async (req, res) => {
+  try {
+    const userId = req.user?._id || req.user?.id;
+    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const addresses = await Address.find({ userId });
+    res.json({ success: true, count: addresses.length, addresses });
+  } catch (error) {
+    console.error('Error fetching addresses:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch addresses' });
+  }
+};
+
+export const addUserAddress = async (req, res) => {
+  try {
+    const userId = req.user?._id || req.user?.id;
+    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const { name, phone, address, city, state, pincode, isDefault } = req.body;
+    if (!name || !phone || !address || !city || !state || !pincode) {
+      return res.status(400).json({ success: false, message: 'All address fields are required' });
+    }
+
+    if (isDefault) {
+      const existing = await Address.find({ userId });
+      for (const addr of existing) {
+        if (addr.isDefault) {
+          await Address.findByIdAndUpdate(addr._id || addr.id, { isDefault: false });
+        }
+      }
+    }
+
+    const newAddress = await Address.create({
+      userId,
+      name,
+      phone,
+      address,
+      city,
+      state,
+      pincode,
+      isDefault: Boolean(isDefault)
+    });
+
+    res.status(201).json({ success: true, message: 'Address saved successfully', address: newAddress });
+  } catch (error) {
+    console.error('Error adding address:', error);
+    res.status(500).json({ success: false, message: 'Failed to save address' });
+  }
+};
+
+export const deleteUserAddress = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Address.findByIdAndDelete(id);
+    res.json({ success: true, message: 'Address removed successfully' });
+  } catch (error) {
+    console.error('Error deleting address:', error);
+    res.status(500).json({ success: false, message: 'Failed to delete address' });
   }
 };
