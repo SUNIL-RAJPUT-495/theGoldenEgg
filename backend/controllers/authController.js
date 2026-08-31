@@ -1,8 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User, Address } from '../database/models.js';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'golden_egg_super_secret_key_2026';
+import { getJwtSecret } from '../config/jwtSecret.js';
 
 // Register User
 export const registerUser = async (req, res) => {
@@ -35,7 +34,7 @@ export const registerUser = async (req, res) => {
       verified: true
     });
 
-    const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, getJwtSecret(), { expiresIn: '7d' });
 
     res.status(201).json({
       success: true,
@@ -80,7 +79,7 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, getJwtSecret(), { expiresIn: '7d' });
 
     res.json({
       success: true,

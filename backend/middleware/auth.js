@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../database/models.js';
+import { getJwtSecret } from '../config/jwtSecret.js';
 
 export const protect = async (req, res, next) => {
   let token;
@@ -7,7 +8,7 @@ export const protect = async (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'golden_egg_super_secret_key_2026');
+      const decoded = jwt.verify(token, getJwtSecret());
       
       const user = await User.findById(decoded.id);
       if (!user) {
@@ -15,15 +16,15 @@ export const protect = async (req, res, next) => {
       }
 
       req.user = user;
-      next();
+      return next();
     } catch (error) {
-      console.error('Token validation error:', error);
-      res.status(401).json({ success: false, message: 'Not authorized, token failed' });
+      console.warn('Token validation failed:', error.message);
+      return res.status(401).json({ success: false, message: 'Session expired or invalid token. Please log in again.', invalidToken: true });
     }
   }
 
   if (!token) {
-    res.status(401).json({ success: false, message: 'Not authorized, no token' });
+    return res.status(401).json({ success: false, message: 'Not authorized, no token' });
   }
 };
 

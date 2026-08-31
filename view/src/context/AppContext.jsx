@@ -82,6 +82,24 @@ export const AppProvider = ({ children }) => {
     }
   }, [token]);
 
+  // Handle invalid/expired tokens automatically
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      response => response,
+      error => {
+        if (error.response && error.response.status === 401 && (error.response.data?.invalidToken || error.response.data?.message?.toLowerCase().includes('token'))) {
+          console.warn('Invalid or expired token detected. Resetting session...');
+          setUser(null);
+          setToken(null);
+          localStorage.removeItem('ge_user');
+          localStorage.removeItem('ge_token');
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => axios.interceptors.response.eject(interceptor);
+  }, []);
+
   // Initial loads
   const loadInitialData = async () => {
     try {
