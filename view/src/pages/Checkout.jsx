@@ -50,16 +50,20 @@ export const Checkout = () => {
     try {
       const { data } = await axios.get(`${API_URL}/auth/addresses`);
       if (data.success) {
-        setAddresses(data.addresses);
-        const defaultAddr = data.addresses.find(a => a.isDefault);
+        const list = data.addresses || [];
+        setAddresses(list);
+        const defaultAddr = list.find(a => a.isDefault);
         if (defaultAddr) {
-          setSelectedAddressId(defaultAddr._id);
-        } else if (data.addresses.length > 0) {
-          setSelectedAddressId(data.addresses[0]._id);
+          setSelectedAddressId(defaultAddr._id || defaultAddr.id);
+        } else if (list.length > 0) {
+          setSelectedAddressId(list[0]._id || list[0].id);
         }
       }
     } catch (error) {
       console.error('Error fetching addresses:', error);
+      if (error.response?.status === 401) {
+        navigate('/auth?redirect=checkout');
+      }
     }
   };
 
