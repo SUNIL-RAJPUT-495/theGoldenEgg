@@ -51,7 +51,7 @@ export const Footer = () => {
           {/* Column 2: Quick Links */}
           <div className="space-y-4">
             <h3 className="text-white font-serif font-bold text-lg">Quick Links</h3>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/" className="text-stone-300 hover:text-[#C28E58] transition-colors">Our Story</Link>
               </li>
@@ -62,10 +62,22 @@ export const Footer = () => {
                 <a href="/#ecosystem" className="text-stone-300 hover:text-[#C28E58] transition-colors">Food Forest</a>
               </li>
               <li>
-                <a href="/#ethos" className="text-stone-300 hover:text-[#C28E58] transition-colors">Ethical Pledge</a>
+                <Link to="/contact" className="text-stone-300 hover:text-[#C28E58] transition-colors">Contact</Link>
+              </li>
+              <li className="pt-2 text-xs font-semibold text-[#C28E58] uppercase tracking-wider">
+                Policies
               </li>
               <li>
-                <Link to="/contact" className="text-stone-300 hover:text-[#C28E58] transition-colors">Contact</Link>
+                <Link to="/terms-and-conditions" className="text-stone-300 hover:text-[#C28E58] transition-colors">Terms & Conditions</Link>
+              </li>
+              <li>
+                <Link to="/privacy-policy" className="text-stone-300 hover:text-[#C28E58] transition-colors">Privacy Policy</Link>
+              </li>
+              <li>
+                <Link to="/refund-policy" className="text-stone-300 hover:text-[#C28E58] transition-colors">Refund Policy</Link>
+              </li>
+              <li>
+                <Link to="/shipping-policy" className="text-stone-300 hover:text-[#C28E58] transition-colors">Shipping Policy</Link>
               </li>
             </ul>
           </div>
@@ -153,9 +165,12 @@ export const Footer = () => {
               </a>
             </span>
           </div>
-          <div className="flex space-x-6">
+          <div className="flex flex-wrap justify-center gap-4 text-stone-400">
+            <Link to="/terms-and-conditions" className="hover:text-white transition-colors">Terms</Link>
+            <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link to="/refund-policy" className="hover:text-white transition-colors">Refunds</Link>
+            <Link to="/shipping-policy" className="hover:text-white transition-colors">Shipping</Link>
             <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
-            <a href="mailto:info@thegoldenegg.co.in" className="hover:text-white transition-colors">info@thegoldenegg.co.in</a>
           </div>
         </div>
 

@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AppProvider, AppContext } from "./context/AppContext";
 import { Navbar } from "./comonents/Navbar";
 import { Footer } from "./comonents/Footer";
+import { ScrollToTop } from "./comonents/ScrollToTop";
 
 // Storefront Page Imports
 import { Home } from "./pages/Home";
@@ -14,6 +15,10 @@ import { Dashboard } from "./pages/Dashboard";
 import { Auth } from "./pages/Auth";
 import { AdminLogin } from "./pages/AdminLogin";
 import { Contact } from "./pages/Contact";
+import { TermsAndConditions } from "./pages/TermsAndConditions";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { RefundPolicy } from "./pages/RefundPolicy";
+import { ShippingPolicy } from "./pages/ShippingPolicy";
 
 // Admin Layout & Individual Router Pages
 import { AdminLayout } from "./comonents/admin/AdminLayout";
@@ -54,6 +59,7 @@ function MainLayout() {
   if (isAdminPath) {
     return (
       <div className="min-h-screen bg-stone-950 font-sans text-stone-100">
+        <ScrollToTop />
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
@@ -81,6 +87,7 @@ function MainLayout() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
       <Navbar />
       <main className="flex-grow">
         <Routes>
@@ -99,6 +106,16 @@ function MainLayout() {
           />
           <Route path="/auth" element={<Auth />} />
           <Route path="/contact" element={<Contact />} />
+
+          {/* Legal & Policy Routes */}
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/refund-and-cancellation" element={<RefundPolicy />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/shipping" element={<ShippingPolicy />} />
         </Routes>
       </main>
       <Footer />
