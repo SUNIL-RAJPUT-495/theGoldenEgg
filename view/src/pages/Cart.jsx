@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { Trash2, Plus, Minus, Tag, AlertCircle, ShoppingBag, ArrowRight } from 'lucide-react';
+import { toast } from '../context/ToastContext.jsx';
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -12,7 +13,8 @@ export const Cart = () => {
     applyCoupon, 
     appliedCoupon, 
     setAppliedCoupon,
-    getCartTotals 
+    getCartTotals,
+    products
   } = useContext(AppContext);
 
   const [couponCode, setCouponCode] = useState('');
@@ -39,6 +41,26 @@ export const Cart = () => {
   const handleRemoveCoupon = () => {
     setAppliedCoupon(null);
     setCouponSuccess('');
+  };
+
+  const handleProceedToCheckout = () => {
+    for (const item of cart) {
+      const matchedProd = products.find(p => (p._id || p.id) === item.productId);
+      if (matchedProd) {
+        const availableStock = Number(matchedProd.stock !== undefined ? matchedProd.stock : 9999);
+        if (availableStock <= 0) {
+          removeFromCart(item.productId);
+          toast.error(`"${item.name}" is currently Out of Stock and has been removed from your cart.`);
+          return;
+        }
+        if (item.quantity > availableStock) {
+          updateCartQty(item.productId, availableStock);
+          toast.error(`You can add ${availableStock} only`);
+          return;
+        }
+      }
+    }
+    navigate('/checkout');
   };
 
   if (cart.length === 0) {
@@ -229,7 +251,7 @@ export const Cart = () => {
             </div>
 
             <button
-              onClick={() => navigate('/checkout')}
+              onClick={handleProceedToCheckout}
               className="w-full bg-organic-green-700 hover:bg-organic-green-800 text-white font-bold py-3 rounded-full shadow-lg shadow-organic-green-700/20 transition-all hover:scale-[1.01] flex items-center justify-center space-x-2"
             >
               <span>Proceed to Checkout</span>

@@ -7,7 +7,7 @@ import { toast } from '../context/ToastContext.jsx';
 
 export const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, getCartTotals, placeOrder, user, token, appliedCoupon, setAppliedCoupon, applyCoupon } = useContext(AppContext);
+  const { cart, getCartTotals, placeOrder, user, token, appliedCoupon, setAppliedCoupon, applyCoupon, products, updateCartQty, removeFromCart, fetchProducts } = useContext(AppContext);
 
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState('');
@@ -142,6 +142,24 @@ export const Checkout = () => {
     if (!selectedAddressId) {
       toast.error('Please select or add a shipping address.');
       return;
+    }
+
+    // Pre-order stock verification before opening payment modal
+    for (const item of cart) {
+      const matchedProd = products.find(p => (p._id || p.id) === item.productId);
+      if (matchedProd) {
+        const currentStock = Number(matchedProd.stock !== undefined ? matchedProd.stock : 9999);
+        if (currentStock <= 0) {
+          removeFromCart(item.productId);
+          toast.error(`"${item.name}" is currently Out of Stock and has been removed from your cart.`);
+          return;
+        }
+        if (item.quantity > currentStock) {
+          updateCartQty(item.productId, currentStock);
+          toast.error(`You can add ${currentStock} only`);
+          return;
+        }
+      }
     }
 
     // Show mock UPI/Razorpay payment loading portal
