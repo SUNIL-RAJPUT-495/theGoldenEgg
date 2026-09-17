@@ -263,12 +263,17 @@ export const AppProvider = ({ children }) => {
       return;
     }
 
+    if (quantity > prodStock) {
+      toast.error(`You can add ${prodStock} only`);
+      quantity = prodStock;
+    }
+
     setCart(prevCart => {
       const targetId = product._id || product.productId || product.id;
       const existing = prevCart.find(item => item.productId === targetId);
       if (existing) {
         if (existing.quantity + quantity > prodStock) {
-          toast.error(`Only ${prodStock} units available in stock!`);
+          toast.error(`You can add ${prodStock} only`);
           return prevCart.map(item => 
             item.productId === targetId
               ? { ...item, quantity: prodStock }
@@ -315,7 +320,7 @@ export const AppProvider = ({ children }) => {
     }
 
     if (availableStock !== null && qty > availableStock) {
-      toast.error(`Only ${availableStock} units available in stock!`);
+      toast.error(`You can add ${availableStock} only`);
       qty = availableStock;
     }
 
@@ -397,7 +402,7 @@ export const AppProvider = ({ children }) => {
         }
         if (item.quantity > currentStock) {
           updateCartQty(item.productId, currentStock);
-          const errMsg = `Only ${currentStock} units of "${item.name}" are available in stock. Quantity updated. Please review your order.`;
+          const errMsg = `You can add ${currentStock} only for "${item.name}". Cart updated.`;
           toast.error(errMsg);
           throw new Error(errMsg);
         }

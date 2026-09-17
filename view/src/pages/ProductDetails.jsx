@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { Star, Heart, ShoppingCart, Plus, Minus, Check, AlertTriangle } from 'lucide-react';
 import { productAPI } from '../services/api.js';
+import { toast } from '../context/ToastContext.jsx';
 
 // Helper functions for nutritional facts and product specifications
 const getProductIngredients = (product) => {
@@ -315,7 +316,14 @@ export const ProductDetails = () => {
                   {qty}
                 </span>
                 <button
-                  onClick={() => setQty(qty + 1)}
+                  onClick={() => {
+                    const maxStock = Number(product.stock || 0);
+                    if (maxStock > 0 && qty >= maxStock) {
+                      toast.error(`You can add ${maxStock} only`);
+                      return;
+                    }
+                    setQty(qty + 1);
+                  }}
                   className="p-2.5 hover:bg-stone-200 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition-colors"
                 >
                   <Plus className="h-4 w-4" />

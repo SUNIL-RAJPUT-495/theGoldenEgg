@@ -40,7 +40,7 @@ export const createOrder = async (req, res) => {
       if (requestedQty > currentStock) {
         return res.status(400).json({ 
           success: false, 
-          message: `Sorry, only ${currentStock} units of "${prod.name}" are available in stock. Please reduce the quantity in your cart.` 
+          message: `You can add ${currentStock} only for "${prod.name}". Please reduce the quantity in your cart.` 
         });
       }
     }

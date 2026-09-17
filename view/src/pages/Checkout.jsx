@@ -10,7 +10,7 @@ export const Checkout = () => {
 
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('COD');
+  const [paymentMethod, setPaymentMethod] = useState('UPI');
   
   // Coupon state in Checkout
   const [couponCode, setCouponCode] = useState('');
@@ -103,6 +103,12 @@ export const Checkout = () => {
       return;
     }
 
+    const cleanPincode = newPincode.replace(/\D/g, '');
+    if (cleanPincode.length !== 6) {
+      setAddressError('Please enter a valid 6-digit Pincode (e.g. 571107)');
+      return;
+    }
+
     try {
       const data = await authAPI.addAddress({
         name: newName,
@@ -110,7 +116,7 @@ export const Checkout = () => {
         address: newAddress,
         city: newCity,
         state: newState,
-        pincode: newPincode,
+        pincode: cleanPincode,
         isDefault
       });
       if (data.success) {
@@ -137,33 +143,9 @@ export const Checkout = () => {
       return;
     }
 
-    const addr = addresses.find(a => a._id === selectedAddressId);
-    const shippingData = {
-      name: addr.name,
-      phone: addr.phone,
-      address: addr.address,
-      city: addr.city,
-      state: addr.state,
-      pincode: addr.pincode
-    };
-
-    if (paymentMethod === 'COD') {
-      // Place order immediately
-      try {
-        const data = await placeOrder(shippingData, paymentMethod);
-        if (data.success) {
-          setPlacedOrder(data.order);
-          setPaymentStep('success');
-          setShowPaymentModal(true);
-        }
-      } catch (err) {
-        alert(err.message || 'Failed to place order');
-      }
-    } else {
-      // Show mock UPI/Razorpay payment loading portal
-      setShowPaymentModal(true);
-      setPaymentStep('confirm');
-    }
+    // Show mock UPI/Razorpay payment loading portal
+    setShowPaymentModal(true);
+    setPaymentStep('confirm');
   };
 
   const handleMockPaymentSuccess = async () => {
@@ -276,15 +258,21 @@ export const Checkout = () => {
                     onChange={(e) => setNewName(e.target.value)}
                     className="p-2 border rounded-xl text-sm bg-white dark:bg-stone-900 text-stone-800 dark:text-white"
                   />
-                  <input
-                    type="tel"
-                    placeholder="Enter Phone Number"
-                    required
-                    maxLength={10}
-                    value={newPhone}
-                    onChange={(e) => setNewPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                    className="p-2 border rounded-xl text-sm bg-white dark:bg-stone-900 text-stone-800 dark:text-white"
-                  />
+                  <div className="relative">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-stone-400 dark:text-stone-400 text-xs font-bold pointer-events-none select-none">
+                      <Phone className="h-3.5 w-3.5 text-stone-400" />
+                      <span>+91</span>
+                    </div>
+                    <input
+                      type="tel"
+                      placeholder="Enter Phone Number"
+                      required
+                      maxLength={10}
+                      value={newPhone}
+                      onChange={(e) => setNewPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      className="w-full p-2 pl-14 border rounded-xl text-sm bg-white dark:bg-stone-900 text-stone-800 dark:text-white"
+                    />
+                  </div>
                 </div>
 
                 <input
@@ -317,8 +305,9 @@ export const Checkout = () => {
                     type="text"
                     placeholder="Enter Pincode"
                     required
+                    maxLength={6}
                     value={newPincode}
-                    onChange={(e) => setNewPincode(e.target.value)}
+                    onChange={(e) => setNewPincode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     className="p-2 border rounded-xl text-sm bg-white dark:bg-stone-900 text-stone-800 dark:text-white"
                   />
                 </div>
@@ -351,19 +340,7 @@ export const Checkout = () => {
               <span>2. Payment Method</span>
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {/* COD */}
-              <div
-                onClick={() => setPaymentMethod('COD')}
-                className={`p-4 border rounded-2xl cursor-pointer flex flex-col justify-between h-28 relative ${
-                  paymentMethod === 'COD' ? 'border-organic-green-700 bg-organic-green-50/20 shadow-sm' : 'border-stone-200'
-                }`}
-              >
-                <div className="font-bold text-sm text-stone-850 dark:text-stone-200">COD</div>
-                <div className="text-xs text-stone-400">Cash on Delivery</div>
-                {paymentMethod === 'COD' && <Check className="absolute top-4 right-4 h-4 w-4 text-organic-green-700" />}
-              </div>
-
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* UPI */}
               <div
                 onClick={() => setPaymentMethod('UPI')}
