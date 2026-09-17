@@ -11,10 +11,10 @@ export const AdminUsersTab = ({
     <div className="space-y-6 animate-fadeIn">
       <div>
         <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight">
-          User Database
+          User Management
         </h2>
         <p className="text-xs sm:text-sm text-stone-400">
-          Registered customer accounts, phone numbers and order history details
+          Registered customer accounts, phone numbers, password controls and order history details
         </p>
       </div>
 
@@ -80,10 +80,10 @@ export const AdminUsersTab = ({
                       <td className="p-4 text-right">
                         <button
                           onClick={() => setSelectedUser(u)}
-                          className="px-3.5 py-1.5 rounded-xl bg-stone-800 hover:bg-[#C28E58] hover:text-stone-950 text-stone-200 text-xs font-bold transition-all shadow inline-flex items-center space-x-1.5"
+                          className="px-3.5 py-1.5 rounded-xl bg-stone-800 hover:bg-[#C28E58] hover:text-stone-950 text-stone-200 text-xs font-bold transition-all shadow inline-flex items-center space-x-1.5 cursor-pointer"
                         >
                           <Eye className="h-3.5 w-3.5" />
-                          <span>View Details</span>
+                          <span>View</span>
                         </button>
                       </td>
                     </tr>

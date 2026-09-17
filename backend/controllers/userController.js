@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import { User, Order } from '../models/index.js';
 
 // Get All Users (Admin)
@@ -75,6 +76,34 @@ export const updateUserStatus = async (req, res) => {
   } catch (error) {
     console.error('Error updating user status:', error);
     res.status(500).json({ success: false, message: 'Failed to update user status' });
+  }
+};
+
+// Update / Change User Password (Admin)
+export const updateUserPassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { newPassword } = req.body;
+
+    if (!newPassword || newPassword.length < 4) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 4 characters long' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const updatedUser = await User.findByIdAndUpdate(id, { password: hashedPassword }, { new: true });
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ 
+      success: true, 
+      message: `Password changed successfully for ${updatedUser.name || updatedUser.email}` 
+    });
+  } catch (error) {
+    console.error('Error changing user password:', error);
+    res.status(500).json({ success: false, message: 'Failed to change user password' });
   }
 };
 

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AppProvider, AppContext } from "./context/AppContext";
+import { ToastProvider } from "./context/ToastContext";
 import { Navbar } from "./comonents/Navbar";
 import { Footer } from "./comonents/Footer";
 import { ScrollToTop } from "./comonents/ScrollToTop";
@@ -32,9 +33,12 @@ import { AdminMarketingPage } from "./pages/admin/AdminMarketingPage";
 
 // --- Protected Route Component for Admin Access ---
 function AdminProtectedRoute({ children }) {
-  const { user, token } = useContext(AppContext);
+  const { user, token, adminUser, adminToken } = useContext(AppContext);
 
-  if (token && user?.role === 'admin') {
+  const effectiveAdminToken = adminToken || (user?.role === 'admin' ? token : null);
+  const effectiveAdminUser = adminUser || (user?.role === 'admin' ? user : null);
+
+  if (effectiveAdminToken && effectiveAdminUser?.role === 'admin') {
     return children;
   }
 
@@ -58,7 +62,7 @@ function MainLayout() {
 
   if (isAdminPath) {
     return (
-      <div className="min-h-screen bg-stone-950 font-sans text-stone-100">
+      <div className="h-screen w-full bg-stone-950 font-sans text-stone-100 overflow-hidden flex flex-col">
         <ScrollToTop />
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -105,6 +109,7 @@ function MainLayout() {
             }
           />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/*" element={<Navigate to="/auth" replace />} />
           <Route path="/contact" element={<Contact />} />
 
           {/* Legal & Policy Routes */}
@@ -116,6 +121,9 @@ function MainLayout() {
           <Route path="/refund-and-cancellation" element={<RefundPolicy />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/shipping" element={<ShippingPolicy />} />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       <Footer />
@@ -125,9 +133,11 @@ function MainLayout() {
 
 function App() {
   return (
-    <AppProvider>
-      <MainLayout />
-    </AppProvider>
+    <ToastProvider>
+      <AppProvider>
+        <MainLayout />
+      </AppProvider>
+    </ToastProvider>
   );
 }
 

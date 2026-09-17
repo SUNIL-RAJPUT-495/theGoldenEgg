@@ -1,8 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { AppContext } from '../../context/AppContext';
 import { RefreshCw } from 'lucide-react';
+import { 
+  adminAPI,
+  productAPI, 
+  orderAPI, 
+  inquiryAPI, 
+  userAPI, 
+  couponAPI, 
+  bannerAPI 
+} from '../../services/api.js';
 
 import { AdminSidebar } from './AdminSidebar';
 import { AdminProductModal } from './AdminProductModal';
@@ -12,7 +20,7 @@ import { AdminUserModal } from './AdminUserModal';
 
 export const AdminLayout = () => {
   const navigate = useNavigate();
-  const { user, token, API_URL, logout } = useContext(AppContext);
+  const { user, token, logout, adminUser, adminToken, adminLogout } = useContext(AppContext);
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -61,31 +69,19 @@ export const AdminLayout = () => {
   const fetchAllAdminData = async () => {
     try {
       setLoading(true);
-      const authHeader = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-      
-      const results = await Promise.allSettled([
-        axios.get(`${API_URL}/analytics`, authHeader),
-        axios.get(`${API_URL}/products`, authHeader),
-        axios.get(`${API_URL}/orders`, authHeader),
-        axios.get(`${API_URL}/payments`, authHeader),
-        axios.get(`${API_URL}/inquiries`, authHeader),
-        axios.get(`${API_URL}/users`, authHeader),
-        axios.get(`${API_URL}/coupons`, authHeader),
-        axios.get(`${API_URL}/banners`, authHeader),
-        axios.get(`${API_URL}/products/categories/all`, authHeader)
-      ]);
+      const results = await adminAPI.fetchDashboardData();
 
       const [statsRes, prodRes, orderRes, payRes, inqRes, userRes, couponRes, bannerRes, catRes] = results;
 
-      if (statsRes.status === 'fulfilled' && statsRes.value?.data?.success) setStats(statsRes.value.data.stats);
-      if (prodRes.status === 'fulfilled' && prodRes.value?.data?.success) setProductsList(prodRes.value.data.products || []);
-      if (orderRes.status === 'fulfilled' && orderRes.value?.data?.success) setOrdersList(orderRes.value.data.orders || []);
-      if (payRes.status === 'fulfilled' && payRes.value?.data?.success) setPaymentsList(payRes.value.data.payments || []);
-      if (inqRes.status === 'fulfilled' && inqRes.value?.data?.success) setInquiriesList(inqRes.value.data.inquiries || []);
-      if (userRes.status === 'fulfilled' && userRes.value?.data?.success) setUsersList(userRes.value.data.users || []);
-      if (couponRes.status === 'fulfilled' && couponRes.value?.data?.success) setCouponsList(couponRes.value.data.coupons || []);
-      if (bannerRes.status === 'fulfilled' && bannerRes.value?.data?.success) setBannersList(bannerRes.value.data.banners || []);
-      if (catRes.status === 'fulfilled' && catRes.value?.data?.success) setCategoriesList(catRes.value.data.categories || []);
+      if (statsRes.status === 'fulfilled' && statsRes.value?.success) setStats(statsRes.value.stats);
+      if (prodRes.status === 'fulfilled' && prodRes.value?.success) setProductsList(prodRes.value.products || []);
+      if (orderRes.status === 'fulfilled' && orderRes.value?.success) setOrdersList(orderRes.value.orders || []);
+      if (payRes.status === 'fulfilled' && payRes.value?.success) setPaymentsList(payRes.value.payments || []);
+      if (inqRes.status === 'fulfilled' && inqRes.value?.success) setInquiriesList(inqRes.value.inquiries || []);
+      if (userRes.status === 'fulfilled' && userRes.value?.success) setUsersList(userRes.value.users || []);
+      if (couponRes.status === 'fulfilled' && couponRes.value?.success) setCouponsList(couponRes.value.coupons || []);
+      if (bannerRes.status === 'fulfilled' && bannerRes.value?.success) setBannersList(bannerRes.value.banners || []);
+      if (catRes.status === 'fulfilled' && catRes.value?.success) setCategoriesList(catRes.value.categories || []);
 
       setLoading(false);
     } catch (error) {
@@ -112,18 +108,16 @@ export const AdminLayout = () => {
 
     setUploadingImages(true);
     try {
-      const res = await axios.post(`${API_URL}/products/upload-images`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      if (res.data.success) {
-        const uploadedUrls = res.data.imageUrls;
+      const res = await productAPI.uploadImages(formData);
+      if (res.success) {
+        const uploadedUrls = res.imageUrls;
         const currentImages = productForm.images ? productForm.images.split(',').map(s => s.trim()).filter(Boolean) : [];
         const combined = [...currentImages, ...uploadedUrls];
         setProductForm(prev => ({ ...prev, images: combined.join(', ') }));
       }
     } catch (err) {
       console.error('Failed to upload files:', err);
-      alert(err.response?.data?.message || 'Image upload failed');
+      alert(err.response?.data?.message || err.message || 'Image upload failed');
     } finally {
       setUploadingImages(false);
     }
@@ -132,12 +126,12 @@ export const AdminLayout = () => {
   const handleQuickStockUpdate = async (productId, newStock) => {
     try {
       const stockVal = Math.max(0, Number(newStock));
-      const res = await axios.put(`${API_URL}/products/${productId}`, { stock: stockVal });
-      if (res.data.success) {
+      const res = await productAPI.updateStock(productId, stockVal);
+      if (res.success) {
         setProductsList(prev => prev.map(p => (p._id === productId || p.id === productId) ? { ...p, stock: stockVal } : p));
       }
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update stock');
+      alert(err.response?.data?.message || err.message || 'Failed to update stock');
     }
   };
 
@@ -240,21 +234,21 @@ export const AdminLayout = () => {
     try {
       if (editingProduct) {
         const pId = editingProduct._id || editingProduct.id;
-        await axios.put(`${API_URL}/products/${pId}`, payload);
+        await productAPI.updateProduct(pId, payload);
       } else {
-        await axios.post(`${API_URL}/products`, payload);
+        await productAPI.createProduct(payload);
       }
       setShowProductModal(false);
       fetchAllAdminData();
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to save product');
+      alert(err.response?.data?.message || err.message || 'Failed to save product');
     }
   };
 
   const handleDeleteProduct = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     try {
-      await axios.delete(`${API_URL}/products/${id}`);
+      await productAPI.deleteProduct(id);
       fetchAllAdminData();
     } catch (err) {
       alert('Failed to delete product');
@@ -263,7 +257,7 @@ export const AdminLayout = () => {
 
   const handleUpdateOrderStatus = async (orderId, deliveryStatus, paymentStatus) => {
     try {
-      await axios.put(`${API_URL}/orders/${orderId}/status`, { deliveryStatus, paymentStatus });
+      await orderAPI.updateOrderStatus(orderId, { deliveryStatus, paymentStatus });
       fetchAllAdminData();
     } catch (err) {
       alert('Failed to update order status');
@@ -272,7 +266,7 @@ export const AdminLayout = () => {
 
   const handleUpdateInquiryStatus = async (inquiryId, status, reply) => {
     try {
-      await axios.put(`${API_URL}/inquiries/${inquiryId}/status`, { status, replyNote: reply });
+      await inquiryAPI.updateInquiryStatus(inquiryId, { status, replyNote: reply });
       setSelectedInquiry(null);
       fetchAllAdminData();
     } catch (err) {
@@ -283,7 +277,7 @@ export const AdminLayout = () => {
   const handleDeleteInquiry = async (id) => {
     if (!window.confirm('Delete this inquiry?')) return;
     try {
-      await axios.delete(`${API_URL}/inquiries/${id}`);
+      await inquiryAPI.deleteInquiry(id);
       fetchAllAdminData();
     } catch (err) {
       alert('Failed to delete inquiry');
@@ -292,7 +286,7 @@ export const AdminLayout = () => {
 
   const handleToggleUserRole = async (userId, newRole) => {
     try {
-      await axios.put(`${API_URL}/users/${userId}/role`, { role: newRole });
+      await userAPI.updateUserRole(userId, newRole);
       setUsersList(prev => prev.map(u => (u._id === userId || u.id === userId) ? { ...u, role: newRole } : u));
       if (selectedUser && (selectedUser._id === userId || selectedUser.id === userId)) {
         setSelectedUser(prev => ({ ...prev, role: newRole }));
@@ -305,8 +299,8 @@ export const AdminLayout = () => {
 
   const handleUpdateUserStatus = async (userId, newStatus) => {
     try {
-      const res = await axios.put(`${API_URL}/users/${userId}/status`, { status: newStatus });
-      if (res.data.success) {
+      const res = await userAPI.updateUserStatus(userId, newStatus);
+      if (res.success) {
         setUsersList(prev => prev.map(u => (u._id === userId || u.id === userId) ? { ...u, status: newStatus } : u));
         if (selectedUser && (selectedUser._id === userId || selectedUser.id === userId)) {
           setSelectedUser(prev => ({ ...prev, status: newStatus }));
@@ -314,14 +308,23 @@ export const AdminLayout = () => {
       }
       fetchAllAdminData();
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update user status');
+      alert(err.response?.data?.message || err.message || 'Failed to update user status');
+    }
+  };
+
+  const handleUpdateUserPassword = async (userId, newPassword) => {
+    try {
+      const res = await userAPI.updatePassword(userId, newPassword);
+      return res;
+    } catch (err) {
+      throw err;
     }
   };
 
   const handleDeleteUser = async (userId) => {
     if (!window.confirm('Are you sure you want to delete this user account?')) return;
     try {
-      await axios.delete(`${API_URL}/users/${userId}`);
+      await userAPI.deleteUser(userId);
       setSelectedUser(null);
       fetchAllAdminData();
     } catch (err) {
@@ -332,19 +335,19 @@ export const AdminLayout = () => {
   const handleCreateCoupon = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/coupons`, couponForm);
+      await couponAPI.createCoupon(couponForm);
       setShowCouponModal(false);
       setCouponForm({ code: '', discountType: 'percentage', value: '', minOrderValue: '', expiryDate: '' });
       fetchAllAdminData();
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to create coupon');
+      alert(err.response?.data?.message || err.message || 'Failed to create coupon');
     }
   };
 
   const handleDeleteCoupon = async (id) => {
     if (!window.confirm('Delete this coupon?')) return;
     try {
-      await axios.delete(`${API_URL}/coupons/${id}`);
+      await couponAPI.deleteCoupon(id);
       fetchAllAdminData();
     } catch (err) {
       alert('Failed to delete coupon');
@@ -354,19 +357,19 @@ export const AdminLayout = () => {
   const handleCreateBanner = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/banners`, bannerForm);
+      await bannerAPI.createBanner(bannerForm);
       setShowBannerModal(false);
       setBannerForm({ title: '', subtitle: '', imageUrl: '', linkUrl: '/products' });
       fetchAllAdminData();
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to create banner');
+      alert(err.response?.data?.message || err.message || 'Failed to create banner');
     }
   };
 
   const handleDeleteBanner = async (id) => {
     if (!window.confirm('Delete banner?')) return;
     try {
-      await axios.delete(`${API_URL}/banners/${id}`);
+      await bannerAPI.deleteBanner(id);
       fetchAllAdminData();
     } catch (err) {
       alert('Failed to delete banner');
@@ -414,6 +417,7 @@ export const AdminLayout = () => {
     handleDeleteInquiry,
     handleToggleUserRole,
     handleUpdateUserStatus,
+    handleUpdateUserPassword,
     handleDeleteUser,
     showCouponModal,
     setShowCouponModal,
@@ -430,19 +434,21 @@ export const AdminLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 font-sans text-stone-100 flex flex-col lg:flex-row">
+    <div className="h-screen w-full bg-stone-950 font-sans text-stone-100 flex flex-col lg:flex-row overflow-hidden select-none">
       <AdminSidebar
-        user={user}
-        logout={logout}
+        user={adminUser || user}
+        logout={adminLogout || logout}
         mobileOpen={mobileOpen}
         setMobileOpen={setMobileOpen}
         unreadInquiriesCount={unreadInquiries}
         pendingOrdersCount={pendingOrders}
       />
 
-      <main className="flex-1 p-4 sm:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
-        {/* Child Router Outlet with shared Context */}
-        <Outlet context={adminContextValue} />
+      <main className="flex-1 h-screen overflow-y-auto bg-stone-950 p-4 sm:p-8 overscroll-contain select-auto">
+        <div className="max-w-7xl mx-auto w-full pb-24">
+          {/* Child Router Outlet with shared Context */}
+          <Outlet context={adminContextValue} />
+        </div>
       </main>
 
       {/* Shared Modals */}
@@ -479,6 +485,7 @@ export const AdminLayout = () => {
         ordersList={ordersList}
         handleUpdateUserStatus={handleUpdateUserStatus}
         handleToggleUserRole={handleToggleUserRole}
+        handleUpdateUserPassword={handleUpdateUserPassword}
         handleDeleteUser={handleDeleteUser}
       />
     </div>

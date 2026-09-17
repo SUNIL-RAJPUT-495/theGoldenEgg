@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Mail, MapPin, CheckCircle, Send, UserCheck, Phone } from 'lucide-react';
-import axios from 'axios';
-import { AppContext } from '../context/AppContext';
+import { inquiryAPI } from '../services/api.js';
 
 export const Contact = () => {
-  const { API_URL } = useContext(AppContext);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,11 +21,18 @@ export const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
     setErrorMsg('');
+
+    const cleanPhone = formData.phone ? formData.phone.replace(/\D/g, '') : '';
+    if (formData.phone && cleanPhone.length !== 10) {
+      setErrorMsg('Please enter a valid 10-digit mobile number (e.g. 7411932830)');
+      return;
+    }
+
+    setSubmitting(true);
     try {
-      const res = await axios.post(`${API_URL}/inquiries`, formData);
-      if (res.data.success) {
+      const res = await inquiryAPI.submitInquiry({ ...formData, phone: cleanPhone });
+      if (res.success) {
         setSubmitted(true);
         setFormData({
           name: '',
@@ -176,6 +181,25 @@ export const Contact = () => {
                   placeholder="Your Email Address"
                   value={formData.email}
                   onChange={handleChange}
+                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-800 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm"
+                />
+              </div>
+
+              {/* Phone Number */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
+                    Phone Number (Optional)
+                  </label>
+                  <span className="text-xs text-stone-400">{formData.phone ? formData.phone.length : 0}/10</span>
+                </div>
+                <input
+                  type="tel"
+                  name="phone"
+                  maxLength={10}
+                  placeholder="10-Digit Mobile (e.g. 7411932830)"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
                   className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-800 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm"
                 />
               </div>

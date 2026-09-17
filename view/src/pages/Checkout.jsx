@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { AppContext } from '../context/AppContext';
 import { MapPin, Phone, CreditCard, ShoppingBag, ArrowLeft, Check, AlertCircle } from 'lucide-react';
+import { authAPI } from '../services/api.js';
 
 export const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, getCartTotals, placeOrder, user, token, API_URL, appliedCoupon, setAppliedCoupon, applyCoupon } = useContext(AppContext);
+  const { cart, getCartTotals, placeOrder, user, token, appliedCoupon, setAppliedCoupon, applyCoupon } = useContext(AppContext);
 
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState('');
@@ -59,7 +59,7 @@ export const Checkout = () => {
   // Redirect to Auth if not logged in
   useEffect(() => {
     if (!token) {
-      navigate('/auth?redirect=checkout');
+      navigate('/auth');
     } else {
       fetchAddresses();
     }
@@ -74,7 +74,7 @@ export const Checkout = () => {
 
   const fetchAddresses = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/auth/addresses`);
+      const data = await authAPI.getAddresses();
       if (data.success) {
         const list = data.addresses || [];
         setAddresses(list);
@@ -88,7 +88,7 @@ export const Checkout = () => {
     } catch (error) {
       console.error('Error fetching addresses:', error);
       if (error.response?.status === 401) {
-        navigate('/auth?redirect=checkout');
+        navigate('/auth');
       }
     }
   };
@@ -96,10 +96,17 @@ export const Checkout = () => {
   const handleCreateAddress = async (e) => {
     e.preventDefault();
     setAddressError('');
+
+    const cleanPhone = newPhone.replace(/\D/g, '');
+    if (cleanPhone.length !== 10) {
+      setAddressError('Please enter a valid 10-digit mobile number (e.g. 7411932830)');
+      return;
+    }
+
     try {
-      const { data } = await axios.post(`${API_URL}/auth/addresses`, {
+      const data = await authAPI.addAddress({
         name: newName,
-        phone: newPhone,
+        phone: cleanPhone,
         address: newAddress,
         city: newCity,
         state: newState,
@@ -271,10 +278,11 @@ export const Checkout = () => {
                   />
                   <input
                     type="tel"
-                    placeholder="Phone Number"
+                    placeholder="10-Digit Phone Number"
                     required
+                    maxLength={10}
                     value={newPhone}
-                    onChange={(e) => setNewPhone(e.target.value)}
+                    onChange={(e) => setNewPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                     className="p-2 border rounded-xl text-sm bg-white dark:bg-stone-900 text-stone-800 dark:text-white"
                   />
                 </div>

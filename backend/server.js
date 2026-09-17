@@ -12,16 +12,8 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 import { connectDB } from './config/db.js';
 import { Product, Category, Coupon, Banner, User, Inquiry, Payment } from './models/index.js';
 
-// Modular Route Imports
-import authRoutes from './routes/auth.js';
-import userRoutes from './routes/users.js';
-import productRoutes from './routes/products.js';
-import orderRoutes from './routes/orders.js';
-import paymentRoutes from './routes/payments.js';
-import inquiryRoutes from './routes/inquiries.js';
-import couponRoutes from './routes/coupons.js';
-import bannerRoutes from './routes/banners.js';
-import analyticsRoutes from './routes/analytics.js';
+// Centralized API Router Import
+import apiRouter from './routes/index.js';
 
 const app = express();
 
@@ -51,16 +43,8 @@ app.use(cors({
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Modular API Endpoints
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/inquiries', inquiryRoutes);
-app.use('/api/coupons', couponRoutes);
-app.use('/api/banners', bannerRoutes);
-app.use('/api/analytics', analyticsRoutes);
+// Centralized API Endpoints
+app.use('/api', apiRouter);
 
 // Root Endpoint
 app.get('/', (req, res) => {

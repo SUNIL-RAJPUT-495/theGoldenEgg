@@ -12,6 +12,11 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Name, email and password are required' });
     }
 
+    const cleanPhone = (phone || '').toString().replace(/\D/g, '');
+    if (phone && (cleanPhone.length !== 10 || !/^[6-9]\d{9}$/.test(cleanPhone))) {
+      return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit mobile number (e.g. 7411932830)' });
+    }
+
     let existingUser = await User.findOne({ email: cleanEmail });
     if (!existingUser) {
       existingUser = await User.findOne({ 
@@ -29,7 +34,7 @@ export const registerUser = async (req, res) => {
       name,
       email: cleanEmail,
       password: hashedPassword,
-      phone: phone || '',
+      phone: cleanPhone || phone || '',
       role: 'customer',
       verified: true
     });
@@ -155,6 +160,11 @@ export const addUserAddress = async (req, res) => {
       return res.status(400).json({ success: false, message: 'All address fields are required' });
     }
 
+    const cleanPhone = (phone || '').toString().replace(/\D/g, '');
+    if (cleanPhone.length !== 10 || !/^[6-9]\d{9}$/.test(cleanPhone)) {
+      return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit mobile number' });
+    }
+
     if (isDefault) {
       const existing = await Address.find({ userId });
       for (const addr of existing) {
@@ -167,7 +177,7 @@ export const addUserAddress = async (req, res) => {
     const newAddress = await Address.create({
       userId,
       name,
-      phone,
+      phone: cleanPhone,
       address,
       city,
       state,
@@ -229,12 +239,26 @@ export const verifyOtp = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body;
-    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    const { email, phone, identifier } = req.body;
+    const rawVal = (phone || identifier || email || '').toString().trim();
+    if (!rawVal) {
+      return res.status(400).json({ success: false, message: 'Please enter your registered 10-digit mobile number or email' });
+    }
+
+    const cleanDigits = rawVal.replace(/\D/g, '');
+    const cleanEmail = rawVal.toLowerCase();
     
-    const user = await User.findOne({ email: cleanEmail });
+    // Check by 10-digit phone or email
+    const user = await User.findOne({
+      $or: [
+        { phone: cleanDigits },
+        { phone: rawVal },
+        { email: cleanEmail }
+      ]
+    });
+
     if (!user) {
-      return res.status(400).json({ success: false, message: 'No account found with this email' });
+      return res.status(400).json({ success: false, message: 'No registered account found with this phone number / email' });
     }
 
     const resetToken = Math.floor(100000 + Math.random() * 900000).toString();
@@ -242,7 +266,13 @@ export const forgotPassword = async (req, res) => {
 
     res.json({
       success: true,
-      message: `Password reset code sent. Demo Reset Code: ${resetToken}`,
+      message: `Account found for ${user.name || 'User'}! Enter your new password below.`,
+      user: {
+        id: user._id || user.id,
+        name: user.name,
+        phone: user.phone,
+        email: user.email
+      },
       resetToken
     });
   } catch (error) {
@@ -253,14 +283,27 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { email, newPassword } = req.body;
-    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    const { email, phone, identifier, newPassword } = req.body;
+    const rawVal = (phone || identifier || email || '').toString().trim();
+
+    if (!rawVal) {
+      return res.status(400).json({ success: false, message: 'Please provide registered 10-digit mobile number or email' });
+    }
 
     if (!newPassword || newPassword.length < 4) {
       return res.status(400).json({ success: false, message: 'New password must be at least 4 characters long' });
     }
 
-    const user = await User.findOne({ email: cleanEmail });
+    const cleanDigits = rawVal.replace(/\D/g, '');
+    const cleanEmail = rawVal.toLowerCase();
+    const user = await User.findOne({
+      $or: [
+        { phone: cleanDigits },
+        { phone: rawVal },
+        { email: cleanEmail }
+      ]
+    });
+
     if (!user) {
       return res.status(400).json({ success: false, message: 'User account not found' });
     }
@@ -270,7 +313,7 @@ export const resetPassword = async (req, res) => {
 
     await User.findByIdAndUpdate(user._id || user.id, { password: hashedPassword, otp: null });
 
-    res.json({ success: true, message: 'Password reset successfully! You can now log in with your new password.' });
+    res.json({ success: true, message: 'Password changed successfully! You can now login.' });
   } catch (error) {
     console.error('Error in resetPassword:', error);
     res.status(500).json({ success: false, message: 'Failed to reset password' });
@@ -282,7 +325,12 @@ export const updateProfile = async (req, res) => {
     const userId = req.user?._id || req.user?.id;
     const { name, phone } = req.body;
 
-    const updated = await User.findByIdAndUpdate(userId, { name, phone }, { new: true });
+    const cleanPhone = phone ? phone.toString().replace(/\D/g, '') : '';
+    if (phone && (cleanPhone.length !== 10 || !/^[6-9]\d{9}$/.test(cleanPhone))) {
+      return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit mobile number' });
+    }
+
+    const updated = await User.findByIdAndUpdate(userId, { name, phone: cleanPhone || phone }, { new: true });
     res.json({
       success: true,
       message: 'Profile updated successfully',

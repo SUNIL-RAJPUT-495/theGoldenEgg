@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { AppContext } from '../context/AppContext';
 import { Star, Heart, ShoppingCart, Plus, Minus, Check, AlertTriangle } from 'lucide-react';
+import { productAPI } from '../services/api.js';
 
 // Helper functions for nutritional facts and product specifications
 const getNutritionTableRows = (product) => {
@@ -32,66 +32,75 @@ const getNutritionTableRows = (product) => {
     if (rows.length > 0) return rows;
   }
 
-  const pName = (product?.name || '').toLowerCase();
-  
-  if (pName.includes('moringa')) {
+  // Fallbacks by category
+  const cat = (product?.category || '').toLowerCase();
+  const name = (product?.name || '').toLowerCase();
+
+  if (cat.includes('egg') || name.includes('egg')) {
     return [
-      { name: 'Energy', amount: '205 kcal' },
-      { name: 'Protein', amount: '27.1 g' },
-      { name: 'Total Fat', amount: '2.3 g' },
-      { name: 'Carbohydrates', amount: '38.2 g' },
-      { name: 'Dietary Fiber', amount: '19.2 g' },
-      { name: 'Calcium', amount: '2003 mg' },
-      { name: 'Iron', amount: '28.2 mg' },
-      { name: 'Magnesium', amount: '368 mg' },
-      { name: 'Potassium', amount: '1324 mg' },
-      { name: 'Sodium', amount: '9 mg' },
-      { name: 'Vitamin C', amount: '17.3 mg' },
-      { name: 'Vitamin A', amount: '378 µg RAE' }
+      { name: 'Energy', amount: '143 kcal' },
+      { name: 'Protein', amount: '12.6 g' },
+      { name: 'Total Fat', amount: '9.5 g' },
+      { name: 'Carbohydrates', amount: '0.7 g' },
+      { name: 'Cholesterol', amount: '372 mg' },
+      { name: 'Sodium', amount: '142 mg' },
+      { name: 'Vitamin A', amount: '160 mcg' },
+      { name: 'Calcium', amount: '56 mg' },
+      { name: 'Iron', amount: '1.75 mg' }
+    ];
+  }
+  
+  if (cat.includes('honey') || name.includes('honey')) {
+    return [
+      { name: 'Energy', amount: '304 kcal' },
+      { name: 'Carbohydrates', amount: '82.4 g' },
+      { name: 'Natural Sugars', amount: '82.1 g' },
+      { name: 'Protein', amount: '0.3 g' },
+      { name: 'Fat', amount: '0 g' },
+      { name: 'Potassium', amount: '52 mg' },
+      { name: 'Antioxidants', amount: 'High (Flavonoids & Phenolic acids)' }
     ];
   }
 
-  if (pName.includes('ragi')) {
+  if (cat.includes('ghee') || name.includes('ghee')) {
     return [
-      { name: 'Energy', amount: '328 kcal' },
-      { name: 'Protein', amount: '7.3 g' },
-      { name: 'Total Fat', amount: '1.3 g' },
-      { name: 'Carbohydrates', amount: '72.0 g' },
-      { name: 'Dietary Fiber', amount: '11.5 g' },
-      { name: 'Calcium', amount: '344 mg' },
-      { name: 'Iron', amount: '3.9 mg' },
-      { name: 'Potassium', amount: '408 mg' }
+      { name: 'Energy', amount: '897 kcal' },
+      { name: 'Total Fat', amount: '99.7 g' },
+      { name: 'Saturated Fat', amount: '65.2 g' },
+      { name: 'Omega-3 Fatty Acids', amount: '380 mg' },
+      { name: 'Vitamin A', amount: '3000 IU' },
+      { name: 'Vitamin E', amount: '2.8 mg' },
+      { name: 'Carbohydrates', amount: '0 g' },
+      { name: 'Protein', amount: '0 g' }
     ];
   }
 
   return [
-    { name: 'Energy', amount: '340 kcal' },
-    { name: 'Protein', amount: '9.2 g' },
-    { name: 'Total Fat', amount: '1.8 g' },
-    { name: 'Carbohydrates', amount: '71.5 g' },
-    { name: 'Dietary Fiber', amount: '8.4 g' },
-    { name: 'Calcium', amount: '120 mg' },
-    { name: 'Iron', amount: '4.2 mg' }
+    { name: 'Energy', amount: '120-150 kcal' },
+    { name: 'Protein', amount: '8-12 g' },
+    { name: 'Total Fat', amount: '3-6 g' },
+    { name: 'Carbohydrates', amount: '1-5 g' },
+    { name: 'Dietary Fiber', amount: '0.5-2 g' },
+    { name: 'Minerals & Vitamins', amount: 'Rich & Natural' }
   ];
 };
 
-const getProductIngredients = (product) => {
+const getIngredients = (product) => {
   if (product?.ingredients) return product.ingredients;
-  const pName = (product?.name || '').toLowerCase();
-  if (pName.includes('moringa')) {
-    return '100% Pure Organic Moringa Oleifera (Drumstick) Leaf Powder. Harvested from our food forest and shadow-dried to retain maximum vitamins, proteins, minerals and natural green chlorophyll.';
-  }
-  if (pName.includes('ragi')) {
-    return '100% Organically Grown Whole Finger Millet (Ragi). Traditionally stone-ground to preserve natural nutrients and dietary fiber.';
-  }
-  return '100% Pure, Organically Cultivated Natural Produce from The Golden Egg Food Forest.';
+  const name = (product?.name || '').toLowerCase();
+  if (name.includes('egg')) return '100% Pure Organic Free-Range Golden Country Eggs from naturally pasture-grazed native hens.';
+  if (name.includes('honey')) return '100% Pure Raw, Unfiltered & Unpasteurized Forest Honey harvested sustainably without added syrups.';
+  if (name.includes('ghee')) return '100% Pure A2 Gir Cow Bilona Vedic Cultured Ghee hand-churned from curd.';
+  return '100% Naturally farmed, chemical-free and preservative-free whole organic produce directly from our biodiversity food forest.';
 };
 
-const getProductStorage = (product) => {
-  if (product?.storageHandling) return product.storageHandling;
-  const pName = (product?.name || '').toLowerCase();
-  if (pName.includes('moringa')) {
-    return 'Store in a cool, dry place away from direct sunlight. Keep pouch tightly sealed or transfer to an airtight glass container to prevent moisture exposure and retain fresh aroma.';
+const getStorageInstructions = (product) => {
+  if (product?.storageInstructions) return product.storageInstructions;
+  const name = (product?.name || '').toLowerCase();
+  if (name.includes('egg')) return 'Store in refrigerator pointy-side down for maximum freshness, or in a clean cool dry basket away from direct sunlight. Consume within 21 days.';
+  if (name.includes('honey')) return 'Store at ambient room temperature in a dry airtight container. Do NOT refrigerate (pure raw honey naturally crystallizes in cold).';
+  if (name.includes('ghee')) {
+    return 'Store in an airtight glass/steel jar in a dry, cool cabinet. Use a dry clean spoon every time to preserve pure aroma for up to 12 months.';
   }
   return 'Store in a cool, dry place in an airtight container. Keep away from direct sunlight and humidity. Best consumed within 6 months from packaging.';
 };
@@ -99,7 +108,7 @@ const getProductStorage = (product) => {
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, wishlist, toggleWishlist, products, API_URL } = useContext(AppContext);
+  const { addToCart, wishlist, toggleWishlist, products } = useContext(AppContext);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -118,16 +127,16 @@ export const ProductDetails = () => {
   const fetchProductDetail = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${API_URL}/products/${id}`);
+      const data = await productAPI.getProductById(id);
       if (data.success) {
         setProduct(data.product);
         setSelectedImage(data.product.images?.[0] || '');
       }
       
       // Fetch reviews
-      const reviewsRes = await axios.get(`${API_URL}/products/${id}/reviews`);
-      if (reviewsRes.data.success) {
-        setReviews(reviewsRes.data.reviews);
+      const reviewsRes = await productAPI.getReviews(id);
+      if (reviewsRes.success) {
+        setReviews(reviewsRes.reviews);
       }
       setLoading(false);
     } catch (err) {
@@ -146,7 +155,7 @@ export const ProductDetails = () => {
     setReviewSuccess('');
     setReviewError('');
     try {
-      const { data } = await axios.post(`${API_URL}/products/${id}/reviews`, {
+      const data = await productAPI.addReview(id, {
         rating: userRating,
         comment: userComment
       });

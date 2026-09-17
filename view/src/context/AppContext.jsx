@@ -1,22 +1,34 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import { 
+  API_URL, 
+  authAPI, 
+  productAPI, 
+  bannerAPI, 
+  couponAPI, 
+  orderAPI 
+} from '../services/api.js';
 
 export const AppContext = createContext();
 
-const API_URL = import.meta.env.VITE_API_URL || 
-  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '[::1]'
-    ? 'http://localhost:5000/api'
-    : 'https://api.thegoldenegg.co.in/api');
-
 export const AppProvider = ({ children }) => {
-  // Load initial states from localStorage
+  // Load initial Customer states from localStorage
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('ge_user');
     return saved ? JSON.parse(saved) : null;
   });
   
   const [token, setToken] = useState(() => {
-    return localStorage.getItem('ge_token') || null;
+    return localStorage.getItem('ge_user_token') || localStorage.getItem('ge_token') || null;
+  });
+
+  // Load initial Admin states from localStorage (Independent Admin Session)
+  const [adminUser, setAdminUser] = useState(() => {
+    const saved = localStorage.getItem('ge_admin_user');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const [adminToken, setAdminToken] = useState(() => {
+    return localStorage.getItem('ge_admin_token') || null;
   });
 
   const [cart, setCart] = useState(() => {
@@ -39,7 +51,7 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
-  // Sync to localStorage
+  // Sync Customer User to localStorage
   useEffect(() => {
     if (user) {
       localStorage.setItem('ge_user', JSON.stringify(user));
@@ -48,13 +60,34 @@ export const AppProvider = ({ children }) => {
     }
   }, [user]);
 
+  // Sync Customer Token to localStorage
   useEffect(() => {
     if (token) {
+      localStorage.setItem('ge_user_token', token);
       localStorage.setItem('ge_token', token);
     } else {
+      localStorage.removeItem('ge_user_token');
       localStorage.removeItem('ge_token');
     }
   }, [token]);
+
+  // Sync Admin User to localStorage
+  useEffect(() => {
+    if (adminUser) {
+      localStorage.setItem('ge_admin_user', JSON.stringify(adminUser));
+    } else {
+      localStorage.removeItem('ge_admin_user');
+    }
+  }, [adminUser]);
+
+  // Sync Admin Token to localStorage
+  useEffect(() => {
+    if (adminToken) {
+      localStorage.setItem('ge_admin_token', adminToken);
+    } else {
+      localStorage.removeItem('ge_admin_token');
+    }
+  }, [adminToken]);
 
   useEffect(() => {
     localStorage.setItem('ge_cart', JSON.stringify(cart));
@@ -73,33 +106,6 @@ export const AppProvider = ({ children }) => {
     }
   }, [darkMode]);
 
-  // Set default auth headers for Axios
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    } else {
-      delete axios.defaults.headers.common['Authorization'];
-    }
-  }, [token]);
-
-  // Handle invalid/expired tokens automatically
-  useEffect(() => {
-    const interceptor = axios.interceptors.response.use(
-      response => response,
-      error => {
-        if (error.response && error.response.status === 401 && (error.response.data?.invalidToken || error.response.data?.message?.toLowerCase().includes('token'))) {
-          console.warn('Invalid or expired token detected. Resetting session...');
-          setUser(null);
-          setToken(null);
-          localStorage.removeItem('ge_user');
-          localStorage.removeItem('ge_token');
-        }
-        return Promise.reject(error);
-      }
-    );
-    return () => axios.interceptors.response.eject(interceptor);
-  }, []);
-
   // Initial loads
   const loadInitialData = async () => {
     try {
@@ -115,11 +121,15 @@ export const AppProvider = ({ children }) => {
     loadInitialData();
   }, [token]);
 
-  // --- Auth Handlers ---
+  // --- Customer Auth Handlers ---
   const signup = async (name, email, password, phone) => {
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API_URL}/auth/signup`, { name, email, password, phone });
+      const data = await authAPI.signup({ name, email, password, phone });
+      if (data.success && data.token) {
+        setToken(data.token);
+        setUser(data.user);
+      }
       setLoading(false);
       return data;
     } catch (error) {
@@ -131,7 +141,7 @@ export const AppProvider = ({ children }) => {
   const verifyOtp = async (email, otp) => {
     setLoading(true);
     try {
-      const { data } = await axios.post(`${API_URL}/auth/verify-otp`, { email, otp });
+      const data = await authAPI.verifyOtp({ email, otp });
       if (data.success) {
         setToken(data.token);
         setUser(data.user);
@@ -152,8 +162,7 @@ export const AppProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const cleanEmail = typeof email === 'string' ? email.trim() : email;
-      const { data } = await axios.post(`${API_URL}/auth/login`, { email: cleanEmail, password });
+      const data = await authAPI.login({ email, password });
       if (data.success) {
         setToken(data.token);
         setUser(data.user);
@@ -166,6 +175,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // Customer Logout (leaves admin session intact)
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -173,22 +183,46 @@ export const AppProvider = ({ children }) => {
     setWishlist([]);
     setAppliedCoupon(null);
     localStorage.removeItem('ge_user');
+    localStorage.removeItem('ge_user_token');
     localStorage.removeItem('ge_token');
     localStorage.removeItem('ge_cart');
     localStorage.removeItem('ge_wishlist');
   };
 
+  // --- Admin Auth Handlers (Independent Admin Session) ---
+  const adminLogin = async (email, password) => {
+    setLoading(true);
+    try {
+      const data = await authAPI.login({ email, password });
+      if (data.success) {
+        if (data.user?.role !== 'admin') {
+          throw new Error('Access Denied: Account does not have Administrator privileges.');
+        }
+        setAdminToken(data.token);
+        setAdminUser(data.user);
+        localStorage.setItem('ge_admin_token', data.token);
+        localStorage.setItem('ge_admin_user', JSON.stringify(data.user));
+      }
+      setLoading(false);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      throw error.response?.data || error;
+    }
+  };
+
+  // Admin Logout (leaves customer session intact)
+  const adminLogout = () => {
+    setAdminUser(null);
+    setAdminToken(null);
+    localStorage.removeItem('ge_admin_user');
+    localStorage.removeItem('ge_admin_token');
+  };
+
   // --- Data Fetching Hooks ---
   const fetchProducts = async (filters = {}) => {
     try {
-      const params = new URLSearchParams();
-      if (filters.search) params.append('search', filters.search);
-      if (filters.category) params.append('category', filters.category);
-      if (filters.minPrice) params.append('minPrice', filters.minPrice);
-      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
-      if (filters.sortBy) params.append('sortBy', filters.sortBy);
-
-      const { data } = await axios.get(`${API_URL}/products?${params.toString()}`);
+      const data = await productAPI.getProducts(filters);
       if (data.success) {
         setProducts(data.products);
       }
@@ -199,7 +233,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/products/categories/all`);
+      const data = await productAPI.getCategories();
       if (data.success) {
         setCategories(data.categories);
       }
@@ -210,7 +244,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchBanners = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/banners`);
+      const data = await bannerAPI.getBanners();
       if (data.success) {
         setBanners(data.banners);
       }
@@ -282,7 +316,7 @@ export const AppProvider = ({ children }) => {
     if (!code) return { success: false, message: 'Please enter a code' };
     const cartValue = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     try {
-      const { data } = await axios.post(`${API_URL}/coupons/validate`, { code, cartValue });
+      const data = await couponAPI.validateCoupon({ code, cartValue });
       if (data.success) {
         setAppliedCoupon(data.coupon);
       }
@@ -332,7 +366,7 @@ export const AppProvider = ({ children }) => {
     };
 
     try {
-      const { data } = await axios.post(`${API_URL}/orders/place`, orderData);
+      const data = await orderAPI.placeOrder(orderData);
       if (data.success) {
         clearCart();
       }
@@ -348,6 +382,12 @@ export const AppProvider = ({ children }) => {
       setUser,
       token,
       setToken,
+      adminUser,
+      setAdminUser,
+      adminToken,
+      setAdminToken,
+      adminLogin,
+      adminLogout,
       setSession,
       cart,
       wishlist,

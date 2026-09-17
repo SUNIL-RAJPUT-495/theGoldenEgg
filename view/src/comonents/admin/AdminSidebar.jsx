@@ -22,8 +22,8 @@ export const AdminSidebar = ({
     { path: '/admin/orders', label: 'Orders Management', icon: ShoppingCart, badge: pendingOrdersCount },
     { path: '/admin/payments', label: 'Payment Records', icon: CreditCard },
     { path: '/admin/inquiries', label: 'Customer Inquiries', icon: MessageSquare, badge: unreadInquiriesCount },
-    { path: '/admin/users', label: 'User Database', icon: Users },
-    { path: '/admin/marketing', label: 'Coupons & Discounts', icon: Tag },
+    { path: '/admin/users', label: 'User Management', icon: Users },
+    // { path: '/admin/marketing', label: 'Coupons & Discounts', icon: Tag },
   ];
 
   const handleNavClick = (path) => {
@@ -69,37 +69,37 @@ export const AdminSidebar = ({
         />
       )}
 
-      {/* Sidebar (Desktop Persistent & Mobile Slide-Out) */}
+      {/* Sidebar (Desktop Persistent & Mobile Slide-Out with Independent Scroll) */}
       <aside className={`
-        fixed lg:sticky top-0 left-0 z-50 lg:z-auto h-screen w-72 bg-stone-900 border-r border-stone-800 
-        flex flex-col justify-between p-5 transition-transform duration-300 ease-in-out shrink-0
+        fixed lg:static top-0 left-0 z-50 h-screen w-72 bg-stone-900 border-r border-stone-800 
+        flex flex-col p-5 transition-transform duration-300 ease-in-out shrink-0 overflow-hidden select-none
         ${mobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
       `}>
-        <div className="space-y-6">
-          {/* Header Brand */}
-          <div className="flex items-center justify-between border-b border-stone-800 pb-5">
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-[#C28E58] to-stone-800 p-0.5 shadow-lg flex items-center justify-center">
-                <ShieldCheck className="h-6 w-6 text-stone-950" />
-              </div>
-              <div>
-                <h1 className="font-serif font-black text-white text-lg tracking-tight leading-tight">
-                  The Golden Egg
-                </h1>
-                <span className="text-[10px] text-[#C28E58] font-bold uppercase tracking-widest block">
-                  Admin Control Panel
-                </span>
-              </div>
+        {/* Header Brand (Fixed at top of sidebar) */}
+        <div className="flex items-center justify-between border-b border-stone-800 pb-5 shrink-0">
+          <div className="flex items-center space-x-3">
+            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-[#C28E58] to-stone-800 p-0.5 shadow-lg flex items-center justify-center">
+              <ShieldCheck className="h-6 w-6 text-stone-950" />
             </div>
-            <button 
-              onClick={() => setMobileOpen(false)}
-              className="lg:hidden text-stone-400 hover:text-white p-1"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            <div>
+              <h1 className="font-serif font-black text-white text-lg tracking-tight leading-tight">
+                The Golden Egg
+              </h1>
+              <span className="text-[10px] text-[#C28E58] font-bold uppercase tracking-widest block">
+                Admin Control Panel
+              </span>
+            </div>
           </div>
+          <button 
+            onClick={() => setMobileOpen(false)}
+            className="lg:hidden text-stone-400 hover:text-white p-1"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
 
-          {/* Router Navigation Links */}
+        {/* Router Navigation Links (Independent Scrollable Container) */}
+        <div className="flex-1 overflow-y-auto py-4 space-y-1.5 overscroll-contain pr-1 custom-sidebar-scroll">
           <nav className="space-y-1.5">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -110,7 +110,7 @@ export const AdminSidebar = ({
                   onClick={() => handleNavClick(item.path)}
                   className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl font-bold text-xs transition-all duration-200 ${
                     isActive
-                      ? 'bg-[#C28E58] text-stone-950 shadow-lg shadow-[#C28E58]/20 scale-[1.02]'
+                      ? 'bg-[#C28E58] text-stone-950 shadow-lg shadow-[#C28E58]/20 scale-[1.01]'
                       : 'text-stone-400 hover:bg-stone-800/80 hover:text-white'
                   }`}
                 >
@@ -131,8 +131,8 @@ export const AdminSidebar = ({
           </nav>
         </div>
 
-        {/* Footer Admin User Info */}
-        <div className="pt-4 border-t border-stone-800 space-y-3">
+        {/* Footer Admin User Info (Fixed at bottom of sidebar) */}
+        <div className="pt-4 border-t border-stone-800 space-y-3 shrink-0 bg-stone-900">
           <div className="flex items-center justify-between p-3 rounded-2xl bg-stone-950 border border-stone-800">
             <div className="flex items-center space-x-3 overflow-hidden">
               <div className="h-9 w-9 rounded-xl bg-stone-800 flex items-center justify-center text-white font-bold text-xs shrink-0 border border-stone-700">

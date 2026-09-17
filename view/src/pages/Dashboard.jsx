@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
 import { AppContext } from '../context/AppContext';
 import { User, ShoppingBag, MapPin, Heart, Key, Phone, CheckCircle, Package, Truck, Smile, Eye } from 'lucide-react';
+import { authAPI, orderAPI } from '../services/api.js';
 
 export const Dashboard = () => {
-  const { user, token, logout, wishlist, toggleWishlist, addToCart, API_URL } = useContext(AppContext);
+  const { user, token, logout, wishlist, toggleWishlist, addToCart } = useContext(AppContext);
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'orders');
 
@@ -31,7 +31,7 @@ export const Dashboard = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/orders/my-orders`);
+      const data = await orderAPI.getMyOrders();
       if (data.success) {
         setOrders(data.orders);
         if (data.orders.length > 0) {
@@ -46,10 +46,17 @@ export const Dashboard = () => {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setProfileSuccess('');
+
+    const cleanPhone = profilePhone ? profilePhone.replace(/\D/g, '') : '';
+    if (profilePhone && cleanPhone.length !== 10) {
+      alert('Please enter a valid 10-digit mobile number');
+      return;
+    }
+
     try {
-      const { data } = await axios.put(`${API_URL}/auth/profile`, {
+      const data = await authAPI.updateProfile({
         name: profileName,
-        phone: profilePhone
+        phone: cleanPhone || profilePhone
       });
       if (data.success) {
         setProfileSuccess('Profile updated successfully!');
@@ -64,7 +71,7 @@ export const Dashboard = () => {
     setPasswordError('');
     setPasswordSuccess('');
     try {
-      const { data } = await axios.put(`${API_URL}/auth/change-password`, {
+      const data = await authAPI.changePassword({
         currentPassword,
         newPassword
       });
@@ -324,11 +331,16 @@ export const Dashboard = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-sm font-bold text-stone-500">Phone Number</label>
+                  <div className="flex justify-between items-center">
+                    <label className="text-sm font-bold text-stone-500">Phone Number (10 Digits)</label>
+                    <span className="text-xs text-stone-400">{profilePhone ? profilePhone.replace(/\D/g, '').length : 0}/10</span>
+                  </div>
                   <input
                     type="tel"
+                    maxLength={10}
+                    placeholder="e.g. 7411932830"
                     value={profilePhone}
-                    onChange={(e) => setProfilePhone(e.target.value)}
+                    onChange={(e) => setProfilePhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                     className="w-full bg-stone-50 dark:bg-stone-900 p-2.5 border rounded-xl text-sm"
                   />
                 </div>

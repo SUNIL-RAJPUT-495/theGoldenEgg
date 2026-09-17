@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { AppContext } from '../context/AppContext';
 import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
 
 export const AdminLogin = () => {
   const navigate = useNavigate();
-  const { login, logout, API_URL } = useContext(AppContext);
+  const { adminLogin } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,13 +19,8 @@ export const AdminLogin = () => {
 
     try {
       const cleanEmail = email.trim();
-      const data = await login(cleanEmail, password);
+      const data = await adminLogin(cleanEmail, password);
       if (data && data.success) {
-        if (data.user?.role !== 'admin') {
-          logout();
-          setError('Access Denied: Account does not have Administrator privileges.');
-          return;
-        }
         navigate('/admin');
       }
     } catch (err) {

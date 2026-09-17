@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   X, Mail, Phone, Shield, DollarSign, ShoppingBag, 
-  Ban, ShieldAlert, CheckCircle, AlertTriangle, UserCheck, Trash2
+  Ban, ShieldAlert, CheckCircle, AlertTriangle, Trash2,
+  Key, Lock, Eye, EyeOff, Sparkles
 } from 'lucide-react';
 
 export const AdminUserModal = ({ 
@@ -9,16 +10,47 @@ export const AdminUserModal = ({
   setSelectedUser, 
   ordersList = [], 
   handleUpdateUserStatus,
-  handleToggleUserRole,
+  handleUpdateUserPassword,
   handleDeleteUser
 }) => {
   if (!selectedUser) return null;
+
+  const [newPassword, setNewPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isChangingPass, setIsChangingPass] = useState(false);
+  const [passSuccess, setPassSuccess] = useState('');
+  const [passError, setPassError] = useState('');
 
   const uId = selectedUser._id || selectedUser.id;
   const uEmail = (selectedUser.email || '').toLowerCase();
   const uPhone = (selectedUser.phone || '').trim();
   const currentStatus = selectedUser.status || 'Active';
   const currentRole = selectedUser.role || 'customer';
+
+  const onPasswordChangeSubmit = async (e) => {
+    e.preventDefault();
+    setPassError('');
+    setPassSuccess('');
+
+    if (!newPassword || newPassword.trim().length < 4) {
+      setPassError('New password must be at least 4 characters long');
+      return;
+    }
+
+    setIsChangingPass(true);
+    try {
+      if (handleUpdateUserPassword) {
+        await handleUpdateUserPassword(uId, newPassword.trim());
+        setPassSuccess('Password updated successfully!');
+        setNewPassword('');
+        setTimeout(() => setPassSuccess(''), 4000);
+      }
+    } catch (err) {
+      setPassError(err.response?.data?.message || err.message || 'Failed to update password');
+    } finally {
+      setIsChangingPass(false);
+    }
+  };
 
   // Find all orders placed by this user
   const userOrders = ordersList.filter(o => {
@@ -76,90 +108,124 @@ export const AdminUserModal = ({
         {/* Modal Body */}
         <div className="space-y-6 text-xs overflow-y-auto pr-1 max-h-[70vh]">
           
-          {/* Admin Control Panel: Block / Suspend / Unblock & Role Toggle */}
+          {/* Admin Control Panel: Block / Suspend / Unblock & Delete Account */}
           <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 space-y-3">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center space-x-2">
-              <ShieldAlert className="h-4 w-4 text-[#C28E58]" />
-              <span>Admin Management Actions</span>
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center space-x-2">
+                <ShieldAlert className="h-4 w-4 text-[#C28E58]" />
+                <span>Account Access Status</span>
+              </h4>
+              {handleDeleteUser && (
+                <button
+                  onClick={() => handleDeleteUser(uId)}
+                  className="py-1.5 px-3 rounded-xl bg-red-950/80 hover:bg-red-600 text-red-300 hover:text-white border border-red-900/40 transition-all text-[11px] font-bold inline-flex items-center space-x-1 cursor-pointer"
+                  title="Delete User Account"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  <span>Delete User</span>
+                </button>
+              )}
+            </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              
-              {/* Account Status Actions */}
-              <div className="space-y-1.5">
-                <span className="text-[10px] text-stone-400 font-bold block">Account Access Status:</span>
-                <div className="flex items-center space-x-1.5">
-                  <button
-                    onClick={() => handleUpdateUserStatus(uId, 'Active')}
-                    className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1 border ${
-                      currentStatus === 'Active'
-                        ? 'bg-emerald-600 text-white border-emerald-500 shadow'
-                        : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
-                    }`}
-                  >
-                    <CheckCircle className="h-3.5 w-3.5" />
-                    <span>Active</span>
-                  </button>
+            <div className="flex items-center space-x-2 pt-1">
+              <button
+                onClick={() => handleUpdateUserStatus(uId, 'Active')}
+                className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1.5 border cursor-pointer ${
+                  currentStatus === 'Active'
+                    ? 'bg-emerald-600 text-white border-emerald-500 shadow'
+                    : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
+                }`}
+              >
+                <CheckCircle className="h-3.5 w-3.5" />
+                <span>Active</span>
+              </button>
 
-                  <button
-                    onClick={() => handleUpdateUserStatus(uId, 'Suspended')}
-                    className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1 border ${
-                      currentStatus === 'Suspended'
-                        ? 'bg-amber-600 text-white border-amber-500 shadow'
-                        : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
-                    }`}
-                  >
-                    <AlertTriangle className="h-3.5 w-3.5" />
-                    <span>Suspend</span>
-                  </button>
+              <button
+                onClick={() => handleUpdateUserStatus(uId, 'Suspended')}
+                className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1.5 border cursor-pointer ${
+                  currentStatus === 'Suspended'
+                    ? 'bg-amber-600 text-white border-amber-500 shadow'
+                    : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
+                }`}
+              >
+                <AlertTriangle className="h-3.5 w-3.5" />
+                <span>Suspend</span>
+              </button>
 
-                  <button
-                    onClick={() => handleUpdateUserStatus(uId, 'Blocked')}
-                    className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1 border ${
-                      currentStatus === 'Blocked'
-                        ? 'bg-red-600 text-white border-red-500 shadow'
-                        : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
-                    }`}
-                  >
-                    <Ban className="h-3.5 w-3.5" />
-                    <span>Block</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Role Toggle Action */}
-              <div className="space-y-1.5">
-                <span className="text-[10px] text-stone-400 font-bold block">User Permissions & Role:</span>
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => handleToggleUserRole(uId, currentRole === 'admin' ? 'customer' : 'admin')}
-                    className={`w-full py-2 px-3 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1.5 border ${
-                      currentRole === 'admin'
-                        ? 'bg-stone-800 hover:bg-stone-700 text-stone-200 border-stone-700'
-                        : 'bg-[#C28E58] hover:bg-[#b07e4a] text-stone-950 border-[#C28E58]'
-                    }`}
-                  >
-                    <UserCheck className="h-3.5 w-3.5" />
-                    <span>{currentRole === 'admin' ? 'Demote to Customer' : 'Promote to Admin'}</span>
-                  </button>
-
-                  {handleDeleteUser && (
-                    <button
-                      onClick={() => handleDeleteUser(uId)}
-                      className="p-2 rounded-xl bg-red-950/80 hover:bg-red-600 text-red-300 hover:text-white border border-red-900/40 transition-all shrink-0"
-                      title="Delete User Account"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-
+              <button
+                onClick={() => handleUpdateUserStatus(uId, 'Blocked')}
+                className={`flex-1 py-2 px-2.5 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center space-x-1.5 border cursor-pointer ${
+                  currentStatus === 'Blocked'
+                    ? 'bg-red-600 text-white border-red-500 shadow'
+                    : 'bg-stone-900 text-stone-300 hover:text-white border-stone-800 hover:bg-stone-800'
+                }`}
+              >
+                <Ban className="h-3.5 w-3.5" />
+                <span>Block</span>
+              </button>
             </div>
           </div>
 
+          {/* Admin Change Password Section */}
+          <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 space-y-3 shadow-inner">
+            <div className="flex items-center justify-between">
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center space-x-2">
+                <Key className="h-4 w-4 text-[#C28E58]" />
+                <span>Reset User Password</span>
+              </h4>
+              <span className="text-[10px] text-stone-500 font-mono">Min 4 characters</span>
+            </div>
+
+            {passSuccess && (
+              <div className="p-2.5 rounded-xl bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs flex items-center space-x-2 animate-fadeIn">
+                <CheckCircle className="h-4 w-4 shrink-0 text-emerald-400" />
+                <span>{passSuccess}</span>
+              </div>
+            )}
+
+            {passError && (
+              <div className="p-2.5 rounded-xl bg-red-950/80 border border-red-800 text-red-300 text-xs flex items-center space-x-2 animate-fadeIn">
+                <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
+                <span>{passError}</span>
+              </div>
+            )}
+
+            <form onSubmit={onPasswordChangeSubmit} className="flex flex-col sm:flex-row gap-2.5">
+              <div className="relative flex-1">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-500" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Enter new password for this account..."
+                  className="w-full bg-stone-900 border border-stone-800 pl-10 pr-10 py-2.5 rounded-xl text-white placeholder-stone-500 text-xs focus:outline-none focus:border-[#C28E58] transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-200 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isChangingPass || !newPassword}
+                className={`py-2.5 px-5 rounded-xl font-bold text-xs transition-all flex items-center justify-center space-x-1.5 shrink-0 shadow ${
+                  newPassword
+                    ? 'bg-gradient-to-r from-[#C28E58] to-[#996515] hover:from-[#b07d47] hover:to-[#8a5a12] text-white cursor-pointer hover:scale-[1.02]'
+                    : 'bg-stone-800 text-stone-500 cursor-not-allowed border border-stone-700'
+                }`}
+              >
+                <Key className="h-3.5 w-3.5" />
+                <span>{isChangingPass ? 'Updating...' : 'Set Password'}</span>
+              </button>
+            </form>
+          </div>
+
           {/* User Basic Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="p-3.5 rounded-2xl bg-stone-950 border border-stone-800 space-y-1">
               <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider block flex items-center space-x-1">
                 <Mail className="h-3 w-3 text-[#C28E58] inline mr-1" />
@@ -174,20 +240,6 @@ export const AdminUserModal = ({
                 Phone Number
               </span>
               <p className="font-bold text-white font-mono">{selectedUser.phone || 'N/A'}</p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-stone-950 border border-stone-800 space-y-1">
-              <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider block flex items-center space-x-1">
-                <Shield className="h-3 w-3 text-[#C28E58] inline mr-1" />
-                Account Role
-              </span>
-              <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                currentRole === 'admin' 
-                  ? 'bg-[#C28E58]/20 text-[#C28E58] border border-[#C28E58]/40' 
-                  : 'bg-stone-800 text-stone-300 border border-stone-700'
-              }`}>
-                {currentRole === 'admin' ? 'ADMINISTRATOR' : 'CUSTOMER'}
-              </span>
             </div>
           </div>
 
