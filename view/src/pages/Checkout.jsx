@@ -270,7 +270,7 @@ export const Checkout = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <input
                     type="text"
-                    placeholder="Recipient Name"
+                    placeholder="Enter Name"
                     required
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
@@ -278,7 +278,7 @@ export const Checkout = () => {
                   />
                   <input
                     type="tel"
-                    placeholder="10-Digit Phone Number"
+                    placeholder="Enter Phone Number"
                     required
                     maxLength={10}
                     value={newPhone}
@@ -289,7 +289,7 @@ export const Checkout = () => {
 
                 <input
                   type="text"
-                  placeholder="Street Address / House No / Road"
+                  placeholder="Enter Address"
                   required
                   value={newAddress}
                   onChange={(e) => setNewAddress(e.target.value)}
@@ -299,7 +299,7 @@ export const Checkout = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <input
                     type="text"
-                    placeholder="City"
+                    placeholder="Enter City"
                     required
                     value={newCity}
                     onChange={(e) => setNewCity(e.target.value)}
@@ -307,7 +307,7 @@ export const Checkout = () => {
                   />
                   <input
                     type="text"
-                    placeholder="State"
+                    placeholder="Enter State"
                     required
                     value={newState}
                     onChange={(e) => setNewState(e.target.value)}
@@ -315,7 +315,7 @@ export const Checkout = () => {
                   />
                   <input
                     type="text"
-                    placeholder="Pincode"
+                    placeholder="Enter Pincode"
                     required
                     value={newPincode}
                     onChange={(e) => setNewPincode(e.target.value)}
@@ -412,7 +412,7 @@ export const Checkout = () => {
               <form onSubmit={handleApplyCoupon} className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Enter Coupon Code (e.g. GOLDEN10)"
+                  placeholder="Enter Coupon Code"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="flex-grow bg-stone-50 dark:bg-stone-900 p-2 border border-stone-250 dark:border-stone-800 rounded-xl focus:outline-none text-xs text-stone-800 dark:text-white uppercase font-mono"

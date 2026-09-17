@@ -600,7 +600,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
               <form onSubmit={handleWaitlistSubmit} className="space-y-4">
                 <input
                   type="text"
-                  placeholder="Your Full Name"
+                  placeholder="Enter Name"
                   required
                   value={waitlistName}
                   onChange={(e) => setWaitlistName(e.target.value)}
@@ -609,7 +609,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
                 <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     type="email"
-                    placeholder="Your Email Address"
+                    placeholder="Enter Email"
                     required
                     value={waitlistEmail}
                     onChange={(e) => setWaitlistEmail(e.target.value)}
@@ -660,7 +660,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
                   <input
                     type="text"
                     required
-                    placeholder="Full Name *"
+                    placeholder="Enter Name"
                     value={partnerFormData.name}
                     onChange={(e) => setPartnerFormData({ ...partnerFormData, name: e.target.value })}
                     className="w-full bg-stone-100 dark:bg-stone-800 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
@@ -668,7 +668,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
                   <input
                     type="email"
                     required
-                    placeholder="Email Address *"
+                    placeholder="Enter Email"
                     value={partnerFormData.email}
                     onChange={(e) => setPartnerFormData({ ...partnerFormData, email: e.target.value })}
                     className="w-full bg-stone-100 dark:bg-stone-800 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
@@ -678,7 +678,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <input
                     type="text"
-                    placeholder="Company / Organization"
+                    placeholder="Enter Company Name"
                     value={partnerFormData.organization}
                     onChange={(e) => setPartnerFormData({ ...partnerFormData, organization: e.target.value })}
                     className="w-full bg-stone-100 dark:bg-stone-800 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
@@ -686,7 +686,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
                   <input
                     type="text"
                     required
-                    placeholder="Country / Region *"
+                    placeholder="Enter Country"
                     value={partnerFormData.country}
                     onChange={(e) => setPartnerFormData({ ...partnerFormData, country: e.target.value })}
                     className="w-full bg-stone-100 dark:bg-stone-800 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
@@ -696,7 +696,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
                 <textarea
                   rows={3}
                   required
-                  placeholder="Your Partnership Inquiry *"
+                  placeholder="Enter Message"
                   value={partnerFormData.message}
                   onChange={(e) => setPartnerFormData({ ...partnerFormData, message: e.target.value })}
                   className="w-full bg-stone-100 dark:bg-stone-800 px-4 py-3 rounded-xl border border-stone-200 dark:border-stone-700 text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"

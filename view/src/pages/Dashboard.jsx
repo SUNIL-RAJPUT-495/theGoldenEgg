@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { User, ShoppingBag, MapPin, Heart, Key, Phone, CheckCircle, Package, Truck, Smile, Eye } from 'lucide-react';
+import { User, ShoppingBag, MapPin, Heart, Key, Phone, CheckCircle, Package, Truck, Smile, Eye, Plus, Minus } from 'lucide-react';
 import { authAPI, orderAPI } from '../services/api.js';
 
 export const Dashboard = () => {
-  const { user, token, logout, wishlist, toggleWishlist, addToCart } = useContext(AppContext);
+  const { user, token, logout, wishlist, toggleWishlist, cart, addToCart, updateCartQty } = useContext(AppContext);
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'orders');
 
@@ -338,7 +338,7 @@ export const Dashboard = () => {
                   <input
                     type="tel"
                     maxLength={10}
-                    placeholder="e.g. 7411932830"
+                    placeholder="Enter Phone Number"
                     value={profilePhone}
                     onChange={(e) => setProfilePhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                     className="w-full bg-stone-50 dark:bg-stone-900 p-2.5 border rounded-xl text-sm"
@@ -373,16 +373,44 @@ export const Dashboard = () => {
                         <div className="flex justify-between items-center">
                           <span className="font-extrabold text-base text-organic-green-800">₹{item.price}</span>
                           
-                          <div className="flex space-x-2">
-                            <button
-                              onClick={() => addToCart(item, 1)}
-                              className="bg-organic-green-700 text-white p-2 rounded-lg text-xs font-semibold"
-                            >
-                              Add to Cart
-                            </button>
+                          <div className="flex space-x-2 items-center">
+                            {(() => {
+                              const wishInCart = cart?.find(c => c.productId === (item._id || item.id));
+                              if (wishInCart) {
+                                return (
+                                  <div className="flex items-center bg-organic-green-700 text-white rounded-lg overflow-hidden shadow-sm">
+                                    <button
+                                      onClick={() => updateCartQty(item._id || item.id, wishInCart.quantity - 1)}
+                                      className="p-1 hover:bg-organic-green-800 transition-colors"
+                                      title="Decrease quantity"
+                                    >
+                                      <Minus className="h-3 w-3" />
+                                    </button>
+                                    <span className="px-1.5 text-xs font-bold min-w-[1rem] text-center">
+                                      {wishInCart.quantity}
+                                    </span>
+                                    <button
+                                      onClick={() => updateCartQty(item._id || item.id, wishInCart.quantity + 1)}
+                                      className="p-1 hover:bg-organic-green-800 transition-colors"
+                                      title="Increase quantity"
+                                    >
+                                      <Plus className="h-3 w-3" />
+                                    </button>
+                                  </div>
+                                );
+                              }
+                              return (
+                                <button
+                                  onClick={() => addToCart(item, 1)}
+                                  className="bg-organic-green-700 text-white p-2 rounded-lg text-xs font-semibold cursor-pointer"
+                                >
+                                  Add to Cart
+                                </button>
+                              );
+                            })()}
                             <button
                               onClick={() => toggleWishlist(item)}
-                              className="text-red-500 border p-2 rounded-lg text-xs"
+                              className="text-red-500 border border-red-200 dark:border-red-900 p-2 rounded-lg text-xs hover:bg-red-50 dark:hover:bg-red-950/20 cursor-pointer"
                             >
                               Remove
                             </button>

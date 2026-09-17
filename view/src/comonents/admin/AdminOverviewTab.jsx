@@ -111,7 +111,7 @@ export const AdminOverviewTab = ({
           <div>
             <p className="text-xs text-stone-400 font-bold">Registered Users</p>
             <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight pt-1">
-              {stats?.totalUsers || 0}
+              {stats?.totalUsers || stats?.totalCustomers || 0}
             </h3>
           </div>
           <div className="pt-2 border-t border-stone-800 flex items-center justify-between text-[11px] text-stone-400">

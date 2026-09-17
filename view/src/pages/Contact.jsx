@@ -162,7 +162,7 @@ export const Contact = () => {
                   type="text"
                   name="name"
                   required
-                  placeholder="Your Full Name"
+                  placeholder="Enter Name"
                   value={formData.name}
                   onChange={handleChange}
                   className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
@@ -178,7 +178,7 @@ export const Contact = () => {
                   type="email"
                   name="email"
                   required
-                  placeholder="Your Email Address"
+                  placeholder="Enter Email"
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
@@ -197,7 +197,7 @@ export const Contact = () => {
                   type="tel"
                   name="phone"
                   maxLength={10}
-                  placeholder="10-Digit Mobile (e.g. 7411932830)"
+                  placeholder="Enter Phone Number"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
                   className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
@@ -232,7 +232,7 @@ export const Contact = () => {
                   name="message"
                   required
                   rows={4}
-                  placeholder="How can we help?"
+                  placeholder="Enter Message"
                   value={formData.message}
                   onChange={handleChange}
                   className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"

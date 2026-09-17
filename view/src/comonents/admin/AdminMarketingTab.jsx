@@ -86,7 +86,7 @@ export const AdminMarketingTab = ({
                 <input
                   type="text"
                   required
-                  placeholder="e.g. GOLDEN10"
+                  placeholder="Enter Coupon Code"
                   value={couponForm.code}
                   onChange={(e) => setCouponForm({ ...couponForm, code: e.target.value.toUpperCase() })}
                   className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white font-mono uppercase focus:outline-none focus:border-[#C28E58]"
@@ -111,7 +111,7 @@ export const AdminMarketingTab = ({
                   <input
                     type="number"
                     required
-                    placeholder="e.g. 10 or 100"
+                    placeholder="Enter Discount Value"
                     value={couponForm.value}
                     onChange={(e) => setCouponForm({ ...couponForm, value: e.target.value })}
                     className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"
@@ -123,7 +123,7 @@ export const AdminMarketingTab = ({
                 <label className="block text-stone-300 font-bold mb-1">Min Order Value (₹)</label>
                 <input
                   type="number"
-                  placeholder="e.g. 499"
+                  placeholder="Enter Min Order Value"
                   value={couponForm.minOrderValue}
                   onChange={(e) => setCouponForm({ ...couponForm, minOrderValue: e.target.value })}
                   className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58]"

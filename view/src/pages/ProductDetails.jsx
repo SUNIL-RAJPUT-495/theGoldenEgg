@@ -138,7 +138,7 @@ const getStorageInstructions = (product) => {
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, wishlist, toggleWishlist, products } = useContext(AppContext);
+  const { cart, addToCart, updateCartQty, wishlist, toggleWishlist, products } = useContext(AppContext);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -297,18 +297,6 @@ export const ProductDetails = () => {
               ₹{product.price}
             </div>
 
-            {/* Basic specifications */}
-            <div className="flex items-center space-x-4">
-              <span className={`text-xs font-bold px-3 py-1.5 rounded-full inline-flex items-center space-x-1.5 ${
-                product.stock > 0
-                  ? 'bg-green-50 text-green-700 dark:bg-green-950/40 dark:text-green-300'
-                  : 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300'
-              }`}>
-                <span className={`h-2 w-2 rounded-full ${product.stock > 0 ? 'bg-green-600' : 'bg-red-650'}`} />
-                <span>{product.stock > 0 ? `In Stock (${product.stock} units)` : 'Out of Stock'}</span>
-              </span>
-            </div>
-
             <p className="text-stone-500 dark:text-stone-400 text-sm leading-relaxed">
               {product.description?.substring(0, 180)}...
             </p>
@@ -335,34 +323,52 @@ export const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons & In-Cart Stepper */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <button
-                onClick={() => addToCart(product, qty)}
-                disabled={product.stock <= 0}
-                className="flex-1 bg-white hover:bg-stone-50 dark:bg-stone-900 border border-organic-green-700 text-organic-green-700 py-3 rounded-full font-bold transition-all hover:scale-[1.01] flex items-center justify-center space-x-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <ShoppingCart className="h-5 w-5" />
-                <span>Add to Cart</span>
-              </button>
+              {(() => {
+                const cartItem = cart?.find(item => item.productId === (product._id || product.id));
+                if (cartItem) {
+                  return (
+                    <div className="flex-1 flex items-center justify-between border-2 border-organic-green-700 bg-organic-green-50 dark:bg-stone-900 rounded-full px-5 py-2.5 shadow-sm">
+                      <button
+                        onClick={() => updateCartQty(product._id || product.id, cartItem.quantity - 1)}
+                        className="p-1.5 hover:bg-organic-green-200 dark:hover:bg-stone-800 rounded-full text-organic-green-800 dark:text-organic-green-400 transition-colors flex items-center justify-center cursor-pointer"
+                        title="Decrease quantity in cart"
+                      >
+                        <Minus className="h-5 w-5" />
+                      </button>
+                      <span className="font-extrabold text-sm text-organic-green-900 dark:text-white flex items-center space-x-1.5">
+                        <ShoppingCart className="h-4 w-4 text-organic-green-700 dark:text-organic-green-400" />
+                        <span>{cartItem.quantity} in Cart</span>
+                      </span>
+                      <button
+                        onClick={() => updateCartQty(product._id || product.id, cartItem.quantity + 1)}
+                        className="p-1.5 hover:bg-organic-green-200 dark:hover:bg-stone-800 rounded-full text-organic-green-800 dark:text-organic-green-400 transition-colors flex items-center justify-center cursor-pointer"
+                        title="Increase quantity in cart"
+                      >
+                        <Plus className="h-5 w-5" />
+                      </button>
+                    </div>
+                  );
+                }
+                return (
+                  <button
+                    onClick={() => addToCart(product, qty)}
+                    disabled={product.stock <= 0}
+                    className="flex-1 bg-white hover:bg-stone-50 dark:bg-stone-900 border border-organic-green-700 text-organic-green-700 py-3 rounded-full font-bold transition-all hover:scale-[1.01] flex items-center justify-center space-x-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    <ShoppingCart className="h-5 w-5" />
+                    <span>Add to Cart</span>
+                  </button>
+                );
+              })()}
               
               <button
                 onClick={handleBuyNow}
                 disabled={product.stock <= 0}
-                className="flex-1 bg-organic-green-700 hover:bg-organic-green-800 text-white py-3 rounded-full font-bold transition-all hover:scale-[1.01] flex items-center justify-center space-x-2 shadow-md shadow-organic-green-700/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-organic-green-700 hover:bg-organic-green-800 text-white py-3 rounded-full font-bold transition-all hover:scale-[1.01] flex items-center justify-center space-x-2 shadow-md shadow-organic-green-700/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 <span>Buy Now</span>
-              </button>
-
-              <button
-                onClick={() => toggleWishlist(product)}
-                className={`p-3 rounded-full border transition-all ${
-                  isWish
-                    ? 'border-red-500 bg-red-50 text-red-500 dark:bg-red-950/20'
-                    : 'border-stone-200 hover:bg-stone-50 dark:border-stone-800 text-stone-500'
-                }`}
-              >
-                <Heart className={`h-5 w-5 ${isWish ? 'fill-red-500' : ''}`} />
               </button>
             </div>
           </div>
@@ -527,7 +533,7 @@ export const ProductDetails = () => {
 
                   <div>
                     <textarea
-                      placeholder="Share your thoughts about this product's quality, packaging, and delivery..."
+                      placeholder="Enter Review"
                       rows={3}
                       required
                       value={userComment}
@@ -628,12 +634,51 @@ export const ProductDetails = () => {
                       <span className="text-base font-extrabold text-stone-900 dark:text-white">
                         ₹{p.price}
                       </span>
-                      <button
-                        onClick={() => addToCart(p, 1)}
-                        className="bg-organic-green-700 hover:bg-organic-green-800 text-white p-2 rounded-xl"
-                      >
-                        <ShoppingCart className="h-4 w-4" />
-                      </button>
+                      {(() => {
+                        const isOut = Number(p.stock) <= 0;
+                        const relatedInCart = cart?.find(item => item.productId === (p._id || p.id));
+                        if (relatedInCart) {
+                          return (
+                            <div className="flex items-center bg-organic-green-700 text-white rounded-xl overflow-hidden shadow-md shadow-organic-green-700/20">
+                              <button
+                                onClick={() => updateCartQty(p._id || p.id, relatedInCart.quantity - 1)}
+                                className="p-1.5 hover:bg-organic-green-800 transition-colors flex items-center justify-center cursor-pointer"
+                                title="Decrease quantity"
+                              >
+                                <Minus className="h-3.5 w-3.5" />
+                              </button>
+                              <span className="px-2 text-xs font-bold min-w-[1.2rem] text-center">
+                                {relatedInCart.quantity}
+                              </span>
+                              <button
+                                onClick={() => updateCartQty(p._id || p.id, relatedInCart.quantity + 1)}
+                                disabled={isOut || relatedInCart.quantity >= Number(p.stock)}
+                                className="p-1.5 hover:bg-organic-green-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center cursor-pointer"
+                                title="Increase quantity"
+                              >
+                                <Plus className="h-3.5 w-3.5" />
+                              </button>
+                            </div>
+                          );
+                        }
+                        if (isOut) {
+                          return (
+                            <span className="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/40 px-2.5 py-1 rounded-lg border border-red-200 dark:border-red-900/50">
+                              Out of Stock
+                            </span>
+                          );
+                        }
+                        return (
+                          <button
+                            onClick={() => addToCart(p, 1)}
+                            disabled={isOut}
+                            className="bg-organic-green-700 hover:bg-organic-green-800 disabled:bg-stone-300 disabled:dark:bg-stone-800 disabled:cursor-not-allowed text-white p-2 rounded-xl transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                            title={isOut ? "Out of Stock" : "Add to Cart"}
+                          >
+                            <ShoppingCart className="h-4 w-4" />
+                          </button>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>

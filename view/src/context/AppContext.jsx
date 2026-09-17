@@ -7,6 +7,7 @@ import {
   couponAPI, 
   orderAPI 
 } from '../services/api.js';
+import { toast } from './ToastContext.jsx';
 
 export const AppContext = createContext();
 
@@ -255,23 +256,40 @@ export const AppProvider = ({ children }) => {
 
   // --- Cart Operators ---
   const addToCart = (product, quantity = 1) => {
+    if (!product) return;
+    const prodStock = Number(product.stock !== undefined ? product.stock : 9999);
+    if (prodStock <= 0) {
+      toast.error(`Sorry, "${product.name || 'This item'}" is currently Out of Stock.`);
+      return;
+    }
+
     setCart(prevCart => {
-      const existing = prevCart.find(item => item.productId === (product._id || product.productId));
+      const targetId = product._id || product.productId || product.id;
+      const existing = prevCart.find(item => item.productId === targetId);
       if (existing) {
+        if (existing.quantity + quantity > prodStock) {
+          toast.error(`Only ${prodStock} units available in stock!`);
+          return prevCart.map(item => 
+            item.productId === targetId
+              ? { ...item, quantity: prodStock }
+              : item
+          );
+        }
         return prevCart.map(item => 
-          item.productId === (product._id || product.productId)
+          item.productId === targetId
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       } else {
+        const qtyToAdd = Math.min(quantity, prodStock);
         return [
           ...prevCart,
           {
-            productId: product._id || product.productId,
+            productId: targetId,
             name: product.name,
             price: product.price,
             image: product.images?.[0] || product.image || '',
-            quantity
+            quantity: qtyToAdd
           }
         ];
       }
@@ -287,6 +305,20 @@ export const AppProvider = ({ children }) => {
       removeFromCart(productId);
       return;
     }
+    const matchedProd = products.find(p => (p._id || p.id) === productId);
+    const availableStock = matchedProd ? Number(matchedProd.stock) : null;
+    
+    if (availableStock !== null && availableStock <= 0) {
+      toast.error(`"${matchedProd?.name || 'Item'}" is out of stock. Removed from cart.`);
+      removeFromCart(productId);
+      return;
+    }
+
+    if (availableStock !== null && qty > availableStock) {
+      toast.error(`Only ${availableStock} units available in stock!`);
+      qty = availableStock;
+    }
+
     setCart(prevCart => 
       prevCart.map(item => 
         item.productId === productId ? { ...item, quantity: qty } : item
@@ -352,6 +384,26 @@ export const AppProvider = ({ children }) => {
   };
 
   const placeOrder = async (shippingAddress, paymentMethod) => {
+    // 1. Client-side stock check before sending order to backend
+    for (const item of cart) {
+      const matchedProd = products.find(p => (p._id || p.id) === item.productId);
+      if (matchedProd) {
+        const currentStock = Number(matchedProd.stock || 0);
+        if (currentStock <= 0) {
+          removeFromCart(item.productId);
+          const errMsg = `"${item.name}" is currently Out of Stock and has been removed from your cart. Please review your cart.`;
+          toast.error(errMsg);
+          throw new Error(errMsg);
+        }
+        if (item.quantity > currentStock) {
+          updateCartQty(item.productId, currentStock);
+          const errMsg = `Only ${currentStock} units of "${item.name}" are available in stock. Quantity updated. Please review your order.`;
+          toast.error(errMsg);
+          throw new Error(errMsg);
+        }
+      }
+    }
+
     const totals = getCartTotals();
     
     const orderData = {
@@ -369,10 +421,12 @@ export const AppProvider = ({ children }) => {
       const data = await orderAPI.placeOrder(orderData);
       if (data.success) {
         clearCart();
+        fetchProducts(); // Refresh products with newly deducted stock
       }
       return data;
     } catch (error) {
-      throw error.response?.data || { success: false, message: 'Order placement failed' };
+      fetchProducts();
+      throw error.response?.data || error || { success: false, message: 'Order placement failed' };
     }
   };
 

@@ -12,6 +12,39 @@ export const createOrder = async (req, res) => {
     const userId = req.user?.id || 'guest_user';
     const userName = shippingAddress.name || 'Valued Customer';
 
+    // Validate Stock for all items before placing order
+    for (const item of items) {
+      const targetId = item.productId || item._id || item.id;
+      const requestedQty = Number(item.quantity || item.qty || 1);
+
+      if (!targetId) {
+        return res.status(400).json({ success: false, message: 'Invalid product details in cart.' });
+      }
+
+      const prod = await Product.findById(targetId);
+      if (!prod) {
+        return res.status(400).json({ 
+          success: false, 
+          message: `Product "${item.name || 'Selected Item'}" is no longer available. Please remove it from your cart to proceed.` 
+        });
+      }
+
+      const currentStock = Number(prod.stock || 0);
+      if (currentStock <= 0) {
+        return res.status(400).json({ 
+          success: false, 
+          message: `Sorry, "${prod.name}" is currently Out of Stock. Please remove it from your cart to place the order.` 
+        });
+      }
+
+      if (requestedQty > currentStock) {
+        return res.status(400).json({ 
+          success: false, 
+          message: `Sorry, only ${currentStock} units of "${prod.name}" are available in stock. Please reduce the quantity in your cart.` 
+        });
+      }
+    }
+
     const order = await Order.create({
       userId,
       userName,

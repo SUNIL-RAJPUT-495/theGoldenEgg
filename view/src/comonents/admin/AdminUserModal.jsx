@@ -197,7 +197,7 @@ export const AdminUserModal = ({
                   type={showPassword ? 'text' : 'password'}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Enter new password for this account..."
+                  placeholder="Enter New Password"
                   className="w-full bg-stone-900 border border-stone-800 pl-10 pr-10 py-2.5 rounded-xl text-white placeholder-stone-500 text-xs focus:outline-none focus:border-[#C28E58] transition-all"
                 />
                 <button

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { Star, Heart, ShoppingCart, SlidersHorizontal, Search, RefreshCw, X } from 'lucide-react';
+import { Star, Heart, ShoppingCart, SlidersHorizontal, Search, RefreshCw, X, Plus, Minus } from 'lucide-react';
 
 export const Products = () => {
-  const { products, categories, fetchProducts, addToCart, toggleWishlist, wishlist } = useContext(AppContext);
+  const { products, categories, fetchProducts, cart, addToCart, updateCartQty, toggleWishlist, wishlist } = useContext(AppContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Filters state
@@ -204,20 +204,48 @@ export const Products = () => {
                         </div>
                       </div>
 
-                      {/* Price & Add to Cart */}
+                      {/* Price & Add to Cart / Quantity Controller */}
                       <div className="flex items-center justify-between mt-3 sm:mt-6 pt-2 border-t border-stone-100 dark:border-stone-800/60">
                         <span className="text-sm sm:text-xl font-extrabold text-stone-900 dark:text-white">
                           ₹{p.price}
                         </span>
                         
-                        <button
-                          onClick={() => addToCart(p, 1)}
-                          disabled={p.stock <= 0}
-                          className="bg-organic-green-700 hover:bg-organic-green-800 disabled:bg-stone-200 disabled:dark:bg-stone-800 disabled:cursor-not-allowed text-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl transition-all hover:scale-105 active:scale-95 shadow-md shadow-organic-green-700/10"
-                          title="Add to Cart"
-                        >
-                          <ShoppingCart className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
-                        </button>
+                        {(() => {
+                          const inCart = cart?.find(item => item.productId === (p._id || p.id));
+                          if (inCart) {
+                            return (
+                              <div className="flex items-center bg-organic-green-700 text-white rounded-lg sm:rounded-xl overflow-hidden shadow-md shadow-organic-green-700/20">
+                                <button
+                                  onClick={() => updateCartQty(p._id || p.id, inCart.quantity - 1)}
+                                  className="p-1.5 sm:p-2 hover:bg-organic-green-800 transition-colors flex items-center justify-center cursor-pointer"
+                                  title="Decrease quantity"
+                                >
+                                  <Minus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                                </button>
+                                <span className="px-2 text-xs sm:text-sm font-bold min-w-[1.2rem] text-center">
+                                  {inCart.quantity}
+                                </span>
+                                <button
+                                  onClick={() => updateCartQty(p._id || p.id, inCart.quantity + 1)}
+                                  className="p-1.5 sm:p-2 hover:bg-organic-green-800 transition-colors flex items-center justify-center cursor-pointer"
+                                  title="Increase quantity"
+                                >
+                                  <Plus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                                </button>
+                              </div>
+                            );
+                          }
+                          return (
+                            <button
+                              onClick={() => addToCart(p, 1)}
+                              disabled={p.stock <= 0}
+                              className="bg-organic-green-700 hover:bg-organic-green-800 disabled:bg-stone-200 disabled:dark:bg-stone-800 disabled:cursor-not-allowed text-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl transition-all hover:scale-105 active:scale-95 shadow-md shadow-organic-green-700/10 cursor-pointer"
+                              title="Add to Cart"
+                            >
+                              <ShoppingCart className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+                            </button>
+                          );
+                        })()}
                       </div>
                     </div>
                   </div>

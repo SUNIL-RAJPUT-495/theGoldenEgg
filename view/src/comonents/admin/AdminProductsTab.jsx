@@ -41,7 +41,7 @@ export const AdminProductsTab = ({
           <Search className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
           <input
             type="text"
-            placeholder="Search by product name or weight..."
+            placeholder="Search Products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-stone-950 border border-stone-800 pl-10 pr-4 py-2 rounded-xl text-white placeholder-stone-500 text-xs focus:outline-none focus:border-[#C28E58]"

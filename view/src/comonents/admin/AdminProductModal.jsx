@@ -46,7 +46,7 @@ export const AdminProductModal = ({
               <input
                 type="text"
                 required
-                placeholder="e.g. Organic Moringa Leaf Powder"
+                placeholder="Enter Product Name"
                 value={productForm.name}
                 onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                 className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
@@ -58,7 +58,7 @@ export const AdminProductModal = ({
               <input
                 type="text"
                 required
-                placeholder="e.g. 500g, 1 kg, 250g, 100g"
+                placeholder="Enter Weight"
                 value={productForm.weight}
                 onChange={(e) => setProductForm({ ...productForm, weight: e.target.value })}
                 className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
@@ -73,7 +73,7 @@ export const AdminProductModal = ({
               <input
                 type="number"
                 required
-                placeholder="e.g. 299"
+                placeholder="Enter Price"
                 value={productForm.price}
                 onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
                 className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
@@ -85,7 +85,7 @@ export const AdminProductModal = ({
               <input
                 type="number"
                 required
-                placeholder="e.g. 50"
+                placeholder="Enter Stock"
                 value={productForm.stock}
                 onChange={(e) => setProductForm({ ...productForm, stock: e.target.value })}
                 className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
@@ -142,7 +142,7 @@ export const AdminProductModal = ({
               <summary className="cursor-pointer font-semibold hover:text-stone-300">Or edit image URLs manually</summary>
               <input
                 type="text"
-                placeholder="https://images.unsplash.com/..."
+                placeholder="Enter Image URLs"
                 value={productForm.images}
                 onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
                 className="w-full bg-stone-950 border border-stone-800 px-3 py-2 rounded-xl text-white mt-1.5 focus:outline-none focus:border-[#C28E58]"
@@ -155,7 +155,7 @@ export const AdminProductModal = ({
             <label className="block text-stone-300 font-bold">Description</label>
             <textarea
               rows={2}
-              placeholder="Detailed product story and description..."
+              placeholder="Enter Product Description"
               value={productForm.description}
               onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
               className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
@@ -168,10 +168,10 @@ export const AdminProductModal = ({
               <label className="block text-stone-300 font-bold">Ingredients</label>
               <textarea
                 rows={2}
-                placeholder="100% Pure Organic Leaf Powder..."
+                placeholder="Enter Ingredients"
                 value={productForm.ingredients}
                 onChange={(e) => setProductForm({ ...productForm, ingredients: e.target.value })}
-                className="w-full bg-stone-950 border border-stone-800 px-3 py-2 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
+                className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
               />
             </div>
 
@@ -179,10 +179,10 @@ export const AdminProductModal = ({
               <label className="block text-stone-300 font-bold">Storage & Handling</label>
               <textarea
                 rows={2}
-                placeholder="Store in a cool, dry place away from direct sunlight..."
+                placeholder="Enter Storage Instructions"
                 value={productForm.storageHandling}
                 onChange={(e) => setProductForm({ ...productForm, storageHandling: e.target.value })}
-                className="w-full bg-stone-950 border border-stone-800 px-3 py-2 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
+                className="w-full bg-stone-950 border border-stone-800 px-3 py-2.5 rounded-xl text-white focus:outline-none focus:border-[#C28E58] text-xs sm:text-sm"
               />
             </div>
           </div>
@@ -209,7 +209,7 @@ export const AdminProductModal = ({
                 <div key={idx} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-stone-900 p-2.5 rounded-xl border border-stone-800">
                   <input
                     type="text"
-                    placeholder="Nutrient Name (e.g. Energy, Calcium)"
+                    placeholder="Enter Nutrient Name"
                     value={item.name}
                     onChange={(e) => handleNutrientChange(idx, 'name', e.target.value)}
                     className="w-full sm:flex-1 bg-stone-950 border border-stone-800 px-2.5 py-2 rounded-lg text-white text-xs focus:outline-none focus:border-[#C28E58]"
@@ -217,7 +217,7 @@ export const AdminProductModal = ({
                   <div className="flex items-center gap-2 w-full sm:w-auto sm:flex-1">
                     <input
                       type="text"
-                      placeholder="Amount (e.g. 205 kcal, 33%)"
+                      placeholder="Enter Amount"
                       value={item.amount}
                       onChange={(e) => handleNutrientChange(idx, 'amount', e.target.value)}
                       className="flex-1 bg-stone-950 border border-stone-800 px-2.5 py-2 rounded-lg text-white text-xs focus:outline-none focus:border-[#C28E58]"

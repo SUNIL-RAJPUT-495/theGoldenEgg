@@ -188,7 +188,7 @@ export const Auth = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="customer@thegoldenegg.com"
+                  placeholder="Enter Email"
                   className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
@@ -213,7 +213,7 @@ export const Auth = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter Password"
                   className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-10 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
                 <button
@@ -264,7 +264,7 @@ export const Auth = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Ramesh Kumar"
+                  placeholder="Enter Name"
                   className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
@@ -279,7 +279,7 @@ export const Auth = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="ramesh@gmail.com"
+                  placeholder="Enter Email"
                   className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
@@ -303,7 +303,7 @@ export const Auth = () => {
                   maxLength={10}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  placeholder="7411932830"
+                  placeholder="Enter Phone Number"
                   className="w-full bg-stone-50 dark:bg-stone-900/80 pl-16 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
@@ -318,7 +318,7 @@ export const Auth = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter Password"
                   className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
@@ -371,7 +371,7 @@ export const Auth = () => {
                   maxLength={10}
                   value={forgotPhone}
                   onChange={(e) => setForgotPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  placeholder="Enter 10-digit number (e.g. 7411932830)"
+                  placeholder="Enter Phone Number"
                   className="w-full bg-stone-50 dark:bg-stone-900/80 pl-16 pr-3.5 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
@@ -394,7 +394,7 @@ export const Auth = () => {
                       required
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Enter new password"
+                      placeholder="Enter New Password"
                       className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-10 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                     />
                     <button
@@ -415,7 +415,7 @@ export const Auth = () => {
                       type="password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Re-enter new password"
+                      placeholder="Enter Confirm Password"
                       className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                     />
                   </div>

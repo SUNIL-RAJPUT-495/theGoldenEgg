@@ -39,7 +39,7 @@ export const Navbar = () => {
           <form onSubmit={handleSearchSubmit} className="hidden md:flex flex-1 max-w-md mx-8 relative">
             <input
               type="text"
-              placeholder="Search organic ragi, cookies, mixes..."
+              placeholder="Search Products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 pl-10 pr-4 py-2 rounded-full border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-organic-green-600 focus:border-transparent text-sm transition-all"
@@ -163,7 +163,7 @@ export const Navbar = () => {
           <form onSubmit={handleSearchSubmit} className="relative mt-2">
             <input
               type="text"
-              placeholder="Search items..."
+              placeholder="Search Products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-stone-100 dark:bg-stone-900 text-stone-800 dark:text-stone-100 pl-10 pr-4 py-2 rounded-full text-sm border-none focus:outline-none focus:ring-2 focus:ring-organic-green-600"

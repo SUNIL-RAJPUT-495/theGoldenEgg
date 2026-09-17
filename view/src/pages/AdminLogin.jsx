@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
+import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 
 export const AdminLogin = () => {
   const navigate = useNavigate();
@@ -31,11 +31,6 @@ export const AdminLogin = () => {
     }
   };
 
-  const handleFillDemoAdmin = () => {
-    setEmail('admin@thegoldenegg.com');
-    setPassword('admin123');
-  };
-
   return (
     <div className="min-h-screen bg-stone-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
       
@@ -48,29 +43,32 @@ export const AdminLogin = () => {
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#C28E58] to-[#E6C387] mx-auto flex items-center justify-center font-bold text-stone-950 text-2xl shadow-xl shadow-[#C28E58]/20">
-            🍳
+            👑
           </div>
           <div>
-            <h1 className="text-2xl font-serif font-black text-white tracking-tight"><b>The Golden Egg</b></h1>
-            <p className="text-xs uppercase font-extrabold tracking-widest text-[#C28E58] mt-1 flex items-center justify-center space-x-1">
-              <ShieldCheck className="h-3.5 w-3.5 inline" />
-              <span>Admin Console Authentication</span>
+            <h1 className="text-2xl font-serif font-bold text-white tracking-tight">
+              The Golden Egg
+            </h1>
+            <p className="text-xs text-[#C28E58] font-bold uppercase tracking-widest pt-1">
+              Food Forest Administrator
             </p>
           </div>
         </div>
 
+        {/* Error Notification */}
         {error && (
-          <div className="p-4 bg-red-950/80 border border-red-800 text-red-200 rounded-2xl text-xs flex items-center space-x-3">
-            <AlertCircle className="h-5 w-5 text-red-400 shrink-0" />
+          <div className="p-4 rounded-2xl bg-red-950/40 border border-red-800/60 flex items-center space-x-3 text-red-400 text-xs animate-shake">
+            <AlertCircle className="h-4 w-4 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Form */}
+        {/* Login Form */}
         <form onSubmit={handleAdminLogin} className="space-y-5">
           
+          {/* Email */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-stone-300">
+            <label className="text-xs font-bold uppercase tracking-wider text-stone-400">
               Admin Email
             </label>
             <div className="relative">
@@ -78,7 +76,7 @@ export const AdminLogin = () => {
               <input
                 type="email"
                 required
-                placeholder="admin@thegoldenegg.com"
+                placeholder="Enter Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-stone-950 border border-stone-800 pl-10 pr-4 py-3 rounded-xl text-sm text-white focus:outline-none focus:border-[#C28E58] transition-all"
@@ -86,16 +84,17 @@ export const AdminLogin = () => {
             </div>
           </div>
 
+          {/* Password */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-stone-300">
-              Admin Password
+            <label className="text-xs font-bold uppercase tracking-wider text-stone-400">
+              Master Password
             </label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-stone-500" />
               <input
                 type="password"
                 required
-                placeholder="••••••••"
+                placeholder="Enter Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-stone-950 border border-stone-800 pl-10 pr-4 py-3 rounded-xl text-sm text-white focus:outline-none focus:border-[#C28E58] transition-all"
@@ -106,7 +105,7 @@ export const AdminLogin = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-[#C28E58] to-[#b07e4a] text-stone-950 font-bold text-sm hover:opacity-95 transition-all shadow-lg shadow-[#C28E58]/20 flex items-center justify-center space-x-2"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-[#C28E58] to-[#b07e4a] text-stone-950 font-bold text-sm hover:opacity-95 transition-all shadow-lg shadow-[#C28E58]/20 flex items-center justify-center space-x-2 cursor-pointer"
           >
             {loading ? (
               <span>Authenticating Admin...</span>
@@ -119,18 +118,6 @@ export const AdminLogin = () => {
           </button>
 
         </form>
-
-        {/* Demo Quick Fill */}
-        <div className="pt-4 border-t border-stone-800/80 text-center space-y-3">
-          <p className="text-xs text-stone-400">Need quick testing access?</p>
-          <button
-            onClick={handleFillDemoAdmin}
-            className="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-xs font-semibold text-[#C28E58] transition-all inline-flex items-center space-x-1.5 border border-stone-700/60"
-          >
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Autofill Demo Admin Credentials</span>
-          </button>
-        </div>
 
       </div>
 

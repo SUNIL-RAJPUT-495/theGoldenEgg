@@ -23,6 +23,7 @@ import { AdminPaymentsTab } from '../comonents/admin/AdminPaymentsTab';
 import { AdminInquiriesTab } from '../comonents/admin/AdminInquiriesTab';
 import { AdminInquiryModal } from '../comonents/admin/AdminInquiryModal';
 import { AdminUsersTab } from '../comonents/admin/AdminUsersTab';
+import { AdminUserModal } from '../comonents/admin/AdminUserModal';
 import { AdminMarketingTab } from '../comonents/admin/AdminMarketingTab';
 
 export const AdminDashboard = () => {
@@ -61,6 +62,7 @@ export const AdminDashboard = () => {
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedInquiry, setSelectedInquiry] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [replyNote, setReplyNote] = useState('');
 
   const [showCouponModal, setShowCouponModal] = useState(false);
@@ -104,10 +106,6 @@ export const AdminDashboard = () => {
 
   // Reset Search Term on Tab Switch
   useEffect(() => {
-    setSearchTerm('');
-    setStatusFilter('All');
-    setStockFilter('All');
-  }, [activeTab]);
     setSearchTerm('');
     setStatusFilter('All');
     setStockFilter('All');
@@ -312,13 +310,39 @@ export const AdminDashboard = () => {
     }
   };
 
-  // --- Handlers: User Role ---
+  // --- Handlers: User Operations ---
   const handleToggleUserRole = async (userId, newRole) => {
     try {
       await userAPI.updateUserRole(userId, newRole);
       fetchAllAdminData();
     } catch (err) {
       alert('Failed to update user role');
+    }
+  };
+
+  const handleUpdateUserStatus = async (userId, status) => {
+    try {
+      await userAPI.updateUserStatus(userId, status);
+      fetchAllAdminData();
+    } catch (err) {
+      alert('Failed to update user status');
+    }
+  };
+
+  const handleUpdateUserPassword = async (userId, newPassword) => {
+    const res = await userAPI.updatePassword(userId, newPassword);
+    fetchAllAdminData();
+    return res;
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+    try {
+      await userAPI.deleteUser(userId);
+      setSelectedUser(null);
+      fetchAllAdminData();
+    } catch (err) {
+      alert('Failed to delete user');
     }
   };
 
@@ -460,7 +484,7 @@ export const AdminDashboard = () => {
             usersList={usersList}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
-            handleToggleUserRole={handleToggleUserRole}
+            setSelectedUser={setSelectedUser}
           />
         )}
 
@@ -512,6 +536,15 @@ export const AdminDashboard = () => {
         replyNote={replyNote}
         setReplyNote={setReplyNote}
         handleUpdateInquiryStatus={handleUpdateInquiryStatus}
+      />
+
+      <AdminUserModal
+        selectedUser={selectedUser}
+        setSelectedUser={setSelectedUser}
+        ordersList={ordersList}
+        handleUpdateUserStatus={handleUpdateUserStatus}
+        handleUpdateUserPassword={handleUpdateUserPassword}
+        handleDeleteUser={handleDeleteUser}
       />
 
     </div>

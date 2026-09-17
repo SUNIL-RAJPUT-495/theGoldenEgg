@@ -171,7 +171,7 @@ export const Cart = () => {
               <form onSubmit={handleCouponSubmit} className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="WELCOME10 or SUPERFOOD"
+                  placeholder="Enter Coupon Code"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   className="flex-grow bg-stone-50 dark:bg-stone-900 p-2.5 border border-stone-200 dark:border-stone-800 rounded-xl focus:outline-none text-sm text-stone-800 dark:text-white"
