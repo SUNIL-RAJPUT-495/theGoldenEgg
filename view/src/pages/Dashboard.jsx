@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { User, ShoppingBag, MapPin, Heart, Key, Phone, CheckCircle, Package, Truck, Smile, Eye, Plus, Minus } from 'lucide-react';
 import { authAPI, orderAPI } from '../services/api.js';
+import { toast } from '../context/ToastContext.jsx';
 
 export const Dashboard = () => {
   const { user, token, logout, wishlist, toggleWishlist, cart, addToCart, updateCartQty } = useContext(AppContext);
@@ -49,7 +50,7 @@ export const Dashboard = () => {
 
     const cleanPhone = profilePhone ? profilePhone.replace(/\D/g, '') : '';
     if (profilePhone && cleanPhone.length !== 10) {
-      alert('Please enter a valid 10-digit mobile number');
+      toast.error('Please enter a valid 10-digit mobile number');
       return;
     }
 

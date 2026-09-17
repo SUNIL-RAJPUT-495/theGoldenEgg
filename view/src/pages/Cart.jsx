@@ -144,7 +144,8 @@ export const Cart = () => {
         {/* Right column: Coupon & Summary */}
         <div className="space-y-8">
           
-          {/* Coupon Code section */}
+          {/* Coupon Code section - Commented out */}
+          {/*
           <div className="glass-card p-6 rounded-3xl space-y-4">
             <h3 className="font-bold text-base text-stone-900 dark:text-white flex items-center space-x-2">
               <Tag className="h-5 w-5 text-organic-gold-500" />
@@ -185,6 +186,7 @@ export const Cart = () => {
               </form>
             )}
           </div>
+          */}
 
           {/* Cart Summary Totals */}
           <div className="glass-card p-6 rounded-3xl space-y-6">

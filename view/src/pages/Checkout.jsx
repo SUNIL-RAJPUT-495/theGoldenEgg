@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { MapPin, Phone, CreditCard, ShoppingBag, ArrowLeft, Check, AlertCircle } from 'lucide-react';
 import { authAPI } from '../services/api.js';
+import { toast } from '../context/ToastContext.jsx';
 
 export const Checkout = () => {
   const navigate = useNavigate();
@@ -139,7 +140,7 @@ export const Checkout = () => {
 
   const handleCheckoutSubmit = async () => {
     if (!selectedAddressId) {
-      alert('Please select or add a shipping address.');
+      toast.error('Please select or add a shipping address.');
       return;
     }
 
@@ -168,7 +169,7 @@ export const Checkout = () => {
           setPaymentStep('success');
         }
       } catch (err) {
-        alert(err.message || 'Payment simulation failed');
+        toast.error(err.message || 'Payment simulation failed');
         setShowPaymentModal(false);
       }
     }, 2000);
@@ -376,7 +377,8 @@ export const Checkout = () => {
             <span>Order Review</span>
           </h3>
 
-          {/* Coupon Code Input in Checkout */}
+          {/* Coupon Code Input in Checkout - Commented out */}
+          {/*
           <div className="pt-2 border-t border-stone-150 space-y-2">
             {appliedCoupon ? (
               <div className="flex items-center justify-between bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800 p-2.5 rounded-xl text-xs text-emerald-700 dark:text-emerald-300">
@@ -410,6 +412,7 @@ export const Checkout = () => {
               </p>
             )}
           </div>
+          */}
 
           <div className="border-t border-stone-150 pt-4 space-y-2.5 text-xs text-stone-500">
             <div className="flex justify-between">
