@@ -165,7 +165,7 @@ export const Contact = () => {
                   placeholder="Your Full Name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-800 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm"
+                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
                 />
               </div>
 
@@ -181,7 +181,7 @@ export const Contact = () => {
                   placeholder="Your Email Address"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-800 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm"
+                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
                 />
               </div>
 
@@ -200,7 +200,7 @@ export const Contact = () => {
                   placeholder="10-Digit Mobile (e.g. 7411932830)"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
-                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-800 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm"
+                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
                 />
               </div>
 
@@ -213,7 +213,7 @@ export const Contact = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-800 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm font-medium text-stone-800 dark:text-stone-100"
+                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm font-medium text-stone-900 dark:text-white"
                 >
                   <option value="General Inquiry / Food Forest Story">General Inquiry / Food Forest Story</option>
                   <option value="Ragi Flour & Product Orders">Ragi Flour & Product Orders</option>
@@ -235,7 +235,7 @@ export const Contact = () => {
                   placeholder="How can we help?"
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-800 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm"
+                  className="w-full bg-white dark:bg-stone-950 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-750 focus:outline-none focus:ring-2 focus:ring-[#1A2E22] text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400"
                 />
               </div>
 

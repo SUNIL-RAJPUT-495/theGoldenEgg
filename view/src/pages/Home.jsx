@@ -232,7 +232,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
 
       {/* 4. CURRENT OFFERING (PRODUCT PREVIEW CARD - MINIMALIST IMMERSIVE DESIGN) */}
       <section id="offering" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#F9F6F0] dark:bg-stone-900 rounded-3xl p-8 sm:p-12 border border-stone-200/60 dark:border-stone-800 space-y-10 shadow-sm">
+        <div className="bg-[#F9F6F0] dark:bg-stone-900 rounded-3xl p-5 sm:p-12 border border-stone-200/60 dark:border-stone-800 space-y-8 sm:space-y-10 shadow-sm">
           
           <div className="space-y-2">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block">
@@ -244,9 +244,9 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
           </div>
 
           {/* Minimalist Immersive Product Preview Card */}
-          <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center">
+          <div className="bg-stone-50 dark:bg-stone-950 rounded-3xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center">
             
-            <div className="lg:col-span-5 relative h-72 sm:h-96 lg:h-full bg-stone-100 dark:bg-stone-900 overflow-hidden">
+            <div className="lg:col-span-5 relative h-64 sm:h-96 lg:h-full bg-stone-100 dark:bg-stone-900 overflow-hidden">
               <img
                 src={ragiProduct?.images?.[0] || "/ragi-flour-5kg.jpg"}
                 alt={ragiProduct?.name || "Organic Ragi Flour"}
@@ -257,10 +257,10 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
               </div>
             </div>
 
-            <div className="lg:col-span-7 p-8 sm:p-12 space-y-6 flex flex-col justify-between">
+            <div className="lg:col-span-7 p-5 sm:p-10 lg:p-12 space-y-6 flex flex-col justify-between">
               <div className="space-y-5">
                 {/* Why Ragi Qualifies as a Nutraceutical */}
-                <div className="p-5 bg-[#F9F6F0] dark:bg-stone-900/90 rounded-2xl border border-[#C28E58]/30 dark:border-stone-800 space-y-3 shadow-sm">
+                <div className="p-4 sm:p-5 bg-white/80 dark:bg-stone-900/90 rounded-2xl border border-[#C28E58]/30 dark:border-stone-800 space-y-3 shadow-sm">
                   <h4 className="text-lg sm:text-xl font-serif font-extrabold text-[#1A2E22] dark:text-white flex items-center gap-2">
                     <Sparkles className="h-5 w-5 text-[#C28E58] shrink-0" />
                     Why Ragi Qualifies as a Nutraceutical
@@ -284,23 +284,23 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
                 </p>
 
                 {/* Key Benefits Badges */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-2">
+                  <div className="p-3 bg-white/90 dark:bg-stone-900 rounded-xl text-center space-y-1 border border-stone-200/50 dark:border-stone-800">
                     <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Organic Millet</span>
                   </div>
-                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                  <div className="p-3 bg-white/90 dark:bg-stone-900 rounded-xl text-center space-y-1 border border-stone-200/50 dark:border-stone-800">
                     <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Nutritious Fibre</span>
                   </div>
-                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                  <div className="p-3 bg-white/90 dark:bg-stone-900 rounded-xl text-center space-y-1 border border-stone-200/50 dark:border-stone-800">
                     <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Rich in Calcium</span>
                   </div>
-                  <div className="p-3 bg-[#F9F6F0] dark:bg-stone-900 rounded-xl text-center space-y-1">
+                  <div className="p-3 bg-white/90 dark:bg-stone-900 rounded-xl text-center space-y-1 border border-stone-200/50 dark:border-stone-800">
                     <span className="text-[11px] font-bold text-[#1A2E22] dark:text-stone-200 block">Gluten-Free</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-stone-100 dark:border-stone-850 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              <div className="pt-6 border-t border-stone-200/60 dark:border-stone-850 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 <div>
                   <span className="text-xs text-stone-400 font-bold uppercase block">Starting From</span>
                   <span className="text-2xl font-black text-[#1A2E22] dark:text-white">

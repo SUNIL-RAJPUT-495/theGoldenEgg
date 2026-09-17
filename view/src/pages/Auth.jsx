@@ -189,7 +189,7 @@ export const Auth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="customer@thegoldenegg.com"
-                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
+                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
             </div>
@@ -214,7 +214,7 @@ export const Auth = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-10 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
+                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-10 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
                 <button
                   type="button"
@@ -265,7 +265,7 @@ export const Auth = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Ramesh Kumar"
-                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
+                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
             </div>
@@ -280,7 +280,7 @@ export const Auth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="ramesh@gmail.com"
-                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
+                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
             </div>
@@ -304,7 +304,7 @@ export const Auth = () => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                   placeholder="7411932830"
-                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-16 pr-3.5 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
+                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-16 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
             </div>
@@ -319,7 +319,7 @@ export const Auth = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
+                  className="w-full bg-stone-50 dark:bg-stone-900/80 pl-10 pr-3.5 py-3 border border-stone-300 dark:border-stone-750 rounded-2xl text-sm text-stone-900 dark:text-white placeholder-stone-500 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C28E58]"
                 />
               </div>
             </div>

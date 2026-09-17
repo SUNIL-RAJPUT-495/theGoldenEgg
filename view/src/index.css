@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -24,28 +26,80 @@
 }
 
 @layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-stone-50 text-stone-800 transition-colors duration-300 font-sans;
+    background-color: #fafaf9; /* stone-50 */
+    color: #1c1917; /* stone-900 */
+    font-family: var(--font-sans);
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
   
+  html.dark body,
+  .dark body,
   body.dark {
-    @apply bg-stone-950 text-stone-100;
+    background-color: #0c0a09; /* stone-950 */
+    color: #f5f5f4; /* stone-100 */
+  }
+
+  /* Universal Mobile & Desktop Form Input & Placeholder Visibility */
+  input, textarea, select {
+    color: #1c1917;
+    -webkit-text-fill-color: currentColor;
+    font-size: 14px;
+  }
+
+  .dark input, 
+  .dark textarea, 
+  .dark select,
+  html.dark input, 
+  html.dark textarea, 
+  html.dark select {
+    color: #f5f5f4;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #78716c !important; /* stone-500 */
+    opacity: 1 !important;
+    -webkit-text-fill-color: #78716c !important;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder,
+  html.dark input::placeholder,
+  html.dark textarea::placeholder {
+    color: #a8a29e !important; /* stone-400 */
+    opacity: 1 !important;
+    -webkit-text-fill-color: #a8a29e !important;
+  }
+
+  /* Remove mobile webkit tap highlight and unwanted zoom glitches */
+  input, textarea, select, button {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-stone-200/50 shadow-sm transition-all duration-300;
+    @apply bg-white/90 backdrop-blur-md border border-stone-200/70 shadow-sm transition-all duration-300;
   }
   .dark .glass-card {
-    @apply bg-stone-900/80 border-stone-800/50 shadow-black/40;
+    @apply bg-stone-900/90 border-stone-800/80 shadow-black/40 text-stone-100;
   }
   
   .glass-nav {
-    @apply bg-white/70 backdrop-blur-lg border-b border-stone-200/30 sticky top-0 z-50 transition-all duration-300;
+    @apply bg-white/80 backdrop-blur-lg border-b border-stone-200/50 sticky top-0 z-50 transition-all duration-300;
   }
   .dark .glass-nav {
-    @apply bg-stone-950/70 border-stone-900/30;
+    @apply bg-stone-950/85 border-stone-800/60 text-stone-100;
   }
 
   .text-gradient {
