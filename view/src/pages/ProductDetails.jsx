@@ -5,6 +5,36 @@ import { Star, Heart, ShoppingCart, Plus, Minus, Check, AlertTriangle } from 'lu
 import { productAPI } from '../services/api.js';
 
 // Helper functions for nutritional facts and product specifications
+const getProductIngredients = (product) => {
+  if (product?.ingredients && typeof product.ingredients === 'string' && product.ingredients.trim()) {
+    return product.ingredients;
+  }
+  if (Array.isArray(product?.ingredients) && product.ingredients.length > 0) {
+    return product.ingredients.join(', ');
+  }
+  return `100% Pure, Organic & Farm-Fresh ${product?.name || 'Produce'} without any artificial additives, chemicals, or preservatives.`;
+};
+
+const getProductStorage = (product) => {
+  if (product?.storageHandling && typeof product.storageHandling === 'string' && product.storageHandling.trim()) {
+    return product.storageHandling;
+  }
+  if (product?.storage && typeof product.storage === 'string' && product.storage.trim()) {
+    return product.storage;
+  }
+  const cat = (product?.category || '').toLowerCase();
+  if (cat.includes('egg')) {
+    return 'Store in a cool, dry place. For extended freshness, refrigerate at 4°C - 8°C.';
+  }
+  if (cat.includes('honey')) {
+    return 'Store at room temperature in a tightly sealed container. Do not refrigerate to prevent crystallization.';
+  }
+  if (cat.includes('ghee') || cat.includes('oil')) {
+    return 'Store in a cool, dry place away from direct sunlight. Use a clean, dry spoon.';
+  }
+  return 'Store in an airtight container in a cool, dry place away from moisture and direct sunlight.';
+};
+
 const getNutritionTableRows = (product) => {
   if (Array.isArray(product?.nutritionFacts) && product.nutritionFacts.length > 0) {
     return product.nutritionFacts.map(n => ({

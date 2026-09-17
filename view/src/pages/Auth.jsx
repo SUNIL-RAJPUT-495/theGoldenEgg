@@ -75,7 +75,7 @@ export const Auth = () => {
         navigate('/');
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Signup failed. Please try again.');
+      setErrorMsg(err.message || err.response?.data?.message || err.error || 'Signup failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

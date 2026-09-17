@@ -134,7 +134,7 @@ export const AppProvider = ({ children }) => {
       return data;
     } catch (error) {
       setLoading(false);
-      throw error.response?.data || { success: false, message: 'Signup failed' };
+      throw error.response?.data || error;
     }
   };
 
