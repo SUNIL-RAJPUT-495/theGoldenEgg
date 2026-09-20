@@ -55,6 +55,9 @@ export const Navbar = () => {
             <Link to="/products" className="text-stone-600 dark:text-stone-300 hover:text-organic-green-700 dark:hover:text-organic-green-100 font-medium transition-colors">
               Shop Products
             </Link>
+            <Link to="/founders" className="text-stone-600 dark:text-stone-300 hover:text-organic-green-700 dark:hover:text-organic-green-100 font-medium transition-colors">
+              Founders &amp; Story
+            </Link>
             <Link to="/contact" className="text-stone-600 dark:text-stone-300 hover:text-organic-green-700 dark:hover:text-organic-green-100 font-medium transition-colors">
               Contact
             </Link>
@@ -184,6 +187,13 @@ export const Navbar = () => {
             className="block px-3 py-2 rounded-md text-base font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-900"
           >
             Shop Products
+          </Link>
+          <Link
+            to="/founders"
+            onClick={() => setMenuOpen(false)}
+            className="block px-3 py-2 rounded-md text-base font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-900"
+          >
+            Founders &amp; Story
           </Link>
           <Link
             to="/contact"

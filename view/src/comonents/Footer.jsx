@@ -53,7 +53,7 @@ export const Footer = () => {
             <h3 className="text-white font-serif font-bold text-lg">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/" className="text-stone-300 hover:text-[#C28E58] transition-colors">Our Story</Link>
+                <Link to="/founders" className="text-stone-300 hover:text-[#C28E58] transition-colors">Founders &amp; Stewards</Link>
               </li>
               <li>
                 <Link to="/products" className="text-stone-300 hover:text-[#C28E58] transition-colors">Shop</Link>

@@ -6,6 +6,7 @@ import {
   Box, Leaf, ShieldCheck, Globe, Download, X, Check, Calendar, Sprout
 } from 'lucide-react';
 import forestimage from '../assets/forestimage.jpeg';
+import { FoundersSection } from '../comonents/FoundersSection';
 
 export const Home = () => {
   const { products, addToCart, toggleWishlist, wishlist } = useContext(AppContext);
@@ -481,11 +482,13 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
               <span>Launch: March 2027</span>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* 7. CULTIVATE A LEGACY OF PURITY (GLOBAL PARTNERSHIP INVITATION) */}
+      {/* 7. FOUNDERS & STEWARDS */}
+      <FoundersSection />
+
+      {/* 8. CULTIVATE A LEGACY OF PURITY (GLOBAL PARTNERSHIP INVITATION) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-br from-[#1A2E22] via-[#243f2f] to-[#14241b] text-white p-8 sm:p-12 lg:p-16 rounded-3xl space-y-8 shadow-2xl relative overflow-hidden">
           

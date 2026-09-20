@@ -20,6 +20,7 @@ import { TermsAndConditions } from "./pages/TermsAndConditions";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { RefundPolicy } from "./pages/RefundPolicy";
 import { ShippingPolicy } from "./pages/ShippingPolicy";
+import { Founders } from "./pages/Founders";
 
 // Admin Layout & Individual Router Pages
 import { AdminLayout } from "./comonents/admin/AdminLayout";
@@ -111,6 +112,8 @@ function MainLayout() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/*" element={<Navigate to="/auth" replace />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/founders" element={<Founders />} />
+          <Route path="/about" element={<Founders />} />
 
           {/* Legal & Policy Routes */}
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
