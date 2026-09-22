@@ -37,7 +37,7 @@ export const FoundersSection = ({ isStandalone = false }) => {
         </h2>
 
         <p className="text-base sm:text-lg text-stone-700 dark:text-stone-300 leading-relaxed font-sans font-normal max-w-3xl mx-auto">
-          <strong className="text-[#1A2E22] dark:text-stone-100 font-semibold">The Golden Egg</strong> began with a simple belief: that food, land, people, and wellbeing can be brought together in a more conscious and responsible way. At the heart of this journey are its two co-founders—<strong className="text-[#1A2E22] dark:text-white">Raghavendra Yadav</strong>, rooted in the land, and <strong className="text-[#1A2E22] dark:text-white">Chetan L</strong>, united by a shared vision to build around it.
+          <strong className="text-[#1A2E22] dark:text-stone-100 font-semibold">The Golden Egg</strong> began with a simple belief: that food, land, people, and wellbeing can be brought together in a more conscious and responsible way. At the heart of this journey are its Founder <strong className="text-[#1A2E22] dark:text-white">Raghavendra Yadav</strong>, rooted in the land, and Co-Founder <strong className="text-[#1A2E22] dark:text-white">Chetan L</strong>, united by a shared vision to build around it.
         </p>
 
         <p className="text-sm sm:text-base text-stone-600 dark:text-stone-400 leading-relaxed font-sans max-w-3xl mx-auto">
@@ -61,7 +61,7 @@ export const FoundersSection = ({ isStandalone = false }) => {
                 <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border-2 border-emerald-600/40 dark:border-emerald-500/40 shadow-md ring-4 ring-emerald-600/10 bg-stone-200 dark:bg-stone-800">
                   <img 
                     src={raghavendraImg} 
-                    alt="Raghavendra Yadav - Co-Founder & Farm Director" 
+                    alt="Raghavendra Yadav - Founder & Farm Director" 
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" 
                   />
                 </div>
@@ -73,7 +73,7 @@ export const FoundersSection = ({ isStandalone = false }) => {
                     Raghavendra Yadav
                   </h3>
                   <p className="text-sm sm:text-base font-semibold text-emerald-800 dark:text-emerald-400 mt-0.5">
-                    Co-Founder &amp; Farm Director
+                    Founder &amp; Farm Director
                   </p>
                 </div>
               </div>
@@ -106,7 +106,7 @@ export const FoundersSection = ({ isStandalone = false }) => {
             {/* Body Text / Detailed Biography */}
             <div className="space-y-4 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
               <p>
-                <strong className="text-[#1A2E22] dark:text-stone-100 font-semibold">Raghavendra Yadav</strong> is a co-founder of The Golden Egg Food Forest and a native of Periyapatna, Mysore district. Born into an agricultural family, he has a deep connection with the land and serves as the Farm Director of the four-acre food-forest ecosystem on which The Golden Egg has taken root.
+                <strong className="text-[#1A2E22] dark:text-stone-100 font-semibold">Raghavendra Yadav</strong> is the founder of The Golden Egg Food Forest and a native of Periyapatna, Mysore district. Born into an agricultural family, he has a deep connection with the land and serves as the Farm Director of the four-acre food-forest ecosystem on which The Golden Egg has taken root.
               </p>
 
               <p>
