@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { 
-  ArrowRight, Heart, ShoppingCart, Sparkles, CheckCircle, 
+import {
+  ArrowRight, Heart, ShoppingCart, Sparkles, CheckCircle,
   Box, Leaf, ShieldCheck, Globe, Download, X, Check, Calendar, Sprout
 } from 'lucide-react';
-import forestimage from '../assets/forestimage.jpeg';
 import { FoundersSection } from '../comonents/FoundersSection';
+import ragiFlourImg from '../assets/ragi-flour-5kg.jpg';
 
 export const Home = () => {
   const { products, addToCart, toggleWishlist, wishlist } = useContext(AppContext);
@@ -96,7 +96,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
 
   return (
     <div className="space-y-24 pb-24 font-sans bg-white dark:bg-stone-950 transition-colors duration-300">
-      
+
       {/* 1. HERO SECTION */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#1A2E22] text-white">
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#1A2E22]/90 via-[#1A2E22]/65 to-black/60" />
@@ -107,10 +107,10 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
         />
 
         <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center space-y-8">
-          
+
           <div className="inline-block bg-[#C28E58]/20 backdrop-blur-md border border-[#C28E58]/40 px-6 py-2 rounded-full">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-[0.25em] text-[#C28E58]">
-              Organic Food Forest 
+              Organic Food Forest
             </span>
           </div>
 
@@ -130,7 +130,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
             >
               Explore Ragi Flour
             </Link>
-            
+
             <a
               href="#ethos"
               className="bg-transparent hover:bg-white/10 text-[#F9F6F0] border-2 border-[#F9F6F0]/40 hover:border-white font-bold text-sm uppercase tracking-wider px-8 py-3.5 rounded-full transition-all backdrop-blur-sm"
@@ -145,7 +145,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
       {/* 2. THE FOOD FOREST INTRODUCTION & STORY (Placed immediately beneath Hero Section) */}
       <section id="food-forest" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#F9F6F0] dark:bg-stone-900 rounded-3xl p-8 sm:p-14 border border-stone-200/60 dark:border-stone-800 space-y-10 shadow-sm">
-          
+
           <div className="max-w-3xl space-y-3">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58] bg-white dark:bg-stone-800 px-4 py-1.5 rounded-full inline-block">
               <b>THE GOLDEN EGG</b> FOOD FOREST
@@ -156,7 +156,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-            
+
             <div className="lg:col-span-7 space-y-6 text-stone-700 dark:text-stone-300 text-base leading-relaxed font-sans">
               <p className="font-medium text-stone-800 dark:text-stone-100 text-lg">
                 <b>The Golden Egg</b> began with a singular vision: to nurture high-nutrition, forest-grazed Desi eggs through pure, organic, and natural farming. Today, that vision has grown into a vibrant, multi-layered Food Forest in Periyapatna, Mysore district.
@@ -198,7 +198,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
       {/* 3. THE CORE ETHOS (ZERO-CULLING) */}
       <section id="ethos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center rounded-3xl overflow-hidden bg-[#F9F6F0] dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800 shadow-md">
-          
+
           <div className="lg:col-span-5 relative h-80 lg:h-full min-h-[420px] bg-stone-200">
             <img
               src="/kadaknath-rooster.jpg"
@@ -214,7 +214,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-[#1A2E22] dark:text-white leading-tight flex items-center flex-wrap gap-4">
               <span>Life Without Compromise.</span>
-              
+
             </h2>
 
             <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed">
@@ -234,7 +234,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
       {/* 4. CURRENT OFFERING (PRODUCT PREVIEW CARD - MINIMALIST IMMERSIVE DESIGN) */}
       <section id="offering" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#F9F6F0] dark:bg-stone-900 rounded-3xl p-5 sm:p-12 border border-stone-200/60 dark:border-stone-800 space-y-8 sm:space-y-10 shadow-sm">
-          
+
           <div className="space-y-2">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block">
               Harvested Today, From Our Food Forest
@@ -245,15 +245,15 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
           </div>
 
           {/* Minimalist Immersive Product Preview Card */}
-          <div className="bg-stone-50 dark:bg-stone-950 rounded-3xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center">
-            
-            <div className="lg:col-span-5 relative h-64 sm:h-96 lg:h-full bg-stone-100 dark:bg-stone-900 overflow-hidden">
+          <div className="bg-stone-50 dark:bg-stone-950 rounded-3xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-stretch">
+
+            <div className="lg:col-span-5 relative w-full aspect-[3/4] sm:aspect-[4/5] lg:aspect-auto lg:h-full min-h-[360px] sm:min-h-[460px] bg-stone-100 dark:bg-stone-900 overflow-hidden flex items-center justify-center p-3 sm:p-6 group">
               <img
-                src={ragiProduct?.images?.[0] || "/ragi-flour-5kg.jpg"}
+                src={ragiFlourImg}
                 alt={ragiProduct?.name || "Organic Ragi Flour"}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 drop-shadow-md"
               />
-              <div className="absolute top-4 left-4 bg-[#C28E58] text-stone-950 text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
+              <div className="absolute top-4 left-4 bg-[#C28E58] text-stone-950 text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md z-10">
                 100% Organically Grown
               </div>
             </div>
@@ -326,9 +326,9 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
 
       {/* 5. THE GOLDEN HARVEST — THE ANNAPURNA COLLECTION (Generous White Space & Visual Container) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-[#F9F6F0] dark:bg-stone-900/80 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-sm space-y-12">
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
+
           <div className="lg:col-span-5 space-y-6">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] bg-white dark:bg-stone-800 px-3 py-1 rounded-md inline-block">
               THE ANNAPURNA COLLECTION
@@ -362,7 +362,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
           </div>
 
           <div className="lg:col-span-7 space-y-6">
-            
+
             {/* Culinary Foundations */}
             <div className="bg-white dark:bg-stone-950 p-6 sm:p-8 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-4 shadow-sm">
               <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-[#C28E58]">
@@ -425,7 +425,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           {/* Foundation */}
           <div className="bg-[#F9F6F0] dark:bg-stone-900 p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 space-y-4 relative flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
             <div className="space-y-4">
@@ -491,7 +491,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
       {/* 8. CULTIVATE A LEGACY OF PURITY (GLOBAL PARTNERSHIP INVITATION) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-br from-[#1A2E22] via-[#243f2f] to-[#14241b] text-white p-8 sm:p-12 lg:p-16 rounded-3xl space-y-8 shadow-2xl relative overflow-hidden">
-          
+
           <div className="max-w-3xl space-y-4 relative z-10">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58] bg-white/10 px-4 py-1.5 rounded-full inline-block">
               GLOBAL PARTNERSHIP INVITATION
@@ -538,16 +538,16 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
       {/* 8. FUTURE ANTICIPATION & LEAD CAPTURE (DEEP FOREST GREEN CONTAINER #1A2E22 WITH GENEROUS PADDING) */}
       <section className="bg-[#1A2E22] text-white py-24 transition-colors duration-300 border-t border-[#14241b]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
+
           <div className="text-center space-y-4">
             <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#C28E58] bg-white/10 px-4 py-1.5 rounded-full inline-block">
               COMING MARCH 2027
             </span>
-            
+
             <h2 className="text-3xl sm:text-5xl font-serif font-black tracking-tight leading-tight">
               The Return of the Ethical Desi Egg
             </h2>
-            
+
             <p className="text-base sm:text-lg text-[#F9F6F0]/90 max-w-2xl mx-auto leading-relaxed font-light">
               Our flock is expanding naturally and stress-free within our food forest sanctuary. Our life-honored, forest-grazed Desi eggs will officially launch in March 2027.
             </p>
@@ -561,7 +561,7 @@ Location: The Golden Egg Food Forest, Periyapatna, Mysore District, Karnataka, I
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
+
               <div className="p-6 bg-red-950/40 border border-red-900/40 rounded-2xl space-y-3">
                 <h4 className="text-xs font-extrabold uppercase tracking-widest text-red-400 block">
                   The Industrial Reality

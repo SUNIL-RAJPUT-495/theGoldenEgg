@@ -11,10 +11,13 @@ import {
   Quote, 
   Cpu, 
   Globe, 
-  Users,
-  ShieldCheck,
-  Leaf
+  Users, 
+  ShieldCheck, 
+  Leaf,
+  Wrench
 } from 'lucide-react';
+import chetanImg from '../assets/chetan-l.jpg';
+import raghavendraImg from '../assets/raghavendra-yadav.jpg';
 
 export const FoundersSection = ({ isStandalone = false }) => {
   return (
@@ -54,19 +57,28 @@ export const FoundersSection = ({ isStandalone = false }) => {
             
             {/* Header / Badges */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 dark:border-stone-800 pb-6">
-              <div>
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block mb-1">
-                  Rooted in the Soil
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-serif font-black text-[#1A2E22] dark:text-white">
-                  Raghavendra Yadav
-                </h3>
-                <p className="text-sm sm:text-base font-semibold text-emerald-800 dark:text-emerald-400 mt-0.5">
-                  Co-Founder &amp; Farm Director
-                </p>
+              <div className="flex items-center gap-4">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border-2 border-emerald-600/40 dark:border-emerald-500/40 shadow-md ring-4 ring-emerald-600/10 bg-stone-200 dark:bg-stone-800">
+                  <img 
+                    src={raghavendraImg} 
+                    alt="Raghavendra Yadav - Co-Founder & Farm Director" 
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" 
+                  />
+                </div>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block mb-1">
+                    Rooted in the Soil
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-serif font-black text-[#1A2E22] dark:text-white">
+                    Raghavendra Yadav
+                  </h3>
+                  <p className="text-sm sm:text-base font-semibold text-emerald-800 dark:text-emerald-400 mt-0.5">
+                    Co-Founder &amp; Farm Director
+                  </p>
+                </div>
               </div>
 
-              <div className="h-14 w-14 rounded-2xl bg-[#1A2E22] text-[#C28E58] flex items-center justify-center font-serif text-2xl font-black shadow-inner shrink-0 border border-[#C28E58]/30">
+              <div className="hidden xl:flex h-12 w-12 rounded-2xl bg-[#1A2E22] text-[#C28E58] items-center justify-center font-serif text-lg font-black shadow-inner shrink-0 border border-[#C28E58]/30">
                 RY
               </div>
             </div>
@@ -80,6 +92,10 @@ export const FoundersSection = ({ isStandalone = false }) => {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shadow-2xs">
                 <Sprout className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                 Agricultural Heritage
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shadow-2xs">
+                <Wrench className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                Sewing Machine Engineer
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shadow-2xs">
                 <Briefcase className="h-3.5 w-3.5 text-stone-500" />
@@ -145,19 +161,28 @@ export const FoundersSection = ({ isStandalone = false }) => {
             
             {/* Header / Badges */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 dark:border-stone-800 pb-6">
-              <div>
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block mb-1">
-                  Strategy &amp; Systems
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-serif font-black text-[#1A2E22] dark:text-white">
-                  Chetan L
-                </h3>
-                <p className="text-sm sm:text-base font-semibold text-[#a97745] dark:text-[#d3a16d] mt-0.5">
-                  Co-Founder &amp; Sustainability Strategy Director
-                </p>
+              <div className="flex items-center gap-4">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border-2 border-[#C28E58]/40 dark:border-[#C28E58]/40 shadow-md ring-4 ring-[#C28E58]/10 bg-stone-200 dark:bg-stone-800">
+                  <img 
+                    src={chetanImg} 
+                    alt="Chetan L - Co-Founder & Sustainability Strategy Director" 
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" 
+                  />
+                </div>
+                <div>
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-[#C28E58] block mb-1">
+                    Strategy &amp; Systems
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-serif font-black text-[#1A2E22] dark:text-white">
+                    Chetan L
+                  </h3>
+                  <p className="text-sm sm:text-base font-semibold text-[#a97745] dark:text-[#d3a16d] mt-0.5">
+                    Co-Founder &amp; Sustainability Strategy Director
+                  </p>
+                </div>
               </div>
 
-              <div className="h-14 w-14 rounded-2xl bg-[#C28E58] text-[#1A2E22] flex items-center justify-center font-serif text-2xl font-black shadow-inner shrink-0 border border-[#1A2E22]/20">
+              <div className="hidden xl:flex h-12 w-12 rounded-2xl bg-[#C28E58] text-[#1A2E22] items-center justify-center font-serif text-lg font-black shadow-inner shrink-0 border border-[#1A2E22]/20">
                 CL
               </div>
             </div>
